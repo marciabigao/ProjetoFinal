@@ -75,3 +75,16 @@ void Jogador::cadastra_jogador(std::string nome, std::string apelido)
         std::cout << "Jogador " << apelido << " inserido com sucesso" << std::endl;
     }
 }
+
+void Jogador::remove_jogador(std::string apelido)
+{
+    if(jogadores.find(apelido) == jogadores.end())
+    {
+        std::cout << "ERRO: jogador inexistente" << std::endl;
+    }
+    else
+    {
+        jogadores.erase(apelido);
+        std::cout << "Jogador " << apelido << " removido com sucesso" <<std::endl;
+    }
+}
