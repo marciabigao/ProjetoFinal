@@ -45,3 +45,18 @@ int Jogador::get_derrotas_jv()
 {
     return this->derrotas_jvelha;
 }
+
+Jogador::Jogador(std::string nome, std::string apelido)
+{
+    this->nome_jogador = nome;
+    this->apelido_jogador = apelido;
+
+    this->vitorias_reversi = 0;
+    this->derrotas_reversi = 0;
+
+    this->vitorias_lig = 0;
+    this->derrotas_lig = 0;
+
+    this->vitorias_jvelha = 0;
+    this->derrotas_jvelha = 0;
+}
