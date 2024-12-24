@@ -60,3 +60,18 @@ Jogador::Jogador(std::string nome, std::string apelido)
     this->vitorias_jvelha = 0;
     this->derrotas_jvelha = 0;
 }
+
+void Jogador::cadastra_jogador(std::string nome, std::string apelido)
+{
+    //se o apeldio buscado não estiver no map, retorna end (próxima posição vazia)
+    if(jogadores.find(apelido) != jogadores.end())
+    {
+        std::cout << "ERRO: jogador repetido" << std::endl;
+    }
+    else
+    {
+        Jogador *novo_jogador = new Jogador(nome, apelido);
+        jogadores.insert({apelido, novo_jogador});
+        std::cout << "Jogador " << apelido << " inserido com sucesso" << std::endl;
+    }
+}
