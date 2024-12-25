@@ -78,12 +78,16 @@ void Jogador::cadastra_jogador(std::string nome, std::string apelido)
 
 void Jogador::remove_jogador(std::string apelido)
 {
-    if(jogadores.find(apelido) == jogadores.end())
+    auto iterador = jogadores.find(apelido);
+    if(iterador == jogadores.end())
     {
         std::cout << "ERRO: jogador inexistente" << std::endl;
     }
     else
     {
+        //libera a memória previamente alocada
+        delete iterador->second;
+        //apaga o par do mapa
         jogadores.erase(apelido);
         std::cout << "Jogador " << apelido << " removido com sucesso" <<std::endl;
     }
