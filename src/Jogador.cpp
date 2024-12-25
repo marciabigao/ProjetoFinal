@@ -1,5 +1,7 @@
 #include "Jogador.hpp"
 #include <iostream>
+#include <fstream>
+#include <sstream>
 #include <string>
 #include <map>
 #include <algorithm>
@@ -90,5 +92,24 @@ void Jogador::remove_jogador(std::string apelido)
         //apaga o par do mapa
         jogadores.erase(apelido);
         std::cout << "Jogador " << apelido << " removido com sucesso" <<std::endl;
+    }
+}
+
+void Jogador::atualiza_estatisticas()
+{
+    std::ofstream saida("estatisticas.txt", std::fstream :: out);
+    if(!saida.is_open())
+    {
+        std::cout << "ERRO: falha ao abrir o aqruivo de saída" << std::endl;
+        return;
+    }
+
+    for(std::pair<const std::string, Jogador*>& player : jogadores)
+    {
+        saida << player.second->nome_jogador << "; " << player.second->apelido_jogador << "; "
+              << player.second->vitorias_reversi << "; " << player.second->derrotas_reversi << "; "
+              << player.second->vitorias_lig << "; " << player.second->derrotas_lig << "; "
+              << player.second->vitorias_jvelha << "; " << player.second->derrotas_jvelha << "; "
+              << std::endl;
     }
 }
