@@ -201,3 +201,20 @@ void Jogador::imprime_listagem(char opcao)
         }
     }
 }
+
+//Método a ser utilizado quando se inicia uma partida para checar
+//se os jogadores inseridos de fato existem e fornecer ponteiros para eles.
+//Deve ser chamado uma vez para cada jogador, com seu apelido
+Jogador* Jogador::busca_jogador(std::string apelido)
+{
+    auto iterador = jogadores.find(apelido);
+    if(iterador == jogadores.end())
+    {
+        std::cout << "ERRO: jogador " << apelido << " inexistente" << std::endl;
+        return nullptr;
+    }
+    else
+    {
+        return iterador->second;
+    }
+}
