@@ -4,6 +4,7 @@
 #include <sstream>
 #include <string>
 #include <map>
+#include <vector>
 #include <algorithm>
 
 std::map<std::string, Jogador*> Jogador::jogadores;
@@ -148,4 +149,55 @@ void Jogador::le_estatisticas()
         jogadores.insert({apelido, jogador_inserido});
     }
     entrada.close();
+}
+
+void Jogador::imprime_listagem(char opcao)
+{
+    if(opcao == 'A')
+    {
+        for(std::pair<const std::string, Jogador*>& player : jogadores)
+        {
+            std::cout << player.first << " " << player.second->get_nome() << std::endl;
+
+            std::cout << "REVERSI - V: " << player.second->get_vitorias_r() 
+                      << " D: " << player.second->get_derrotas_r() << std::endl;
+
+            std::cout << "LIG4 - V: " << player.second->get_vitorias_lig()
+                      << " D: " << player.second->get_derrotas_lig() << std::endl;
+
+            std::cout << "VELHA - V: " << player.second->get_vitorias_jv()
+                      << " D: " << player.second->get_vitorias_jv() << std::endl;
+        }
+    }
+
+    else if(opcao == 'N')
+    {
+        std::vector <Jogador*> vetor;
+        for(std::pair<const std::string, Jogador*>& player : jogadores)
+        {
+            //copia os dados do map para um vector
+            vetor.push_back(player.second);
+        }
+        //utiliza o algoritmo sort com uma função lambda personalizada para
+        //ordenar os dados em função do atributo nome_jogador dos jogadores
+        std::sort(vetor.begin(), vetor.end(),
+        [](Jogador* jogador_a, Jogador* jogador_b)
+        {
+            return jogador_a->get_nome() < jogador_b->get_nome();
+        });
+
+        for(Jogador* player : vetor)
+        {
+            std::cout << player->get_apelido() << " " << player->get_nome() << std::endl;
+
+            std::cout << "REVERSI - V: " << player->get_vitorias_r() 
+                      << " D: " << player->get_derrotas_r() << std::endl;
+
+            std::cout << "LIG4 - V: " << player->get_vitorias_lig()
+                      << " D: " << player->get_derrotas_lig() << std::endl;
+
+            std::cout << "VELHA - V: " << player->get_vitorias_jv()
+                      << " D: " << player->get_vitorias_jv() << std::endl;
+        }
+    }
 }
