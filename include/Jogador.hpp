@@ -25,6 +25,8 @@ class Jogador
     void imprime_listagem(char opcao);
     void le_estatisticas();
     void atualiza_estatisticas();
+    Jogador* busca_jogador(std::string apelido);
+    void apaga_map();
 
     std::string get_nome();
     std::string get_apelido();
