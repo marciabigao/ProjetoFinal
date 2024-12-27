@@ -17,6 +17,7 @@ class Jogador
 
     public:
     Jogador(std::string nome, std::string apelido);
+    Jogador(std::string nome, std::string apelido, int vr, int dr, int vl, int dl, int vjv, int djv);
     ~Jogador();
 
     void cadastra_jogador(std::string nome, std::string apelido);
