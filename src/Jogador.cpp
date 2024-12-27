@@ -218,3 +218,13 @@ Jogador* Jogador::busca_jogador(std::string apelido)
         return iterador->second;
     }
 }
+
+//Método a ser chamado ao final de cada execução (quando se seleciona FS)
+//para deletar a memória dinamicamente alocada dos elementos no map
+void Jogador::apaga_map()
+{
+    for(std::pair<const std::string, Jogador*>& player : jogadores)
+    {
+        delete player.second;
+    }
+}
