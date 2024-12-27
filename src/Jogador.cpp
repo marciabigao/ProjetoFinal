@@ -228,3 +228,37 @@ void Jogador::apaga_map()
         delete player.second;
     }
 }
+
+//Método a ser chamado para atualizar as vitórias do jogador vencedor em uma partida
+//Recebe o apelido do jogador e o jogo em que venceu 
+//('R' para Reversi, 'L' para Lig4 e 'V' para Jogo da Velha)
+void Jogador::registrar_vitoria(std::string apelido, char jogo)
+{
+    auto iterador = jogadores.find(apelido);
+    switch (jogo)
+    {
+        case('R'):
+        {
+            iterador->second->vitorias_reversi++;
+        }
+        break;
+        
+        case('L'):
+        {
+            iterador->second->vitorias_lig++;
+        }
+        break;
+        
+        case('V'):
+        {
+            iterador->second->vitorias_jvelha++;
+        }
+        break;
+
+        default:
+        {
+            std::cout << "ERRO: jogo inválido" << std::endl;
+        }
+        break;
+    }
+}
