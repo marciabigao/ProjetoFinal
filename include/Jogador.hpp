@@ -27,6 +27,8 @@ class Jogador
     void atualiza_estatisticas();
     Jogador* busca_jogador(std::string apelido);
     void apaga_map();
+    void registrar_vitoria(std::string apelido, char jogo);
+    void registrar_derrota(std::string apelido, char jogo);
 
     std::string get_nome();
     std::string get_apelido();
