@@ -112,3 +112,40 @@ void Jogador::atualiza_estatisticas()
     }
     saida.close();
 }
+
+//Método a ser utilizado no início de uma nova execução para recuperar 
+//as informações de partidas anteriores armazenadas no arquivo, inserindo-as no map
+void Jogador::le_estatisticas()
+{
+    std::ifstream entrada("estatisticas.txt", std::fstream :: in);
+    if(!entrada.is_open())
+    {
+        std::cout << "ERRO: falha ao abrir o arquivo de entrada" << std::endl;
+        return;
+    }
+    std::string dados;
+    std::string nome, apelido;
+    int vr, dr, vl, dl, vjv, djv;
+    while(std::getline(entrada, dados))
+    {
+        std::istringstream info_lida(dados);
+        if(!(info_lida >> nome))
+        {
+            std::cout << "ERRO: nome não foi lido com sucesso" << std::endl;
+            return;
+        }
+        if(!(info_lida >> apelido))
+        {
+            std::cout << "ERRO: apelido não foi lido com sucesso" << std::endl;
+            return;
+        }
+        if(!(info_lida >> vr >> dr >> vl >> dl >> vjv >> djv))
+        {
+            std::cout << "ERRO: dados numéricos não foram lidos com sucesso" << std::endl;
+            return;
+        }
+        Jogador* jogador_inserido = new Jogador(nome, apelido, vr, dr, vl, dl, vjv, djv);
+        jogadores.insert({apelido, jogador_inserido});
+    }
+    entrada.close();
+}
