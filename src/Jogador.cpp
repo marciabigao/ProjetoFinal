@@ -48,20 +48,18 @@ int Jogador::get_derrotas_jv()
     return this->derrotas_jvelha;
 }
 
-Jogador::Jogador(std::string nome, std::string apelido)
-{
-    this->nome_jogador = nome;
-    this->apelido_jogador = apelido;
+Jogador::Jogador(std::string nome, std::string apelido):
+         nome_jogador(nome), apelido_jogador(apelido),
+         vitorias_reversi(0), derrotas_reversi(0),
+         vitorias_lig(0), derrotas_lig(0),
+         vitorias_jvelha(0), derrotas_jvelha(0) {}
 
-    this->vitorias_reversi = 0;
-    this->derrotas_reversi = 0;
-
-    this->vitorias_lig = 0;
-    this->derrotas_lig = 0;
-
-    this->vitorias_jvelha = 0;
-    this->derrotas_jvelha = 0;
-}
+Jogador::Jogador(std::string nome, std::string apelido, int vr, int dr,
+                 int vl, int dl, int vjv, int djv):
+         nome_jogador(nome), apelido_jogador(apelido),
+         vitorias_reversi(vr), derrotas_reversi(dr),
+         vitorias_lig(vl), derrotas_lig(dl),
+         vitorias_jvelha(vjv), derrotas_jvelha(djv) {}        
 
 void Jogador::cadastra_jogador(std::string nome, std::string apelido)
 {
@@ -106,10 +104,11 @@ void Jogador::atualiza_estatisticas()
 
     for(std::pair<const std::string, Jogador*>& player : jogadores)
     {
-        saida << player.second->nome_jogador << "; " << player.second->apelido_jogador << "; "
-              << player.second->vitorias_reversi << "; " << player.second->derrotas_reversi << "; "
-              << player.second->vitorias_lig << "; " << player.second->derrotas_lig << "; "
-              << player.second->vitorias_jvelha << "; " << player.second->derrotas_jvelha << "; "
+        saida << player.second->nome_jogador << " " << player.second->apelido_jogador << " "
+              << player.second->vitorias_reversi << " " << player.second->derrotas_reversi << " "
+              << player.second->vitorias_lig << " " << player.second->derrotas_lig << " "
+              << player.second->vitorias_jvelha << " " << player.second->derrotas_jvelha << " "
               << std::endl;
     }
+    saida.close();
 }
