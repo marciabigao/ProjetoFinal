@@ -4,6 +4,7 @@
 #include <sstream>
 #include <string>
 #include <map>
+#include <vector>
 #include <algorithm>
 
 std::map<std::string, Jogador*> Jogador::jogadores;
@@ -48,20 +49,18 @@ int Jogador::get_derrotas_jv()
     return this->derrotas_jvelha;
 }
 
-Jogador::Jogador(std::string nome, std::string apelido)
-{
-    this->nome_jogador = nome;
-    this->apelido_jogador = apelido;
+Jogador::Jogador(std::string nome, std::string apelido):
+         nome_jogador(nome), apelido_jogador(apelido),
+         vitorias_reversi(0), derrotas_reversi(0),
+         vitorias_lig(0), derrotas_lig(0),
+         vitorias_jvelha(0), derrotas_jvelha(0) {}
 
-    this->vitorias_reversi = 0;
-    this->derrotas_reversi = 0;
-
-    this->vitorias_lig = 0;
-    this->derrotas_lig = 0;
-
-    this->vitorias_jvelha = 0;
-    this->derrotas_jvelha = 0;
-}
+Jogador::Jogador(std::string nome, std::string apelido, int vr, int dr,
+                 int vl, int dl, int vjv, int djv):
+         nome_jogador(nome), apelido_jogador(apelido),
+         vitorias_reversi(vr), derrotas_reversi(dr),
+         vitorias_lig(vl), derrotas_lig(dl),
+         vitorias_jvelha(vjv), derrotas_jvelha(djv) {}        
 
 void Jogador::cadastra_jogador(std::string nome, std::string apelido)
 {
@@ -106,10 +105,191 @@ void Jogador::atualiza_estatisticas()
 
     for(std::pair<const std::string, Jogador*>& player : jogadores)
     {
-        saida << player.second->nome_jogador << "; " << player.second->apelido_jogador << "; "
-              << player.second->vitorias_reversi << "; " << player.second->derrotas_reversi << "; "
-              << player.second->vitorias_lig << "; " << player.second->derrotas_lig << "; "
-              << player.second->vitorias_jvelha << "; " << player.second->derrotas_jvelha << "; "
+        saida << player.second->nome_jogador << " " << player.second->apelido_jogador << " "
+              << player.second->vitorias_reversi << " " << player.second->derrotas_reversi << " "
+              << player.second->vitorias_lig << " " << player.second->derrotas_lig << " "
+              << player.second->vitorias_jvelha << " " << player.second->derrotas_jvelha << " "
               << std::endl;
+    }
+    saida.close();
+}
+
+//Método a ser utilizado no início de uma nova execução para recuperar 
+//as informações de partidas anteriores armazenadas no arquivo, inserindo-as no map
+void Jogador::le_estatisticas()
+{
+    std::ifstream entrada("estatisticas.txt", std::fstream :: in);
+    if(!entrada.is_open())
+    {
+        std::cout << "ERRO: falha ao abrir o arquivo de entrada" << std::endl;
+        return;
+    }
+    std::string dados;
+    std::string nome, apelido;
+    int vr, dr, vl, dl, vjv, djv;
+    while(std::getline(entrada, dados))
+    {
+        std::istringstream info_lida(dados);
+        if(!(info_lida >> nome))
+        {
+            std::cout << "ERRO: nome não foi lido com sucesso" << std::endl;
+            return;
+        }
+        if(!(info_lida >> apelido))
+        {
+            std::cout << "ERRO: apelido não foi lido com sucesso" << std::endl;
+            return;
+        }
+        if(!(info_lida >> vr >> dr >> vl >> dl >> vjv >> djv))
+        {
+            std::cout << "ERRO: dados numéricos não foram lidos com sucesso" << std::endl;
+            return;
+        }
+        Jogador* jogador_inserido = new Jogador(nome, apelido, vr, dr, vl, dl, vjv, djv);
+        jogadores.insert({apelido, jogador_inserido});
+    }
+    entrada.close();
+}
+
+void Jogador::imprime_listagem(char opcao)
+{
+    if(opcao == 'A')
+    {
+        for(std::pair<const std::string, Jogador*>& player : jogadores)
+        {
+            std::cout << player.first << " " << player.second->get_nome() << std::endl;
+
+            std::cout << "REVERSI - V: " << player.second->get_vitorias_r() 
+                      << " D: " << player.second->get_derrotas_r() << std::endl;
+
+            std::cout << "LIG4 - V: " << player.second->get_vitorias_lig()
+                      << " D: " << player.second->get_derrotas_lig() << std::endl;
+
+            std::cout << "VELHA - V: " << player.second->get_vitorias_jv()
+                      << " D: " << player.second->get_vitorias_jv() << std::endl;
+        }
+    }
+
+    else if(opcao == 'N')
+    {
+        std::vector <Jogador*> vetor;
+        for(std::pair<const std::string, Jogador*>& player : jogadores)
+        {
+            //copia os dados do map para um vector
+            vetor.push_back(player.second);
+        }
+        //utiliza o algoritmo sort com uma função lambda personalizada para
+        //ordenar os dados em função do atributo nome_jogador dos jogadores
+        std::sort(vetor.begin(), vetor.end(),
+        [](Jogador* jogador_a, Jogador* jogador_b)
+        {
+            return jogador_a->get_nome() < jogador_b->get_nome();
+        });
+
+        for(Jogador* player : vetor)
+        {
+            std::cout << player->get_apelido() << " " << player->get_nome() << std::endl;
+
+            std::cout << "REVERSI - V: " << player->get_vitorias_r() 
+                      << " D: " << player->get_derrotas_r() << std::endl;
+
+            std::cout << "LIG4 - V: " << player->get_vitorias_lig()
+                      << " D: " << player->get_derrotas_lig() << std::endl;
+
+            std::cout << "VELHA - V: " << player->get_vitorias_jv()
+                      << " D: " << player->get_vitorias_jv() << std::endl;
+        }
+    }
+}
+
+//Método a ser utilizado quando se inicia uma partida para checar
+//se os jogadores inseridos de fato existem e fornecer ponteiros para eles.
+//Deve ser chamado uma vez para cada jogador, com seu apelido
+Jogador* Jogador::busca_jogador(std::string apelido)
+{
+    auto iterador = jogadores.find(apelido);
+    if(iterador == jogadores.end())
+    {
+        std::cout << "ERRO: jogador " << apelido << " inexistente" << std::endl;
+        return nullptr;
+    }
+    else
+    {
+        return iterador->second;
+    }
+}
+
+//Método a ser chamado ao final de cada execução (quando se seleciona FS)
+//para deletar a memória dinamicamente alocada dos elementos no map
+void Jogador::apaga_map()
+{
+    for(std::pair<const std::string, Jogador*>& player : jogadores)
+    {
+        delete player.second;
+    }
+}
+
+//Método a ser chamado para atualizar as vitórias do jogador vencedor em uma partida
+//Recebe o apelido do jogador e o jogo em que venceu 
+//('R' para Reversi, 'L' para Lig4 e 'V' para Jogo da Velha)
+void Jogador::registrar_vitoria(std::string apelido_vencedor, char jogo)
+{
+    auto iterador = jogadores.find(apelido_vencedor);
+    switch (jogo)
+    {
+        case('R'):
+        {
+            iterador->second->vitorias_reversi++;
+        }
+        break;
+        
+        case('L'):
+        {
+            iterador->second->vitorias_lig++;
+        }
+        break;
+        
+        case('V'):
+        {
+            iterador->second->vitorias_jvelha++;
+        }
+        break;
+
+        default:
+        {
+            std::cout << "ERRO: jogo inválido" << std::endl;
+        }
+        break;
+    }
+}
+
+void Jogador::registrar_derrota(std::string apelido_perdedor, char jogo)
+{
+    auto iterador = jogadores.find(apelido_perdedor);
+    switch (jogo)
+    {
+        case('R'):
+        {
+            iterador->second->derrotas_reversi++;
+        }
+        break;
+        
+        case('L'):
+        {
+            iterador->second->derrotas_lig++;
+        }
+        break;
+        
+        case('V'):
+        {
+            iterador->second->derrotas_jvelha++;
+        }
+        break;
+
+        default:
+        {
+            std::cout << "ERRO: jogo inválido" << std::endl;
+        }
+        break;
     }
 }

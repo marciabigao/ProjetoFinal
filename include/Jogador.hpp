@@ -17,6 +17,7 @@ class Jogador
 
     public:
     Jogador(std::string nome, std::string apelido);
+    Jogador(std::string nome, std::string apelido, int vr, int dr, int vl, int dl, int vjv, int djv);
     ~Jogador();
 
     void cadastra_jogador(std::string nome, std::string apelido);
@@ -24,6 +25,10 @@ class Jogador
     void imprime_listagem(char opcao);
     void le_estatisticas();
     void atualiza_estatisticas();
+    Jogador* busca_jogador(std::string apelido);
+    void apaga_map();
+    void registrar_vitoria(std::string apelido_vencedor, char jogo);
+    void registrar_derrota(std::string apelido_perdedor, char jogo);
 
     std::string get_nome();
     std::string get_apelido();
