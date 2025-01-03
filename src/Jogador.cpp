@@ -62,7 +62,9 @@ Jogador::Jogador(std::string nome, std::string apelido, int vr, int dr,
          vitoriasLig(vl), derrotasLig(dl),
          vitoriasJVelha(vjv), derrotasJVelha(djv) {}        
 
-void Jogador::cadastraJogador(std::string nome, std::string apelido)
+//A memória para o jogador a ser cadastrado deve ser alocada antes
+//de se chamar o método, utilizando new 
+void Jogador::cadastraJogador(std::string apelido)
 {
     //se o apeldio buscado não estiver no map, retorna end (próxima posição vazia)
     if(jogadores.find(apelido) != jogadores.end())
@@ -71,25 +73,18 @@ void Jogador::cadastraJogador(std::string nome, std::string apelido)
     }
     else
     {
-        Jogador *novoJogador = new Jogador(nome, apelido);
-        jogadores.insert({apelido, novoJogador});
+        jogadores.insert({apelido, this});
         std::cout << "Jogador " << apelido << " inserido com sucesso" << std::endl;
     }
 }
 
 void Jogador::removeJogador(std::string apelido)
 {
-    auto iterador = jogadores.find(apelido);
-    if(iterador == jogadores.end())
+    if (this != nullptr)
     {
-        std::cout << "ERRO: jogador inexistente" << std::endl;
-    }
-    else
-    {
-        //libera a memória previamente alocada
+        auto iterador = jogadores.find(apelido);
         delete iterador->second;
-        //apaga o par do mapa
-        jogadores.erase(apelido);
+        jogadores.erase(iterador);
         std::cout << "Jogador " << apelido << " removido com sucesso" <<std::endl;
     }
 }
@@ -179,7 +174,7 @@ void Jogador::imprimeListagem(char opcao)
             vetor.push_back(player.second);
         }
         //utiliza o algoritmo sort com uma função lambda personalizada para
-        //ordenar os dados em função do atributo nome_jogador dos jogadores
+        //ordenar os dados em função do atributo nomeJogador dos jogadores
         std::sort(vetor.begin(), vetor.end(),
         [](Jogador* jogadorA, Jogador* jogadorB)
         {
@@ -205,6 +200,7 @@ void Jogador::imprimeListagem(char opcao)
 //Método a ser utilizado quando se inicia uma partida para checar
 //se os jogadores inseridos de fato existem e fornecer ponteiros para eles.
 //Deve ser chamado uma vez para cada jogador, com seu apelido
+//Também deve ser utilizado antes de se chamar o método removeJogador
 Jogador* Jogador::buscaJogador(std::string apelido)
 {
     auto iterador = jogadores.find(apelido);
