@@ -161,7 +161,7 @@ void Jogador::imprimeListagem(char opcao)
                       << " D: " << player.second->getDerrotasLig() << std::endl;
 
             std::cout << "VELHA - V: " << player.second->getVitoriasJV()
-                      << " D: " << player.second->getVitoriasJV() << std::endl;
+                      << " D: " << player.second->getDerrotasJV() << std::endl;
         }
     }
 
@@ -192,7 +192,7 @@ void Jogador::imprimeListagem(char opcao)
                       << " D: " << player->getDerrotasLig() << std::endl;
 
             std::cout << "VELHA - V: " << player->getVitoriasJV()
-                      << " D: " << player->getVitoriasJV() << std::endl;
+                      << " D: " << player->getDerrotasJV() << std::endl;
         }
     }
 }
@@ -228,9 +228,9 @@ void Jogador::apagaMap()
 //Método a ser chamado para atualizar as vitórias do jogador vencedor em uma partida
 //Recebe o apelido do jogador e o jogo em que venceu 
 //('R' para Reversi, 'L' para Lig4 e 'V' para Jogo da Velha)
-void Jogador::registrarVitoria(std::string apelidoVencedor, char jogo)
+void Jogador::registrarVitoria(char jogo)
 {
-    auto iterador = jogadores.find(apelidoVencedor);
+    auto iterador = jogadores.find(this->apelidoJogador);
     switch (jogo)
     {
         case('R'):
@@ -259,9 +259,9 @@ void Jogador::registrarVitoria(std::string apelidoVencedor, char jogo)
     }
 }
 
-void Jogador::registrarDerrota(std::string apelidoPerdedor, char jogo)
+void Jogador::registrarDerrota(char jogo)
 {
-    auto iterador = jogadores.find(apelidoPerdedor);
+    auto iterador = jogadores.find(this->apelidoJogador);
     switch (jogo)
     {
         case('R'):

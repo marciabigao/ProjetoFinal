@@ -26,8 +26,8 @@ class Jogador
     static void apagaMap();
     void cadastraJogador(std::string apelido);
     void removeJogador(std::string apelido);
-    void registrarVitoria(std::string apelidoVencedor, char jogo);
-    void registrarDerrota(std::string apelidoPerdedor, char jogo);
+    void registrarVitoria(char jogo);
+    void registrarDerrota(char jogo);
 
     std::string getNome();
     std::string getApelido();
