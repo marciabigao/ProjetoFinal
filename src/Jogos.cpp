@@ -22,3 +22,37 @@ void Jogos::reiniciarTabuleiro(){
         std::fill(linha.begin(), linha.end(), ' '); //fill vai preencher a linha com ' ' (espaço em branco)
     }
 }
+
+const std::vector<std::vector<char>>& Jogos::getTabuleiro() const{
+    return tabuleiro;
+}
+
+void Jogos::setTabuleiro(const std::vector<std::vector<char>>& novoTabuleiro){
+    tabuleiro = novoTabuleiro;
+}
+
+void Jogos::setCelula(int linha, int coluna, char valor){
+    if (linha >= 0 && linha < static_cast<int>(tabuleiro.size()) && 
+        coluna >= 0 && coluna < static_cast<int>(tabuleiro[0].size())) {
+            tabuleiro[linha][coluna] = valor;
+        }
+    else{
+        std::cerr << "Posição Inválida!\n";
+    }
+}
+
+char Jogos::getCelula(int linha, int coluna) const {
+    if (linha >= 0 && linha < static_cast<int>(tabuleiro.size()) &&
+        coluna >= 0 && coluna < static_cast<int>(tabuleiro[0].size())) {
+        char valor = tabuleiro[linha][coluna];
+        if (valor != ' ') {
+            std::cerr << "Posição Inválida: Já está ocupada com '" << valor << "'\n";
+            return '\0'; // Caractere Nulo
+        }
+        return valor; 
+    } 
+        else {
+        std::cerr << "Posição Inválida: Fora dos limites do tabuleiro\n";
+        return '\0'; // Caractere Nulo
+    }
+}
