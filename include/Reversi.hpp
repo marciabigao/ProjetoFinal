@@ -17,6 +17,7 @@ class Reversi : public Jogos {
 
     //Métodos exclusivos
     char declararVencedor();
+    void inverterSimbolos(int linha, int coluna);
 };
 
 #endif
