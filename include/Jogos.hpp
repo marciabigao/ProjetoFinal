@@ -25,8 +25,8 @@ public:
     
     //Metodos Virtuais 
     virtual void lerJogada(int linha, int coluna) = 0;
-    virtual bool testarValidade (int linha, int coluna) const = 0;
-    virtual bool testarVitoria() const = 0;
+    virtual bool testarValidade (int linha, int coluna) = 0;
+    virtual bool testarVitoria() = 0;
 
 };
 
