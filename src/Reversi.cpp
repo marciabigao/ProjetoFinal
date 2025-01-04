@@ -65,6 +65,157 @@ bool Reversi::testarValidade(int linha, int coluna, char valor) {
         }
     }
 
+    int i = linha;
+    int j = coluna;
+    do
+    {
+        i--;
+        j++;
+
+        if(this->tabuleiro[i][j] == valor)
+        {
+            int pecasOpostas = 0;
+
+            int a = linha - 1;
+            int b = coluna + 1;
+
+            do
+            {
+                if(this->tabuleiro[a][b] == ' ')
+                {
+                    validade = false;
+                }
+                if(this->tabuleiro[a][b] != ' ' && this->tabuleiro[a][b] != valor)
+                {
+                    pecasOpostas++;
+                }
+
+                a--;
+                b++;
+
+            } while (a != i && b != j);
+
+            if(pecasOpostas == 0)
+            {
+                validade = false;
+            } 
+        }
+    } while (i != 0 && j != 7);
+    
+    i = linha;
+    j = coluna;
+    do
+    {
+        i++;
+        j++;
+
+        if(this->tabuleiro[i][j] == valor)
+        {
+            int pecasOpostas = 0;
+
+            int a = linha + 1;
+            int b = coluna + 1;
+
+            do
+            {
+                if(this->tabuleiro[a][b] == ' ')
+                {
+                    validade = false;
+                }
+                if(this->tabuleiro[a][b] != ' ' && this->tabuleiro[a][b] != valor)
+                {
+                    pecasOpostas++;
+                }
+
+                a++;
+                b++;
+
+            } while (a != i && b != j);
+
+            if(pecasOpostas == 0)
+            {
+                validade = false;
+            } 
+        }
+
+    } while (i != 7 && j != 7);
+
+    i = linha;
+    j = coluna;
+    do
+    {
+        i--;
+        j--;
+
+        if(this->tabuleiro[i][j] == valor)
+        {
+            int pecasOpostas = 0;
+
+            int a = linha - 1;
+            int b = coluna - 1;
+
+            do
+            {
+                if(this->tabuleiro[a][b] == ' ')
+                {
+                    validade = false;
+                }
+                if(this->tabuleiro[a][b] != ' ' && this->tabuleiro[a][b] != valor)
+                {
+                    pecasOpostas++;
+                }
+
+                a--;
+                b--;
+
+            } while (a != i && b != j);
+
+            if(pecasOpostas == 0)
+            {
+                validade = false;
+            } 
+        }
+
+    } while (i != 0 && j != 0);
+
+    i = linha;
+    j = coluna;
+    do
+    {
+        i++;
+        j--;
+
+        if(this->tabuleiro[i][j] == valor)
+        {
+            int pecasOpostas = 0;
+
+            int a = linha + 1;
+            int b = coluna - 1;
+
+            do
+            {
+                if(this->tabuleiro[a][b] == ' ')
+                {
+                    validade = false;
+                }
+                if(this->tabuleiro[a][b] != ' ' && this->tabuleiro[a][b] != valor)
+                {
+                    pecasOpostas++;
+                }
+
+                a++;
+                b--;
+
+            } while (a != i && b != j);
+
+            if(pecasOpostas == 0)
+            {
+                validade = false;
+            } 
+        }
+
+    } while (i != 8 && j != 0);
+
     return validade;
 }
 
@@ -79,7 +230,7 @@ bool Reversi::testarVitoria() {
             {
                 vitoria = false;
             }
-            
+
             if(this->testarValidade(linha, coluna, 'O'))
             {
                 vitoria = false;
