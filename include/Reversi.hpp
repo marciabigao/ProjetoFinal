@@ -12,7 +12,7 @@ class Reversi : public Jogos {
 
     //Redefinição métodos virtuais
     void lerJogada(int linha, int coluna) override;
-    bool testarValidade (int linha, int coluna) override;
+    bool testarValidade (int linha, int coluna, char valor) override;
     bool testarVitoria() override;
 };
 

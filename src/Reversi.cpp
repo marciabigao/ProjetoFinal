@@ -5,7 +5,7 @@ Reversi::Reversi() : Jogos(8, 8) {}
 
 Reversi::~Reversi() {}
 
-bool Reversi::testarValidade(int linha, int coluna) {
+bool Reversi::testarValidade(int linha, int coluna, char valor) {
     bool validade = true;
 
     if(this->tabuleiro[linha][coluna] != ' ')
@@ -15,7 +15,7 @@ bool Reversi::testarValidade(int linha, int coluna) {
 
     for(int i = 0; i < 8; i++)
     {
-        if(i != coluna && this->tabuleiro[linha][coluna] == this->tabuleiro[linha][i])
+        if(i != coluna && valor == this->tabuleiro[linha][i])
         {
             int pecasOpostas = 0;
 
@@ -26,7 +26,7 @@ bool Reversi::testarValidade(int linha, int coluna) {
                     validade = false;
                 }
 
-                if(this->tabuleiro[linha][j] != ' ' && this->tabuleiro[linha][j] != this->tabuleiro[linha][coluna])
+                if(this->tabuleiro[linha][j] != ' ' && this->tabuleiro[linha][j] != valor)
                 {
                     pecasOpostas++;
                 }
@@ -41,7 +41,7 @@ bool Reversi::testarValidade(int linha, int coluna) {
 
     for(int i = 0; i < 8; i++)
     {
-        if(i != linha && this->tabuleiro[linha][coluna] == this->tabuleiro[i][coluna])
+        if(i != linha && valor == this->tabuleiro[i][coluna])
         {
             int pecasOpostas = 0;
             
@@ -52,7 +52,7 @@ bool Reversi::testarValidade(int linha, int coluna) {
                     validade = false;
                 }
 
-                if(this->tabuleiro[j][coluna] != ' ' && this->tabuleiro[j][coluna] != this->tabuleiro[linha][coluna])
+                if(this->tabuleiro[j][coluna] != ' ' && this->tabuleiro[j][coluna] != valor)
                 {
                     pecasOpostas++;
                 }
@@ -75,10 +75,21 @@ bool Reversi::testarVitoria() {
     {
         for(int coluna = 0; coluna < 8; coluna++)
         {
-            if(this->testarValidade(linha, coluna))
+            if(this->testarValidade(linha, coluna, 'X'))
+            {
+                vitoria = false;
+            }
+            
+            if(this->testarValidade(linha, coluna, 'O'))
             {
                 vitoria = false;
             }
         }
     }
+
+    return vitoria;
+}
+
+void Reversi::lerJogada(int linha, int coluna) {
+
 }
