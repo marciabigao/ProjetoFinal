@@ -264,10 +264,6 @@ bool Reversi::testarVitoria() {
     return vitoria;
 }
 
-void Reversi::lerJogada(int linha, int coluna) {
-
-}
-
 char Reversi::declararVencedor() {
     int quantidadeX = 0;
     int quantidadeO = 0;
