@@ -1,12 +1,17 @@
 #include "../include/Reversi.hpp"
 #include <algorithm>
 
-Reversi::Reversi() : Jogos(8, 8) {}
+Reversi::Reversi() : Jogos(8, 8) {
+    this->tabuleiro[3][3] = 'X';
+    this->tabuleiro[3][4] = 'O';
+    this->tabuleiro[4][3] = 'O';
+    this->tabuleiro[4][4] = 'X';
+}
 
 Reversi::~Reversi() {}
 
 bool Reversi::testarValidade(int linha, int coluna, char valor) {
-    bool validadeGlobal;
+    bool validadeGlobal = false;
 
     for(int i = 0; i < 8; i++)
     {
@@ -15,7 +20,7 @@ bool Reversi::testarValidade(int linha, int coluna, char valor) {
             bool validade = true;
             int pecasOpostas = 0;
 
-            for(int j = std::min(i, coluna); j < std::max(i, coluna); j++)
+            for(int j = std::min(i, coluna); j <= std::max(i, coluna); j++)
             {
                 if(this->tabuleiro[linha][j] == ' ')
                 {
@@ -44,7 +49,7 @@ bool Reversi::testarValidade(int linha, int coluna, char valor) {
             bool validade = true;
             int pecasOpostas = 0;
             
-            for(int j = std::min(i, linha); j < std::max(i, linha); j++)
+            for(int j = std::min(i, linha); j <= std::max(i, linha); j++)
             {
                 if(this->tabuleiro[j][coluna] == ' ')
                 {
@@ -66,13 +71,10 @@ bool Reversi::testarValidade(int linha, int coluna, char valor) {
         }
     }
 
-    int i = linha;
-    int j = coluna;
-    do
+    int i = linha - 1;
+    int j = coluna + 1;
+    while (i >= 0 && j <= 7)
     {
-        i--;
-        j++;
-
         if(this->tabuleiro[i][j] == valor)
         {
             bool validade = true;
@@ -81,7 +83,7 @@ bool Reversi::testarValidade(int linha, int coluna, char valor) {
             int a = linha - 1;
             int b = coluna + 1;
 
-            do
+            while (a >= i && b <= j)
             {
                 if(this->tabuleiro[a][b] == ' ')
                 {
@@ -95,7 +97,7 @@ bool Reversi::testarValidade(int linha, int coluna, char valor) {
                 a--;
                 b++;
 
-            } while (a != i && b != j);
+            }
 
             if(pecasOpostas == 0)
             {
@@ -104,15 +106,15 @@ bool Reversi::testarValidade(int linha, int coluna, char valor) {
 
             validadeGlobal = validadeGlobal || validade;
         }
-    } while (i != 0 && j != 7);
+
+        i--;
+        j++;
+    }
     
-    i = linha;
-    j = coluna;
-    do
+    i = linha + 1;
+    j = coluna + 1;
+    while (i <= 7 && j <= 7)
     {
-        i++;
-        j++;
-
         if(this->tabuleiro[i][j] == valor)
         {
             bool validade = true;
@@ -121,7 +123,7 @@ bool Reversi::testarValidade(int linha, int coluna, char valor) {
             int a = linha + 1;
             int b = coluna + 1;
 
-            do
+            while (a <= i && b <= j)
             {
                 if(this->tabuleiro[a][b] == ' ')
                 {
@@ -135,7 +137,7 @@ bool Reversi::testarValidade(int linha, int coluna, char valor) {
                 a++;
                 b++;
 
-            } while (a != i && b != j);
+            }
 
             if(pecasOpostas == 0)
             {
@@ -145,15 +147,14 @@ bool Reversi::testarValidade(int linha, int coluna, char valor) {
             validadeGlobal = validadeGlobal || validade;
         }
 
-    } while (i != 7 && j != 7);
+        i++;
+        j++;
+    }
 
-    i = linha;
-    j = coluna;
-    do
+    i = linha - 1;
+    j = coluna - 1;
+    while (i >= 0 && j >= 0)
     {
-        i--;
-        j--;
-
         if(this->tabuleiro[i][j] == valor)
         {
             bool validade = true;
@@ -162,7 +163,7 @@ bool Reversi::testarValidade(int linha, int coluna, char valor) {
             int a = linha - 1;
             int b = coluna - 1;
 
-            do
+            while (a >= i && b >= j)
             {
                 if(this->tabuleiro[a][b] == ' ')
                 {
@@ -176,7 +177,7 @@ bool Reversi::testarValidade(int linha, int coluna, char valor) {
                 a--;
                 b--;
 
-            } while (a != i && b != j);
+            }
 
             if(pecasOpostas == 0)
             {
@@ -186,11 +187,14 @@ bool Reversi::testarValidade(int linha, int coluna, char valor) {
             validadeGlobal = validadeGlobal || validade;
         }
 
-    } while (i != 0 && j != 0);
+        i--;
+        j--;
 
-    i = linha;
-    j = coluna;
-    do
+    } 
+
+    i = linha + 1;
+    j = coluna - 1;
+    while (i <= 8 && j >= 0)
     {
         i++;
         j--;
@@ -203,7 +207,7 @@ bool Reversi::testarValidade(int linha, int coluna, char valor) {
             int a = linha + 1;
             int b = coluna - 1;
 
-            do
+            while (a < i && b > j)
             {
                 if(this->tabuleiro[a][b] == ' ')
                 {
@@ -217,7 +221,7 @@ bool Reversi::testarValidade(int linha, int coluna, char valor) {
                 a++;
                 b--;
 
-            } while (a != i && b != j);
+            }
 
             if(pecasOpostas == 0)
             {
@@ -225,9 +229,12 @@ bool Reversi::testarValidade(int linha, int coluna, char valor) {
             } 
         }
 
-    } while (i != 8 && j != 0);
+        i++;
+        j--;
 
-    if(this->tabuleiro[linha][coluna] != ' ')
+    } 
+
+    if(this->tabuleiro[linha][coluna] != ' ' || linha < 0 || linha > 7 || coluna < 0 || coluna > 7)
     {
         validadeGlobal = false;
     }
@@ -293,6 +300,7 @@ char Reversi::declararVencedor() {
         return 'E';
     }
 }
+
 
 void Reversi::inverterSimbolos(int linha, int coluna) {
 
@@ -366,13 +374,10 @@ void Reversi::inverterSimbolos(int linha, int coluna) {
         }
     }
 
-    int i = linha;
-    int j = coluna;
-    do
+    int i = linha - 1;
+    int j = coluna + 1;
+    while (i >= 0 && j <= 7)
     {
-        i--;
-        j++;
-
         if(this->tabuleiro[i][j] == this->tabuleiro[linha][coluna])
         {
             bool validade = true;
@@ -381,7 +386,7 @@ void Reversi::inverterSimbolos(int linha, int coluna) {
             int a = linha - 1;
             int b = coluna + 1;
 
-            do
+            while (a >= i && b <= j)
             {
                 if(this->tabuleiro[a][b] == ' ')
                 {
@@ -395,7 +400,7 @@ void Reversi::inverterSimbolos(int linha, int coluna) {
                 a--;
                 b++;
 
-            } while (a != i && b != j);
+            }
 
             if(pecasOpostas == 0)
             {
@@ -407,25 +412,25 @@ void Reversi::inverterSimbolos(int linha, int coluna) {
                 a = linha - 1;
                 b = coluna + 1;
 
-                do
+                while (a >= i && b <= j)
                 {
                     this->tabuleiro[a][b] = this->tabuleiro[linha][coluna];
 
                     a--;
                     b++;
 
-                } while (a != i && b != j);
+                }
             }
         }
-    } while (i != 0 && j != 7);
-    
-    i = linha;
-    j = coluna;
-    do
-    {
-        i++;
-        j++;
 
+        i--;
+        j++;
+    }
+    
+    i = linha + 1;
+    j = coluna + 1;
+    while (i <= 7 && j <= 7)
+    {
         if(this->tabuleiro[i][j] == this->tabuleiro[linha][coluna])
         {
             bool validade = true;
@@ -434,7 +439,7 @@ void Reversi::inverterSimbolos(int linha, int coluna) {
             int a = linha + 1;
             int b = coluna + 1;
 
-            do
+            while (a <= i && b <= j)
             {
                 if(this->tabuleiro[a][b] == ' ')
                 {
@@ -448,7 +453,7 @@ void Reversi::inverterSimbolos(int linha, int coluna) {
                 a++;
                 b++;
 
-            } while (a != i && b != j);
+            }
 
             if(pecasOpostas == 0)
             {
@@ -457,26 +462,26 @@ void Reversi::inverterSimbolos(int linha, int coluna) {
 
             if(validade)
             {
-                do
+                while (a <= i && b <= j)
                 {
                     this->tabuleiro[a][b] = this->tabuleiro[linha][coluna];
 
                     a++;
                     b++;
 
-                } while (a != i && b != j);
+                }
             }
         }
 
-    } while (i != 7 && j != 7);
+        i++;
+        j++;
 
-    i = linha;
-    j = coluna;
-    do
+    }
+
+    i = linha - 1;
+    j = coluna - 1;
+    while (i >= 0 && j >= 0)
     {
-        i--;
-        j--;
-
         if(this->tabuleiro[i][j] == this->tabuleiro[linha][coluna])
         {
             bool validade = true;
@@ -485,7 +490,7 @@ void Reversi::inverterSimbolos(int linha, int coluna) {
             int a = linha - 1;
             int b = coluna - 1;
 
-            do
+            while (a >= i && b >= j)
             {
                 if(this->tabuleiro[a][b] == ' ')
                 {
@@ -499,7 +504,7 @@ void Reversi::inverterSimbolos(int linha, int coluna) {
                 a--;
                 b--;
 
-            } while (a != i && b != j);
+            }
 
             if(pecasOpostas == 0)
             {
@@ -508,22 +513,25 @@ void Reversi::inverterSimbolos(int linha, int coluna) {
 
             if(validade)
             {
-                do
+                while (a >= i && b >= j)
                 {
                     this->tabuleiro[a][b] = this->tabuleiro[linha][coluna];
 
                     a--;
                     b--;
 
-                } while (a != i && b != j);
+                }
             }
         }
 
-    } while (i != 0 && j != 0);
+        i--;
+        j--;
 
-    i = linha;
-    j = coluna;
-    do
+    }
+
+    i = linha + 1;
+    j = coluna - 1;
+    while (i <= 8 && j >= 0)
     {
         i++;
         j--;
@@ -536,7 +544,7 @@ void Reversi::inverterSimbolos(int linha, int coluna) {
             int a = linha + 1;
             int b = coluna - 1;
 
-            do
+            while (a <= i && b >= j)
             {
                 if(this->tabuleiro[a][b] == ' ')
                 {
@@ -550,7 +558,7 @@ void Reversi::inverterSimbolos(int linha, int coluna) {
                 a++;
                 b--;
 
-            } while (a != i && b != j);
+            }
 
             if(pecasOpostas == 0)
             {
@@ -559,16 +567,19 @@ void Reversi::inverterSimbolos(int linha, int coluna) {
 
             if(validade)
             {
-                do
+                while (a <= i && b >= j)
                 {
                     this->tabuleiro[a][b] = this->tabuleiro[linha][coluna];
 
                     a++;
                     b--;
 
-                } while (a != i && b != j);
+                } 
             }
         }
 
-    } while (i != 8 && j != 0);
+        i++;
+        j--;
+
+    }
 }
