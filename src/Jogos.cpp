@@ -1,4 +1,4 @@
-#include "Jogos.hpp"
+#include "../include/Jogos.hpp"
 
 Jogos::Jogos(int linhas, int colunas){
     tabuleiro.resize(linhas, std::vector<char>(colunas, ' '));
