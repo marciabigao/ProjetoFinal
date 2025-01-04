@@ -4,17 +4,13 @@
 #include "Jogos.hpp"
 
 class Reversi : public Jogos {
-    private:
-    int numeroPecasX;
-    int numeroPecasO;
-    int espacosDisponiveisTabuleiro;
-
     public:
 
     //Contrutor e Destrutor
     Reversi();
     ~Reversi();
 
+    //Redefinição métodos virtuais
     void lerJogada(int linha, int coluna) override;
     bool testarValidade (int linha, int coluna) override;
     bool testarVitoria() override;
