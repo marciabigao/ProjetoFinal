@@ -14,6 +14,9 @@ class Reversi : public Jogos {
     void lerJogada(int linha, int coluna) override;
     bool testarValidade (int linha, int coluna, char valor) override;
     bool testarVitoria() override;
+
+    //Métodos exclusivos
+    char declararVencedor();
 };
 
 #endif

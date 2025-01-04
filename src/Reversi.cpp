@@ -244,3 +244,36 @@ bool Reversi::testarVitoria() {
 void Reversi::lerJogada(int linha, int coluna) {
 
 }
+
+char Reversi::declararVencedor() {
+    int quantidadeX = 0;
+    int quantidadeO = 0;
+
+    for(int i = 0; i < 8; i++)
+    {
+        for(int j = 0; j < 8; j++)
+        {
+            if(this->tabuleiro[i][j] == 'X')
+            {
+                quantidadeX++;
+            }
+            if(this->tabuleiro[i][j] == 'O')
+            {
+                quantidadeO++;
+            }
+        }
+    }
+
+    if(quantidadeX > quantidadeO)
+    {
+        return 'X';
+    }
+    if(quantidadeX < quantidadeO)
+    {
+        return 'O';
+    }
+    else
+    {
+        return 'E';
+    }
+}
