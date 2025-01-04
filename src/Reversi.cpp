@@ -9,7 +9,7 @@ Reversi::Reversi() : Jogos(8, 8) {
 
 Reversi::~Reversi() {}
 
-bool Jogos::testarValidade(int linha, int coluna) {
+bool Reversi::testarValidade(int linha, int coluna) {
     bool validade = true;
 
     if(this->tabuleiro[linha][coluna] != ' ')
@@ -17,7 +17,7 @@ bool Jogos::testarValidade(int linha, int coluna) {
         validade = false;
     }
 
-    for(int i = 1; i <= 8; i++)
+    for(int i = 0; i < 8; i++)
     {
         if(i != coluna && this->tabuleiro[linha][coluna] == this->tabuleiro[linha][i])
         {
@@ -43,7 +43,7 @@ bool Jogos::testarValidade(int linha, int coluna) {
         }
     }
 
-    for(int i = 1; i <= 8; i++)
+    for(int i = 0; i < 8; i++)
     {
         if(i != linha && this->tabuleiro[linha][coluna] == this->tabuleiro[i][coluna])
         {
@@ -70,4 +70,19 @@ bool Jogos::testarValidade(int linha, int coluna) {
     }
 
     return validade;
+}
+
+bool Reversi::testarVitoria() {
+    bool vitoria = true;
+
+    for(int linha = 0; linha < 8; linha++)
+    {
+        for(int coluna = 0; coluna < 8; coluna++)
+        {
+            if(this->testarValidade(linha, coluna))
+            {
+                vitoria = false;
+            }
+        }
+    }
 }
