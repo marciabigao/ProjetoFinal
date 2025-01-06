@@ -26,7 +26,6 @@ public:
     bool testarEmpate(); 
     void alternarJogador(); 
     void executarJogada(int linha, int coluna); 
-    void executarJogo(Jogador& jogador1, Jogador& jogador2);
     
 };
 
