@@ -9,60 +9,62 @@
 
 std::map<std::string, Jogador*> Jogador::jogadores;
 
-std::string Jogador::get_nome()
+std::string Jogador::getNome()
 {
-    return this->nome_jogador;
+    return this->nomeJogador;
 }
 
-std::string Jogador::get_apelido()
+std::string Jogador::getApelido()
 {
-    return this->apelido_jogador;
+    return this->apelidoJogador;
 }
 
-int Jogador::get_vitorias_r()
+int Jogador::getVitoriasR()
 {
-    return this->vitorias_reversi;
+    return this->vitoriasReversi;
 }
 
-int Jogador::get_derrotas_r()
+int Jogador::getDerrotasR()
 {
-    return this->derrotas_reversi;
+    return this->derrotasReversi;
 }
 
-int Jogador::get_vitorias_lig()
+int Jogador::getVitoriasLig()
 {
-    return this->vitorias_lig;
+    return this->vitoriasLig;
 }
 
-int Jogador::get_derrotas_lig()
+int Jogador::getDerrotasLig()
 {
-    return this->derrotas_lig;
+    return this->derrotasLig;
 }
 
-int Jogador::get_vitorias_jv()
+int Jogador::getVitoriasJV()
 {
-    return this->vitorias_jvelha;
+    return this->vitoriasJVelha;
 }
 
-int Jogador::get_derrotas_jv()
+int Jogador::getDerrotasJV()
 {
-    return this->derrotas_jvelha;
+    return this->derrotasJVelha;
 }
 
 Jogador::Jogador(std::string nome, std::string apelido):
-         nome_jogador(nome), apelido_jogador(apelido),
-         vitorias_reversi(0), derrotas_reversi(0),
-         vitorias_lig(0), derrotas_lig(0),
-         vitorias_jvelha(0), derrotas_jvelha(0) {}
+         nomeJogador(nome), apelidoJogador(apelido),
+         vitoriasReversi(0), derrotasReversi(0),
+         vitoriasLig(0), derrotasLig(0),
+         vitoriasJVelha(0), derrotasJVelha(0) {}
 
 Jogador::Jogador(std::string nome, std::string apelido, int vr, int dr,
                  int vl, int dl, int vjv, int djv):
-         nome_jogador(nome), apelido_jogador(apelido),
-         vitorias_reversi(vr), derrotas_reversi(dr),
-         vitorias_lig(vl), derrotas_lig(dl),
-         vitorias_jvelha(vjv), derrotas_jvelha(djv) {}        
+         nomeJogador(nome), apelidoJogador(apelido),
+         vitoriasReversi(vr), derrotasReversi(dr),
+         vitoriasLig(vl), derrotasLig(dl),
+         vitoriasJVelha(vjv), derrotasJVelha(djv) {}        
 
-void Jogador::cadastra_jogador(std::string nome, std::string apelido)
+//A memória para o jogador a ser cadastrado deve ser alocada antes
+//de se chamar o método, utilizando new 
+void Jogador::cadastraJogador(std::string apelido)
 {
     //se o apeldio buscado não estiver no map, retorna end (próxima posição vazia)
     if(jogadores.find(apelido) != jogadores.end())
@@ -71,44 +73,37 @@ void Jogador::cadastra_jogador(std::string nome, std::string apelido)
     }
     else
     {
-        Jogador *novo_jogador = new Jogador(nome, apelido);
-        jogadores.insert({apelido, novo_jogador});
+        jogadores.insert({apelido, this});
         std::cout << "Jogador " << apelido << " inserido com sucesso" << std::endl;
     }
 }
 
-void Jogador::remove_jogador(std::string apelido)
+void Jogador::removeJogador(std::string apelido)
 {
-    auto iterador = jogadores.find(apelido);
-    if(iterador == jogadores.end())
+    if (this != nullptr)
     {
-        std::cout << "ERRO: jogador inexistente" << std::endl;
-    }
-    else
-    {
-        //libera a memória previamente alocada
+        auto iterador = jogadores.find(apelido);
         delete iterador->second;
-        //apaga o par do mapa
-        jogadores.erase(apelido);
+        jogadores.erase(iterador);
         std::cout << "Jogador " << apelido << " removido com sucesso" <<std::endl;
     }
 }
 
-void Jogador::atualiza_estatisticas()
+void Jogador::atualizaEstatisticas()
 {
     std::ofstream saida("estatisticas.txt", std::fstream :: out);
     if(!saida.is_open())
     {
-        std::cout << "ERRO: falha ao abrir o aqruivo de saída" << std::endl;
+        std::cout << "ERRO: falha ao abrir o arquivo de saída" << std::endl;
         return;
     }
 
     for(std::pair<const std::string, Jogador*>& player : jogadores)
     {
-        saida << player.second->nome_jogador << " " << player.second->apelido_jogador << " "
-              << player.second->vitorias_reversi << " " << player.second->derrotas_reversi << " "
-              << player.second->vitorias_lig << " " << player.second->derrotas_lig << " "
-              << player.second->vitorias_jvelha << " " << player.second->derrotas_jvelha << " "
+        saida << player.second->nomeJogador << " " << player.second->apelidoJogador << " "
+              << player.second->vitoriasReversi << " " << player.second->derrotasReversi << " "
+              << player.second->vitoriasLig << " " << player.second->derrotasLig << " "
+              << player.second->vitoriasJVelha << " " << player.second->derrotasJVelha << " "
               << std::endl;
     }
     saida.close();
@@ -116,7 +111,7 @@ void Jogador::atualiza_estatisticas()
 
 //Método a ser utilizado no início de uma nova execução para recuperar 
 //as informações de partidas anteriores armazenadas no arquivo, inserindo-as no map
-void Jogador::le_estatisticas()
+void Jogador::leEstatisticas()
 {
     std::ifstream entrada("estatisticas.txt", std::fstream :: in);
     if(!entrada.is_open())
@@ -129,18 +124,18 @@ void Jogador::le_estatisticas()
     int vr, dr, vl, dl, vjv, djv;
     while(std::getline(entrada, dados))
     {
-        std::istringstream info_lida(dados);
-        if(!(info_lida >> nome))
+        std::istringstream infoLida(dados);
+        if(!(infoLida >> nome))
         {
             std::cout << "ERRO: nome não foi lido com sucesso" << std::endl;
             return;
         }
-        if(!(info_lida >> apelido))
+        if(!(infoLida >> apelido))
         {
             std::cout << "ERRO: apelido não foi lido com sucesso" << std::endl;
             return;
         }
-        if(!(info_lida >> vr >> dr >> vl >> dl >> vjv >> djv))
+        if(!(infoLida >> vr >> dr >> vl >> dl >> vjv >> djv))
         {
             std::cout << "ERRO: dados numéricos não foram lidos com sucesso" << std::endl;
             return;
@@ -151,22 +146,22 @@ void Jogador::le_estatisticas()
     entrada.close();
 }
 
-void Jogador::imprime_listagem(char opcao)
+void Jogador::imprimeListagem(char opcao)
 {
     if(opcao == 'A')
     {
         for(std::pair<const std::string, Jogador*>& player : jogadores)
         {
-            std::cout << player.first << " " << player.second->get_nome() << std::endl;
+            std::cout << player.first << " " << player.second->getNome() << std::endl;
 
-            std::cout << "REVERSI - V: " << player.second->get_vitorias_r() 
-                      << " D: " << player.second->get_derrotas_r() << std::endl;
+            std::cout << "REVERSI - V: " << player.second->getVitoriasR() 
+                      << " D: " << player.second->getDerrotasR() << std::endl;
 
-            std::cout << "LIG4 - V: " << player.second->get_vitorias_lig()
-                      << " D: " << player.second->get_derrotas_lig() << std::endl;
+            std::cout << "LIG4 - V: " << player.second->getVitoriasLig()
+                      << " D: " << player.second->getDerrotasLig() << std::endl;
 
-            std::cout << "VELHA - V: " << player.second->get_vitorias_jv()
-                      << " D: " << player.second->get_vitorias_jv() << std::endl;
+            std::cout << "VELHA - V: " << player.second->getVitoriasJV()
+                      << " D: " << player.second->getDerrotasJV() << std::endl;
         }
     }
 
@@ -179,25 +174,25 @@ void Jogador::imprime_listagem(char opcao)
             vetor.push_back(player.second);
         }
         //utiliza o algoritmo sort com uma função lambda personalizada para
-        //ordenar os dados em função do atributo nome_jogador dos jogadores
+        //ordenar os dados em função do atributo nomeJogador dos jogadores
         std::sort(vetor.begin(), vetor.end(),
-        [](Jogador* jogador_a, Jogador* jogador_b)
+        [](Jogador* jogadorA, Jogador* jogadorB)
         {
-            return jogador_a->get_nome() < jogador_b->get_nome();
+            return jogadorA->getNome() < jogadorB->getNome();
         });
 
         for(Jogador* player : vetor)
         {
-            std::cout << player->get_apelido() << " " << player->get_nome() << std::endl;
+            std::cout << player->getApelido() << " " << player->getNome() << std::endl;
 
-            std::cout << "REVERSI - V: " << player->get_vitorias_r() 
-                      << " D: " << player->get_derrotas_r() << std::endl;
+            std::cout << "REVERSI - V: " << player->getVitoriasR() 
+                      << " D: " << player->getDerrotasR() << std::endl;
 
-            std::cout << "LIG4 - V: " << player->get_vitorias_lig()
-                      << " D: " << player->get_derrotas_lig() << std::endl;
+            std::cout << "LIG4 - V: " << player->getVitoriasLig()
+                      << " D: " << player->getDerrotasLig() << std::endl;
 
-            std::cout << "VELHA - V: " << player->get_vitorias_jv()
-                      << " D: " << player->get_vitorias_jv() << std::endl;
+            std::cout << "VELHA - V: " << player->getVitoriasJV()
+                      << " D: " << player->getDerrotasJV() << std::endl;
         }
     }
 }
@@ -205,7 +200,8 @@ void Jogador::imprime_listagem(char opcao)
 //Método a ser utilizado quando se inicia uma partida para checar
 //se os jogadores inseridos de fato existem e fornecer ponteiros para eles.
 //Deve ser chamado uma vez para cada jogador, com seu apelido
-Jogador* Jogador::busca_jogador(std::string apelido)
+//Também deve ser utilizado antes de se chamar o método removeJogador
+Jogador* Jogador::buscaJogador(std::string apelido)
 {
     auto iterador = jogadores.find(apelido);
     if(iterador == jogadores.end())
@@ -221,7 +217,7 @@ Jogador* Jogador::busca_jogador(std::string apelido)
 
 //Método a ser chamado ao final de cada execução (quando se seleciona FS)
 //para deletar a memória dinamicamente alocada dos elementos no map
-void Jogador::apaga_map()
+void Jogador::apagaMap()
 {
     for(std::pair<const std::string, Jogador*>& player : jogadores)
     {
@@ -232,26 +228,26 @@ void Jogador::apaga_map()
 //Método a ser chamado para atualizar as vitórias do jogador vencedor em uma partida
 //Recebe o apelido do jogador e o jogo em que venceu 
 //('R' para Reversi, 'L' para Lig4 e 'V' para Jogo da Velha)
-void Jogador::registrar_vitoria(std::string apelido_vencedor, char jogo)
+void Jogador::registrarVitoria(char jogo)
 {
-    auto iterador = jogadores.find(apelido_vencedor);
+    auto iterador = jogadores.find(this->apelidoJogador);
     switch (jogo)
     {
         case('R'):
         {
-            iterador->second->vitorias_reversi++;
+            iterador->second->vitoriasReversi++;
         }
         break;
         
         case('L'):
         {
-            iterador->second->vitorias_lig++;
+            iterador->second->vitoriasLig++;
         }
         break;
         
         case('V'):
         {
-            iterador->second->vitorias_jvelha++;
+            iterador->second->vitoriasJVelha++;
         }
         break;
 
@@ -263,26 +259,26 @@ void Jogador::registrar_vitoria(std::string apelido_vencedor, char jogo)
     }
 }
 
-void Jogador::registrar_derrota(std::string apelido_perdedor, char jogo)
+void Jogador::registrarDerrota(char jogo)
 {
-    auto iterador = jogadores.find(apelido_perdedor);
+    auto iterador = jogadores.find(this->apelidoJogador);
     switch (jogo)
     {
         case('R'):
         {
-            iterador->second->derrotas_reversi++;
+            iterador->second->derrotasReversi++;
         }
         break;
         
         case('L'):
         {
-            iterador->second->derrotas_lig++;
+            iterador->second->derrotasLig++;
         }
         break;
         
         case('V'):
         {
-            iterador->second->derrotas_jvelha++;
+            iterador->second->derrotasJVelha++;
         }
         break;
 
