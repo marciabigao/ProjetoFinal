@@ -8,8 +8,7 @@ class Lig4 : public Jogos{
 private:
     int numLinhas;
     int numColunas;
-    int numVermelhos;
-    int numAmarelos;
+    char jogadorAtual;
 
 public:
 
@@ -17,20 +16,18 @@ public:
 Lig4(int linhas, int colunas);
 ~Lig4();
 
-//Testar Tamanho Tabuleiro
-void testarTamanho(int linhas, int colunas);
+//Metodo Dimensoes Tabuleiro
+Lig4* definirDimensoes(int linhas, int colunas);
 
-//Metodos Validade
-virtual bool testarValidade (int linha , int coluna) const override;
-virtual bool testarValidade (int coluna) const ;
+//Metodo Validade
+virtual bool testarValidade (int linha, int coluna, char valor) override; //Nao uso linha, sera que uso ad hoc?
 
-//Metodos Jogada
-virtual void lerJogada (int linha = -1, int coluna) override; // N implementei
-virtual void lerJogada (int coluna, char jogador); 
+//Metodo Jogada
+void executarJogada (int coluna, char jogadorAtual);
 
 //Metodos Checagem do Jogo
-virtual bool testarVitoria() const override;
-bool verificarSequencia(int linha, int coluna, char sentido);
+virtual bool testarVitoria() override;
+bool testarEmpate() const;
 
 };
 

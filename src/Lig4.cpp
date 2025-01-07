@@ -1,120 +1,166 @@
 #include"Lig4.hpp"
 
-const char JOGADOR1 = '1';
-const char JOGADOR2 = '2';
 const char AMARELO = 'A';
 const char VERMELHO = 'V';
-const char VERTICAL = 'U';
-const char DIAGONAL = 'D';
-const char HORIZONTAL = 'H';
+
 
 //Construtor
-Lig4::Lig4(int linhas, int colunas): Jogos(linhas,colunas), numLinhas(linhas),numColunas(colunas){}
+Lig4::Lig4(int linhas, int colunas): Jogos(linhas,colunas), numLinhas(linhas),numColunas(colunas),jogadorAtual(AMARELO){}
 
 //Destrutor
 Lig4::~Lig4() {}
 
-bool Lig4::testarValidade (int linha, int coluna) const {
+// Lig4* Lig4::definirDimensoes(int linhas, int colunas){
 
-    if(linha < 1 || coluna < 1 || linha >= numLinhas || coluna >= numColunas)
-        return false;
-    else if(getCelula(0,coluna) != ' ')
-        return false;
-    else   
-        return true;
+//     if(linhas == 7 && colunas == 6)
+//         return new Lig4(7,6);
+//     else if(linhas == 5 && colunas == 4)
+//         return new Lig4(5,4);
+//     else if(linhas == 6 && colunas == 5)
+//         return new Lig4(6,5);
+//     else if(linhas == 8 && colunas == 7)
+//         return new Lig4(8,7);
+//     else if(linhas == 9 && colunas == 7)
+//         return new Lig4(9,7);
+//     else if(linhas == 10 && colunas == 7)
+//         return new Lig4(10,7);
+//     else if(linhas == 8 && colunas == 8)
+//         return new Lig4(8,8);
+//     else{
+//         std::cout << "Tabuleiro com dimensoes nao suportadas!" << std::endl;
+//         return nullptr;
+//     }
+// }
 
+bool Lig4::testarValidade (int linha, int coluna, char valor){
+
+    if(coluna < 0 || coluna >= numColunas){
+        std::cout << "Coluna escolhida está fora do tabuleiro!" << std::endl;
+        return false;
+    }
+    else if(getCelula(0,coluna) != ' '){
+        std::cout << "Coluna ja esta cheia!" << std::endl;
+        return false;
+    }
+       
+    return true;
 }
 
-// Testar Validade
-bool Lig4::testarValidade(int coluna) const{
-
-    if(coluna < 1 || coluna >= numColunas)
-        return false;
-    else if(getCelula(0,coluna) != ' ')
-        return false;
-    else   
-        return true;
-}
-
- 
-//Ler Jogada (Revisar)
-void Lig4::lerJogada(int coluna, char jogador){
+//Executar Jogada 
+void Lig4::executarJogada(int coluna, char jogadorAtual){
     
     if(coluna < 0 || coluna >= numColunas)
-        std::cout << "ERRO: formato incorreto" << std::endl;
-    else if (testarValidade(coluna)){
-        for(int i=numLinhas-1; i >= 0; i--){
-            if(testarValidade(i,coluna)){
-                if(jogador == JOGADOR1)
-                    setCelula(i,coluna,'A');
-                else if(jogador == JOGADOR2)
-                    setCelula(i,coluna,'V');
+        std::cout << "ERRO: Formato Incorreto" << std::endl;
 
-                //setCelula(i,coluna,jogador == '1'? 'A':'V');
+    else if (testarValidade(-1,coluna,jogadorAtual)){
+        
+        for(int i= 0; i < numLinhas; i++){
+
+            if(tabuleiro[i][coluna] == ' '){
+                setCelula(i,coluna,jogadorAtual);
                 
+                if(jogadorAtual == AMARELO)
+                    jogadorAtual = VERMELHO;
+                else 
+                    jogadorAtual = AMARELO;
+                    
                 return;
             }
         }
-        std::cout << "ERRO: jogada inválida" << std::endl;
    }
 }
 
 
-//Verificar 4 caracteres em sequencia em qualquer direcao (FALTA ARRUMAR DIAGONAL)
-bool Lig4::verificarSequencia(int linha, int coluna, char sentido){
+//Verifica condicoes de vitoria 
+bool Lig4::testarVitoria(){ 
 
-    switch (sentido)
-        {
-        case HORIZONTAL:
-            for(int i= 0; i<4; i++){
-                if(tabuleiro[linha][coluna] != tabuleiro[linha][coluna+i])
-                    return false;
-            }
-            return true;
-            break;
-        
-        case VERTICAL:
-             for(int i=0; i<4; i++){
-                if(tabuleiro[linha][coluna] != tabuleiro[linha+i][coluna])
-                    return false;
-            }
-            return true;
-            break;
+    int linha;
+    int flagSequencia = 0;
 
-        case DIAGONAL:
-            for(int i=0; i<4; i++){
-                if(tabuleiro[linha][coluna] != tabuleiro[linha+i][coluna+i])
+    for(int coluna = 0; coluna < numColunas; coluna++ ){
+
+        for(int i= 0; i < numLinhas; i++){
+            if(getCelula(i,coluna) == jogadorAtual)
+                linha = i;
+        }
+
+        if(coluna <= numColunas - 3){
+
+            for(int i = 0; i < 4; i++){
+
+                if(flagSequencia < i)
                     break;
+
+                if(tabuleiro[linha][coluna + i] == jogadorAtual)
+                    flagSequencia++;     
             }
-            return true;
-            for(int i=0; i<4; i++){
-                if(tabuleiro[linha][coluna] != tabuleiro[linha-i][coluna-i])
+
+            if(flagSequencia == 3)
+                return true;
+
+            flagSequencia = 0;
+        }
+
+        if(linha <= numLinhas - 3){
+
+            for(int i = 0 ; i < 4; i++){
+
+                if(flagSequencia < i)
+                    break;
+
+                if(tabuleiro[linha + i][coluna] == jogadorAtual)
+                    flagSequencia++;     
+            }
+            
+            if(flagSequencia == 3)
+                return true;
+
+            flagSequencia = 0;
+        }
+
+        if(coluna <= numColunas - 3 && linha <= numLinhas - 3){
+
+            for(int i = 0; i < 4; i++){
+
+                if(flagSequencia < i)
+                    break;
+
+                if(tabuleiro[linha+i][coluna+i] == jogadorAtual)
+                    flagSequencia++;     
+            }
+            
+            if(flagSequencia == 3)
+                return true;
+
+            flagSequencia = 0;
+        }
+
+        if(coluna >= 3 && linha >= 3){
+
+            for(int i = 0; i < 4; i++){
+
+                if(flagSequencia < i)
                     return false;
+
+                if(tabuleiro[linha-i][coluna+i] == jogadorAtual)
+                    flagSequencia++;     
             }
-            return true;
-            break;
+            
+            if(flagSequencia == 3)
+                return true;
+        }
     }
 }
 
-//Verifica condicoes de vitoria (FALTA TERMINAR)
-bool Lig4::testarVitoria() const{ 
+bool::Lig4::testarEmpate() const{
 
-    int flagLig4 = 0;
+    for(int linha =  0; linha < numLinhas; linha++){
+        for(int coluna = 0; coluna < numColunas; coluna++){
 
-    for(const auto& linha : tabuleiro){
-        for(int coluna = 0; coluna <= numColunas- 3; coluna++){
-            for(int i=0; i<4; i++){
-                if(linha[coluna] == linha[coluna + i])
-                    flagLig4++;
-                else{
-                    flagLig4 = 0;
-                    break;
-                }
-            }
-            if (flagLig4 == 3)
-                return true;
-            else
-                flagLig4 = 0;
+            if(getCelula(linha,coluna) == ' ')
+                return false;
         }
     }
+
+    return true;
 }
