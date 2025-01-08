@@ -39,7 +39,10 @@ int main() {
         }
         else if(operacao == "LJ")
         {
+            char opcaoListagem;
+            std::cin >> opcaoListagem;
 
+            Jogador::imprimeListagem(opcaoListagem);
         }
         else if(operacao == "EP")
         {
