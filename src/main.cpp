@@ -31,7 +31,11 @@ int main() {
         }
         else if(operacao == "RJ")
         {
+            std::string apelido;
+            std::cin >> apelido;
 
+            Jogador* JogadorASerRemovido = Jogador::buscaJogador(apelido);
+            JogadorASerRemovido->removeJogador(apelido);
         }
         else if(operacao == "LJ")
         {
