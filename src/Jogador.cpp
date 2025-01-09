@@ -92,6 +92,7 @@ void Jogador::removeJogador(std::string apelido)
 void Jogador::atualizaEstatisticas()
 {
     std::ofstream saida("estatisticas.txt", std::fstream :: out);
+    char delimitador = '|';
     if(!saida.is_open())
     {
         std::cout << "ERRO: falha ao abrir o arquivo de saída" << std::endl;
@@ -100,7 +101,7 @@ void Jogador::atualizaEstatisticas()
 
     for(std::pair<const std::string, Jogador*>& player : jogadores)
     {
-        saida << player.second->nomeJogador << " " << player.second->apelidoJogador << " "
+        saida << player.second->nomeJogador << delimitador << player.second->apelidoJogador << delimitador
               << player.second->vitoriasReversi << " " << player.second->derrotasReversi << " "
               << player.second->vitoriasLig << " " << player.second->derrotasLig << " "
               << player.second->vitoriasJVelha << " " << player.second->derrotasJVelha << " "
@@ -122,15 +123,16 @@ void Jogador::leEstatisticas()
     std::string dados;
     std::string nome, apelido;
     int vr, dr, vl, dl, vjv, djv;
+    char delimitador = '|';
     while(std::getline(entrada, dados))
     {
         std::istringstream infoLida(dados);
-        if(!(infoLida >> nome))
+        if(!(std::getline(infoLida, nome, delimitador)))
         {
             std::cout << "ERRO: nome não foi lido com sucesso" << std::endl;
             return;
         }
-        if(!(infoLida >> apelido))
+        if(!(std::getline(infoLida, apelido, delimitador)))
         {
             std::cout << "ERRO: apelido não foi lido com sucesso" << std::endl;
             return;
