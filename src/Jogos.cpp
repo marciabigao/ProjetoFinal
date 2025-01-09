@@ -1,4 +1,4 @@
-#include "Jogos.hpp"
+#include "../include/Jogos.hpp"
 
 Jogos::Jogos(int linhas, int colunas){
     tabuleiro.resize(linhas, std::vector<char>(colunas, ' '));
@@ -19,6 +19,7 @@ void Jogos::imprimirTabuleiro() const{
         for(const auto& celula : linha){
             std::cout << "|" << celula;
         }
+        std::cout << '|';
         std::cout << "\n";
     }
     // Cada célula ocupa 2 caracteres + a | ao final (Ex: |X|O|X|)
