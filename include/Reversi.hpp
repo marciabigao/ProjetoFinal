@@ -13,6 +13,7 @@ class Reversi : public Jogos {
     //Redefinição métodos virtuais
     bool testarValidade (int linha, int coluna, char valor) override;
     bool testarVitoria() override;
+    void executarPartida(Jogador* jogador1, Jogador* jogador2) override;
 
     //Métodos exclusivos
     char declararVencedor();

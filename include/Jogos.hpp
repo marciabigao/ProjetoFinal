@@ -3,6 +3,7 @@
 
 #include <iostream>
 #include <vector>
+#include "Jogador.hpp"
 
 class Jogos {
 protected:
@@ -26,6 +27,7 @@ public:
     //Metodos Virtuais 
     virtual bool testarValidade (int linha, int coluna, char valor) = 0;
     virtual bool testarVitoria() = 0;
+    virtual void executarPartida(Jogador* jogador1, Jogador* jogador2) = 0;
 
 };
 
