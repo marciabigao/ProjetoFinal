@@ -46,16 +46,45 @@ int main() {
         }
         else if(operacao == "EP")
         {
+            char jogo;
+            std::string apelidoJogador1, apelidoJogador2;
+            std::cin >> jogo;
 
+            if(jogo != 'R' && jogo != 'L' && jogo != 'V')
+            {
+                std::cout << "ERRO: dados incorretos" << std::endl;
+            }
+
+            std::getline(std::cin, apelidoJogador1);
+            std::getline(std::cin, apelidoJogador2);
+
+            if(temMaisdeUmaPalavra(apelidoJogador1) || temMaisdeUmaPalavra(apelidoJogador2))
+            {
+                std::cout << "ERRO: dados incorretos" << std::endl;
+            }
+
+            Jogador* jogador1 = Jogador::buscaJogador(apelidoJogador1);
+            Jogador* jogador2 = Jogador::buscaJogador(apelidoJogador2);
+
+            if(jogo == 'R')
+            {
+
+            }
+            else if(jogo == 'L')
+            {
+
+            }
+            else if(jogo == 'V')
+            {
+                
+            }
         }
         else if(operacao == "FS")
         {
-
+            Jogador::apagaMap();
         }
 
     } while (operacao != "FS");
-    
-    Jogador::apagaMap();
 
     return 0;
 }

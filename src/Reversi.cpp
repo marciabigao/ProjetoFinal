@@ -1,6 +1,7 @@
 #include "../include/Reversi.hpp"
 #include <algorithm>
 #include <iostream>
+#include "../include/Jogador.hpp"
 
 Reversi::Reversi() : Jogos(8, 8) {
     this->tabuleiro[3][3] = 'X';
@@ -300,7 +301,6 @@ char Reversi::declararVencedor() {
     }
 }
 
-
 void Reversi::inverterSimbolos(int linha, int coluna) {
 
     for(int i = 0; i < 8; i++)
@@ -586,5 +586,83 @@ void Reversi::inverterSimbolos(int linha, int coluna) {
         i++;
         j--;
 
+    }
+}
+
+void Reversi::executarPartida(Jogador* jogador1, Jogador* jogador2) {
+    char simboloJogador1 = 'X';
+    char simboloJogador2 = 'O';
+    
+    while(!this->testarVitoria())
+    {
+        bool vezJogador = 0;
+
+        if(vezJogador == 0)
+        {
+            std::cout << "Turno de jogador " << jogador1->getApelido() << std::endl;
+        }
+        else 
+        {
+            std::cout << "Turno de jogador " << jogador2->getApelido() << std::endl;
+        }
+
+        std::cout << "*São aceitos apenas números dentro da dimensão do tabuleiro (1 a 8)*" << std::endl;
+
+        int linha, coluna;
+        std::cin >> linha >> coluna;
+
+        if(!(1 <= linha) || !(linha <= 8) || !(1 <= coluna) || !(coluna <= 8))
+        {
+            std::cout << "ERRO: formato incorreto" << std::endl;
+        }
+
+        linha--;
+        coluna--;
+
+        if(vezJogador == 0)
+        {
+            if(this->testarValidade(linha, coluna, simboloJogador1))
+            {
+                this->setCelula(linha, coluna, simboloJogador1);
+                this->inverterSimbolos(linha, coluna);
+                this->imprimirTabuleiro();
+            }
+            else
+            {
+                std::cout << "ERRO: jogada inválida" << std::endl;
+            }
+        }
+        else if(vezJogador == 1)
+        {
+            if(this->testarValidade(linha, coluna, simboloJogador2))
+            {
+                this->setCelula(linha, coluna, simboloJogador2);
+                this->inverterSimbolos(linha, coluna);
+                this->imprimirTabuleiro();
+            }
+            else
+            {
+                std::cout << "ERRO: jogada inválida" << std::endl;
+            }
+        }
+    }
+
+    char vitoria = this->declararVencedor();
+
+    if(vitoria == 'X')
+    {
+        std::cout << "Vitória de " << jogador1->getApelido() << "!" << std::endl;
+        jogador1->registrarVitoria('R');
+        jogador2->registrarDerrota('R');
+    }
+    else if(vitoria == 'O')
+    {
+        std::cout << "Vitória de " << jogador2->getApelido() << "!" << std::endl;
+        jogador1->registrarDerrota('R');
+        jogador2->registrarVitoria('R');
+    }
+    else if(vitoria == 'E')
+    {
+        std::cout << "Empate!" << std::endl;
     }
 }
