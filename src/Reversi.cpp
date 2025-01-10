@@ -670,3 +670,19 @@ void Reversi::executarPartida(Jogador* jogador1, Jogador* jogador2) {
         std::cout << "Empate!" << std::endl;
     }
 }
+
+bool Reversi::existemJogadasValidas(char simbolo)
+{
+    bool validade = false;
+
+    for(int linha = 0; linha < 8; linha++)
+    {
+        for(int coluna = 0; coluna < 8; coluna++)
+        {
+            if(this->testarValidade(linha, coluna, simbolo))
+            {
+                validade = validade || true;
+            }
+        }
+    }
+}
