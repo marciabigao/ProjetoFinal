@@ -1,4 +1,5 @@
-#include"Lig4.hpp"
+#include "Lig4.hpp"
+#include "Jogador.hpp"
 
 const char AMARELO = 'A';
 const char VERMELHO = 'V';
@@ -130,7 +131,7 @@ void Lig4::executarPartida(Jogador* jogador1, Jogador* jogador2)
 		}
 		else
 		{
-			std::cout << "Turno de jogador " << jogador1->getApelido() << std::endl;
+			std::cout << "Turno de jogador " << jogador2->getApelido() << std::endl;
 		}
 
 		std::cout << "*São aceitos apenas números dentro da dimensão do tabuleiro (1 a " << this->_numColunas << ")*" << std::endl;

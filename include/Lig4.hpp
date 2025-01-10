@@ -2,6 +2,7 @@
 #define LIG4_H
 
 #include "Jogos.hpp"
+#include "Jogador.hpp"
 
 class Lig4 : public Jogos{
 

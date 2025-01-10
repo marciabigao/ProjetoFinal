@@ -610,7 +610,7 @@ void Reversi::executarPartida(Jogador* jogador1, Jogador* jogador2) {
         int linha, coluna;
         std::cin >> linha >> coluna;
 
-        if(!(1 <= linha) || !(linha <= 8) || !(1 <= coluna) || !(coluna <= 8))
+        if(linha < 1 || linha > 8 || coluna < 1 || coluna > 8)
         {
             std::cout << "ERRO: formato incorreto" << std::endl;
             continue;

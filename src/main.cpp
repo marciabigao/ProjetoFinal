@@ -68,11 +68,13 @@ int main() {
 
             if(jogo == 'R')
             {
+                std::cout << "Reversi" << std::endl;
                 Reversi reversi;
                 reversi.executarPartida(jogador1, jogador2);
             }
             else if(jogo == 'L')
             {
+                std::cout << "Lig4" << std::endl;
                 std::cout << "Indique as dimensões do tabuleiro:" << std::endl;
 	            int numeroLinhas, numeroColunas;
 	            std::cout << "Número de linhas: ";
@@ -87,7 +89,9 @@ int main() {
             }
             else if(jogo == 'V')
             {
-                
+                std::cout << "Jogo da Velha" << std::endl;
+                JogoDaVelha jogoDaVelha;
+                jogoDaVelha.executarPartida(jogador1, jogador2);
             }
         }
         else if(operacao == "FS")

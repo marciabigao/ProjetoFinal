@@ -21,6 +21,7 @@ public:
     bool testarValidade(int linha, int coluna, char valor) override; 
     bool testarVitoria() override;
     void imprimirTabuleiro() const override;
+    void executarPartida(Jogador* jogador1, Jogador* jogador2) override;
 
     //métodos novos
     bool testarEmpate(); 
