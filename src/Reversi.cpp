@@ -621,6 +621,13 @@ void Reversi::executarPartida(Jogador* jogador1, Jogador* jogador2) {
 
         if(vezJogador == 0)
         {
+            if(!this->existemJogadasValidas(simboloJogador1))
+            {
+                std::cout << "Não existem jogadas válidas para " << jogador1->getApelido() << "." << std::endl;
+                vezJogador = 1;
+                continue;
+            }
+
             if(this->testarValidade(linha, coluna, simboloJogador1))
             {
                 this->setCelula(linha, coluna, simboloJogador1);
@@ -636,6 +643,13 @@ void Reversi::executarPartida(Jogador* jogador1, Jogador* jogador2) {
         }
         else if(vezJogador == 1)
         {
+            if(!this->existemJogadasValidas(simboloJogador2))
+            {
+                std::cout << "Não existem jogadas válidas para " << jogador2->getApelido() << "." << std::endl;
+                vezJogador = 0;
+                continue;
+            }
+
             if(this->testarValidade(linha, coluna, simboloJogador2))
             {
                 this->setCelula(linha, coluna, simboloJogador2);
