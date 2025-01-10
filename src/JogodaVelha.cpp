@@ -79,26 +79,6 @@ void JogoDaVelha::alternarJogador() {
 
 }
 
-void JogoDaVelha::imprimirTabuleiro() const {
-
-    //faz um loop e imprime um ponto se estiver vazio
-    for (int i = 0; i < 3; i++) {
-
-        for (int j = 0; j < 3; j++) {
-
-            if (this->tabuleiro[i][j] == ' ')
-            {
-                cout << '.' << " ";
-
-            } else {
-                cout << this->tabuleiro[i][j] << " ";
-            }
-
-        }
-        cout << endl; //quebra de linha após cada linha do tabuleiro
-    }
-}
-
 void JogoDaVelha::executarPartida(Jogador* jogador1, Jogador* jogador2)
 {
     while(!this->testarVitoria())
