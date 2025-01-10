@@ -1,7 +1,7 @@
 #ifndef LIG4_H
 #define LIG4_H
 
-#include"Jogos.hpp"
+#include "Jogos.hpp"
 
 class Lig4 : public Jogos{
 
@@ -20,11 +20,12 @@ Lig4(int linhas, int colunas);
 virtual bool testarValidade (int linha, int coluna, char valor) override; 
 
 //Metodos Jogada
-void executarJogada (int coluna);
+void executarJogada(int coluna);
+void executarPartida(Jogador* jogador1, Jogador* jogador2);
 
 //Metodos Jogador
 void mudarJogador();
-char jogadorAtual();
+char getJogadorAtual();
 
 //Metodos Checagem do Jogo
 virtual bool testarVitoria() override;

@@ -25,24 +25,14 @@ bool Lig4::testarValidade (int linha, int coluna, char valor){
 
 //Executar Jogada 
 void Lig4::executarJogada(int coluna){
-    
-    coluna--;
-
-    if(coluna < 0 || coluna >= _numColunas){
-        std::cout << "ERRO: Formato Incorreto" << std::endl;
-        return;
-    }
-    else if (testarValidade(-1,coluna,_jogadorAtual)){
         
-        for(int i= _numLinhas-1; i >= 0; i--){
+    for(int i= _numLinhas-1; i >= 0; i--){
 
-            if(tabuleiro[i][coluna] == ' '){
+        if(tabuleiro[i][coluna] == ' '){
 
-                setCelula(i,coluna,_jogadorAtual);     
-                return;
-            }
+            setCelula(i,coluna,this->_jogadorAtual);     
         }
-   }
+    }
 }
 
 void Lig4::mudarJogador(){
@@ -55,7 +45,7 @@ void Lig4::mudarJogador(){
 
 }
 
-char Lig4::jogadorAtual(){
+char Lig4::getJogadorAtual(){
     return _jogadorAtual;
 }
 
@@ -120,4 +110,59 @@ bool Lig4::testarEmpate() const{
     }
 
     return true;
+}
+
+void Lig4::executarPartida(Jogador* jogador1, Jogador* jogador2)
+{
+	std::cout << "Indique as dimensões do tabuleiro:" << std::endl;
+	int numeroLinhas, numeroColunas;
+	std::cout << "Número de linhas: ";
+	std::cin >> numeroLinhas;
+	std::cout << "Número de colunas: ";
+	std::cin >> numeroColunas;
+	std::cout << std::endl;
+
+	Lig4 lig4(numeroLinhas, numeroColunas);
+
+	while(this->testarVitoria())
+	{
+		if(this->getJogadorAtual() == 'A')
+		{
+			std::cout << "Turno de jogador " << jogador1->getApelido() << std::endl;
+		}
+		else
+		{
+			std::cout << "Turno de jogador " << jogador1->getApelido() << std::endl;
+		}
+
+		std::cout << "*São aceitos apenas números dentro da dimensão do tabuleiro (1 a " << numeroColunas << ")*" << std::endl;
+
+		int coluna;
+		std::cin >> coluna;
+
+		if(coluna < 1 || coluna > numeroColunas)
+		{
+			std::cout << "ERRO: formato incorreto" << std::endl;
+			continue;
+		}
+
+		coluna--;
+
+		if(this->testarValidade(-1,coluna,this->getJogadorAtual()))
+		{
+			this->executarJogada(coluna);
+			this->mudarJogador();
+			this->imprimirTabuleiro();
+		}
+   		else
+		{
+			std::cout << "ERRO: jogada inválida" << std::endl;
+			continue;
+   		}
+
+		if(this->testarEmpate())
+		{
+			break;
+		}
+	}
 }

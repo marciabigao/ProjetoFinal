@@ -68,7 +68,8 @@ int main() {
 
             if(jogo == 'R')
             {
-
+                Reversi reversi;
+                reversi.executarPartida(jogador1, jogador2);
             }
             else if(jogo == 'L')
             {

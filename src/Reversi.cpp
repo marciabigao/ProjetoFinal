@@ -592,11 +592,10 @@ void Reversi::inverterSimbolos(int linha, int coluna) {
 void Reversi::executarPartida(Jogador* jogador1, Jogador* jogador2) {
     char simboloJogador1 = 'X';
     char simboloJogador2 = 'O';
+    bool vezJogador = 0;
     
     while(!this->testarVitoria())
     {
-        bool vezJogador = 0;
-
         if(vezJogador == 0)
         {
             std::cout << "Turno de jogador " << jogador1->getApelido() << std::endl;
@@ -614,6 +613,7 @@ void Reversi::executarPartida(Jogador* jogador1, Jogador* jogador2) {
         if(!(1 <= linha) || !(linha <= 8) || !(1 <= coluna) || !(coluna <= 8))
         {
             std::cout << "ERRO: formato incorreto" << std::endl;
+            continue;
         }
 
         linha--;
@@ -626,10 +626,12 @@ void Reversi::executarPartida(Jogador* jogador1, Jogador* jogador2) {
                 this->setCelula(linha, coluna, simboloJogador1);
                 this->inverterSimbolos(linha, coluna);
                 this->imprimirTabuleiro();
+                vezJogador = 1;
             }
             else
             {
                 std::cout << "ERRO: jogada inválida" << std::endl;
+                continue;
             }
         }
         else if(vezJogador == 1)
@@ -639,10 +641,12 @@ void Reversi::executarPartida(Jogador* jogador1, Jogador* jogador2) {
                 this->setCelula(linha, coluna, simboloJogador2);
                 this->inverterSimbolos(linha, coluna);
                 this->imprimirTabuleiro();
+                vezJogador = 0;
             }
             else
             {
                 std::cout << "ERRO: jogada inválida" << std::endl;
+                continue;
             }
         }
     }
