@@ -124,9 +124,9 @@ void Lig4::executarPartida(Jogador* jogador1, Jogador* jogador2)
 
 	Lig4 lig4(numeroLinhas, numeroColunas);
 
-	while(this->testarVitoria())
+	while(!this->testarVitoria())
 	{
-		if(this->getJogadorAtual() == 'A')
+		if(this->getJogadorAtual() == AMARELO)
 		{
 			std::cout << "Turno de jogador " << jogador1->getApelido() << std::endl;
 		}
@@ -151,8 +151,12 @@ void Lig4::executarPartida(Jogador* jogador1, Jogador* jogador2)
 		if(this->testarValidade(-1,coluna,this->getJogadorAtual()))
 		{
 			this->executarJogada(coluna);
-			this->mudarJogador();
 			this->imprimirTabuleiro();
+
+			if(!this->testarVitoria())
+			{
+				this->mudarJogador();
+			}
 		}
    		else
 		{
@@ -161,8 +165,28 @@ void Lig4::executarPartida(Jogador* jogador1, Jogador* jogador2)
    		}
 
 		if(this->testarEmpate())
-		{
+		{ 
 			break;
 		}
+	}
+
+	if(this->testarVitoria())
+	{
+		if(this->getJogadorAtual() == AMARELO)
+		{
+			std::cout << "Vitória de " << jogador1->getApelido() << "!" << std::endl;
+        	jogador1->registrarVitoria('L');
+        	jogador2->registrarDerrota('L');
+		}
+		if(this->getJogadorAtual() == VERMELHO)
+		{
+			std::cout << "Vitória de " << jogador2->getApelido() << "!" << std::endl;
+        	jogador1->registrarDerrota('L');
+        	jogador2->registrarVitoria('L');
+		}
+	}
+	else
+	{
+		std::cout << "Empate!" << std::endl;
 	}
 }
