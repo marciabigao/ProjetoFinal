@@ -9,6 +9,18 @@ Lig4::Lig4(int linhas, int colunas): Jogos(linhas,colunas), _numLinhas(linhas),_
 //Destrutor
 Lig4::~Lig4() {}
 
+int Lig4::getNumLinhas() {
+	return this->_numLinhas;
+}
+
+int Lig4::getNumColunas() {
+	return this->_numColunas;
+}
+
+char Lig4::getJogadorAtual(){
+    return _jogadorAtual;
+}
+
 bool Lig4::testarValidade (int linha, int coluna, char valor){
 
     if(coluna < 0 || coluna >= _numColunas){
@@ -43,10 +55,6 @@ void Lig4::mudarJogador(){
     else 
         _jogadorAtual = AMARELO;
 
-}
-
-char Lig4::getJogadorAtual(){
-    return _jogadorAtual;
 }
 
 //Verifica condicoes de vitoria 
@@ -114,16 +122,6 @@ bool Lig4::testarEmpate() const{
 
 void Lig4::executarPartida(Jogador* jogador1, Jogador* jogador2)
 {
-	std::cout << "Indique as dimensões do tabuleiro:" << std::endl;
-	int numeroLinhas, numeroColunas;
-	std::cout << "Número de linhas: ";
-	std::cin >> numeroLinhas;
-	std::cout << "Número de colunas: ";
-	std::cin >> numeroColunas;
-	std::cout << std::endl;
-
-	Lig4 lig4(numeroLinhas, numeroColunas);
-
 	while(!this->testarVitoria())
 	{
 		if(this->getJogadorAtual() == AMARELO)
@@ -135,12 +133,12 @@ void Lig4::executarPartida(Jogador* jogador1, Jogador* jogador2)
 			std::cout << "Turno de jogador " << jogador1->getApelido() << std::endl;
 		}
 
-		std::cout << "*São aceitos apenas números dentro da dimensão do tabuleiro (1 a " << numeroColunas << ")*" << std::endl;
+		std::cout << "*São aceitos apenas números dentro da dimensão do tabuleiro (1 a " << this->getNumColunas() << ")*" << std::endl;
 
 		int coluna;
 		std::cin >> coluna;
 
-		if(coluna < 1 || coluna > numeroColunas)
+		if(coluna < 1 || coluna > this->getNumColunas())
 		{
 			std::cout << "ERRO: formato incorreto" << std::endl;
 			continue;

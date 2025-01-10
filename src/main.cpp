@@ -73,6 +73,16 @@ int main() {
             }
             else if(jogo == 'L')
             {
+                std::cout << "Indique as dimensões do tabuleiro:" << std::endl;
+	            int numeroLinhas, numeroColunas;
+	            std::cout << "Número de linhas: ";
+	            std::cin >> numeroLinhas;
+	            std::cout << "Número de colunas: ";
+	            std::cin >> numeroColunas;
+	            std::cout << std::endl;
+
+	            Lig4 lig4(numeroLinhas, numeroColunas);
+                lig4.executarPartida(jogador1, jogador2);
 
             }
             else if(jogo == 'V')

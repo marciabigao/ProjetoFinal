@@ -12,24 +12,29 @@ private:
 
 public:
 
-//Construtor e Destrutor
-Lig4(int linhas, int colunas);
-~Lig4();
+    //Construtor e Destrutor
+    Lig4(int linhas, int colunas);
+    ~Lig4();
 
-//Metodo Validade
-virtual bool testarValidade (int linha, int coluna, char valor) override; 
+    //Recuperar parâmetros
+    int getNumLinhas();
+    int getNumColunas();
+    char getJogadorAtual();
 
-//Metodos Jogada
-void executarJogada(int coluna);
-void executarPartida(Jogador* jogador1, Jogador* jogador2);
+    //Metodo Validade
+    virtual bool testarValidade (int linha, int coluna, char valor) override; 
 
-//Metodos Jogador
-void mudarJogador();
-char getJogadorAtual();
+    //Metodos Jogada
+    void executarJogada(int coluna);
+    void executarPartida(Jogador* jogador1, Jogador* jogador2);
 
-//Metodos Checagem do Jogo
-virtual bool testarVitoria() override;
-bool testarEmpate() const;
+    //Metodos Jogador
+    void mudarJogador();
+    char getJogadorAtual();
+
+    //Metodos Checagem do Jogo
+    virtual bool testarVitoria() override;
+    bool testarEmpate() const;
 
 };
 
