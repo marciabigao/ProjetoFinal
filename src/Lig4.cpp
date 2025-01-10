@@ -133,12 +133,12 @@ void Lig4::executarPartida(Jogador* jogador1, Jogador* jogador2)
 			std::cout << "Turno de jogador " << jogador1->getApelido() << std::endl;
 		}
 
-		std::cout << "*São aceitos apenas números dentro da dimensão do tabuleiro (1 a " << this->getNumColunas() << ")*" << std::endl;
+		std::cout << "*São aceitos apenas números dentro da dimensão do tabuleiro (1 a " << this->_numColunas << ")*" << std::endl;
 
 		int coluna;
 		std::cin >> coluna;
 
-		if(coluna < 1 || coluna > this->getNumColunas())
+		if(coluna < 1 || coluna > this->_numColunas)
 		{
 			std::cout << "ERRO: formato incorreto" << std::endl;
 			continue;
