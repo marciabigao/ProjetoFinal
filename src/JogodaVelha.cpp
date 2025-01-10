@@ -2,32 +2,22 @@
 #include "../include/Jogador.hpp"
 #include <iostream>
 
-using namespace std;
-
 //inicializando o tabuleiro e o jogador atual (quem começa é o X)
-JogoDaVelha::JogoDaVelha() : Jogos(3, 3), jogadorAtual('X') {}
+JogoDaVelha::JogoDaVelha() : Jogos(3, 3, 'X') {}
 
 JogoDaVelha::~JogoDaVelha() {}
 
-bool JogoDaVelha::testarValidade(int linha, int coluna, char valor) {
-
-    //note que as linhas e colunas vão da 0 até a 2 (3 espaços)
-
-    if (linha < 0 || linha >= 3 || coluna < 0 || coluna >= 3) {
-
-        cout << "Posicao escolhida está fora do tabuleiro!\n";
-        return EXIT_FAILURE;
-
-    }
+bool JogoDaVelha::testarValidade(int linha, int coluna) {
 
     if (this->tabuleiro[linha][coluna] != ' ') {
 
-        cout << "Posicao ja ocupada!\n";
-        return EXIT_FAILURE;
+        return 0;
 
     }
-
-    return 0;
+    else
+    {
+        return 1;
+    }
 }
 
 bool JogoDaVelha::testarVitoria() {
@@ -106,7 +96,7 @@ void JogoDaVelha::executarPartida(Jogador* jogador1, Jogador* jogador2)
         linha--;
         coluna--;
 
-        if(testarValidade(linha, coluna, this->jogadorAtual))
+        if(testarValidade(linha, coluna))
         {
             this->executarJogada(linha, coluna);
             //imprimir tabuleiro

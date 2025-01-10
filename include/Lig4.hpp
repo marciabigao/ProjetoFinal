@@ -9,7 +9,6 @@ class Lig4 : public Jogos{
 private:
     int _numLinhas;
     int _numColunas;
-    char _jogadorAtual;
 
 public:
 
@@ -23,14 +22,14 @@ public:
     char getJogadorAtual();
 
     //Metodo Validade
-    virtual bool testarValidade (int linha, int coluna, char valor) override; 
+    virtual bool testarValidade (int linha, int coluna) override; 
 
     //Metodos Jogada
-    void executarJogada(int coluna);
+    void executarJogada(int linha, int coluna) override;
     void executarPartida(Jogador* jogador1, Jogador* jogador2);
 
     //Metodos Jogador
-    void mudarJogador();
+    void alternarJogador() override;
     char getJogadorAtual();
 
     //Metodos Checagem do Jogo
