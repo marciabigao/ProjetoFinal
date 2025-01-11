@@ -1,8 +1,9 @@
 #include "../include/Reversi.hpp"
 #include <algorithm>
 #include <iostream>
+#include "../include/Jogador.hpp"
 
-Reversi::Reversi() : Jogos(8, 8) {
+Reversi::Reversi() : Jogos(8, 8, 'X') {
     this->tabuleiro[3][3] = 'X';
     this->tabuleiro[3][4] = 'O';
     this->tabuleiro[4][3] = 'O';
@@ -11,12 +12,12 @@ Reversi::Reversi() : Jogos(8, 8) {
 
 Reversi::~Reversi() {}
 
-bool Reversi::testarValidade(int linha, int coluna, char valor) {
+bool Reversi::testarValidade(int linha, int coluna) {
     bool validadeGlobal = false;
 
     for(int i = 0; i < 8; i++)
     {
-        if(i != coluna && valor == this->tabuleiro[linha][i])
+        if(i != coluna && jogadorAtual == this->tabuleiro[linha][i])
         {
             bool validade = true;
             int pecasOpostas = 0;
@@ -28,7 +29,7 @@ bool Reversi::testarValidade(int linha, int coluna, char valor) {
                     validade = false;
                 }
 
-                if(this->tabuleiro[linha][j] != ' ' && this->tabuleiro[linha][j] != valor)
+                if(this->tabuleiro[linha][j] != ' ' && this->tabuleiro[linha][j] != jogadorAtual)
                 {
                     pecasOpostas++;
                 }
@@ -45,7 +46,7 @@ bool Reversi::testarValidade(int linha, int coluna, char valor) {
 
     for(int i = 0; i < 8; i++)
     {
-        if(i != linha && valor == this->tabuleiro[i][coluna])
+        if(i != linha && (jogadorAtual == this->tabuleiro[i][coluna]))
         {
             bool validade = true;
             int pecasOpostas = 0;
@@ -57,7 +58,7 @@ bool Reversi::testarValidade(int linha, int coluna, char valor) {
                     validade = false;
                 }
 
-                if(this->tabuleiro[j][coluna] != ' ' && this->tabuleiro[j][coluna] != valor)
+                if((this->tabuleiro[j][coluna] != ' ') && (this->tabuleiro[j][coluna] != jogadorAtual))
                 {
                     pecasOpostas++;
                 }
@@ -76,7 +77,7 @@ bool Reversi::testarValidade(int linha, int coluna, char valor) {
     int j = coluna + 1;
     while (i >= 0 && j <= 7)
     {
-        if(this->tabuleiro[i][j] == valor)
+        if(this->tabuleiro[i][j] == jogadorAtual)
         {
             bool validade = true;
             int pecasOpostas = 0;
@@ -90,7 +91,7 @@ bool Reversi::testarValidade(int linha, int coluna, char valor) {
                 {
                     validade = false;
                 }
-                if(this->tabuleiro[a][b] != ' ' && this->tabuleiro[a][b] != valor)
+                if(this->tabuleiro[a][b] != ' ' && this->tabuleiro[a][b] != jogadorAtual)
                 {
                     pecasOpostas++;
                 }
@@ -116,7 +117,7 @@ bool Reversi::testarValidade(int linha, int coluna, char valor) {
     j = coluna + 1;
     while (i <= 7 && j <= 7)
     {
-        if(this->tabuleiro[i][j] == valor)
+        if(this->tabuleiro[i][j] == jogadorAtual)
         {
             bool validade = true;
             int pecasOpostas = 0;
@@ -130,7 +131,7 @@ bool Reversi::testarValidade(int linha, int coluna, char valor) {
                 {
                     validade = false;
                 }
-                if(this->tabuleiro[a][b] != ' ' && this->tabuleiro[a][b] != valor)
+                if(this->tabuleiro[a][b] != ' ' && this->tabuleiro[a][b] != jogadorAtual)
                 {
                     pecasOpostas++;
                 }
@@ -156,7 +157,7 @@ bool Reversi::testarValidade(int linha, int coluna, char valor) {
     j = coluna - 1;
     while (i >= 0 && j >= 0)
     {
-        if(this->tabuleiro[i][j] == valor)
+        if(this->tabuleiro[i][j] == jogadorAtual)
         {
             bool validade = true;
             int pecasOpostas = 0;
@@ -170,7 +171,7 @@ bool Reversi::testarValidade(int linha, int coluna, char valor) {
                 {
                     validade = false;
                 }
-                if(this->tabuleiro[a][b] != ' ' && this->tabuleiro[a][b] != valor)
+                if(this->tabuleiro[a][b] != ' ' && this->tabuleiro[a][b] != jogadorAtual)
                 {
                     pecasOpostas++;
                 }
@@ -195,12 +196,9 @@ bool Reversi::testarValidade(int linha, int coluna, char valor) {
 
     i = linha + 1;
     j = coluna - 1;
-    while (i <= 8 && j >= 0)
+    while (i <= 7 && j >= 0)
     {
-        i++;
-        j--;
-
-        if(this->tabuleiro[i][j] == valor)
+        if(this->tabuleiro[i][j] == jogadorAtual)
         {
             bool validade = true;
             int pecasOpostas = 0;
@@ -214,7 +212,7 @@ bool Reversi::testarValidade(int linha, int coluna, char valor) {
                 {
                     validade = false;
                 }
-                if(this->tabuleiro[a][b] != ' ' && this->tabuleiro[a][b] != valor)
+                if(this->tabuleiro[a][b] != ' ' && this->tabuleiro[a][b] != jogadorAtual)
                 {
                     pecasOpostas++;
                 }
@@ -252,12 +250,7 @@ bool Reversi::testarVitoria() {
     {
         for(int coluna = 0; coluna < 8; coluna++)
         {
-            if(this->testarValidade(linha, coluna, 'X'))
-            {
-                vitoria = false;
-            }
-
-            if(this->testarValidade(linha, coluna, 'O'))
+            if(this->testarValidade(linha, coluna))
             {
                 vitoria = false;
             }
@@ -265,6 +258,23 @@ bool Reversi::testarVitoria() {
     }
 
     return vitoria;
+}
+
+void Reversi::alternarJogador() 
+{
+    if(jogadorAtual == 'X')
+    {
+        jogadorAtual = 'O';
+    }
+    else
+    {
+        jogadorAtual = 'X';
+    }
+}
+
+void Reversi::executarJogada(int linha, int coluna)
+{
+    this->setCelula(linha, coluna, jogadorAtual);
 }
 
 char Reversi::declararVencedor() {
@@ -299,7 +309,6 @@ char Reversi::declararVencedor() {
         return 'E';
     }
 }
-
 
 void Reversi::inverterSimbolos(int linha, int coluna) {
 
@@ -587,4 +596,103 @@ void Reversi::inverterSimbolos(int linha, int coluna) {
         j--;
 
     }
+}
+
+void Reversi::executarPartida(Jogador* jogador1, Jogador* jogador2) {  
+    while(!this->testarVitoria())
+    {
+        if(this->jogadorAtual == 'X')
+        {
+            std::cout << "Turno de jogador " << jogador1->getApelido() << std::endl;
+        }
+        else 
+        {
+            std::cout << "Turno de jogador " << jogador2->getApelido() << std::endl;
+        }
+
+        std::cout << "*São aceitos apenas números dentro da dimensão do tabuleiro (1 a 8)*" << std::endl;
+
+        int linha, coluna;
+        std::cin >> linha >> coluna;
+
+        if(linha < 1 || linha > 8 || coluna < 1 || coluna > 8)
+        {
+            std::cout << "ERRO: formato incorreto" << std::endl;
+            continue;
+        }
+
+        linha--;
+        coluna--;
+
+        if(!this->existemJogadasValidas())
+        {
+            std::string apelido;
+            if(jogadorAtual == 'X')
+            {
+                apelido = jogador1->getApelido();
+            }
+            else
+            {
+                apelido = jogador2->getApelido();
+            }
+            
+            std::cout << "Não existem jogadas válidas para " << apelido << "." << std::endl;
+            this->alternarJogador();
+            continue;
+        }
+
+        if(this->testarValidade(linha, coluna))
+        {
+            this->executarJogada(linha,coluna);
+            this->inverterSimbolos(linha, coluna);
+            this->imprimirTabuleiro();
+            this->alternarJogador();
+        }
+        else
+        {
+            std::cout << "ERRO: jogada inválida" << std::endl;
+            continue;
+        }
+    }
+
+    char vitoria = this->declararVencedor();
+
+    if(vitoria == 'X')
+    {
+        std::cout << "Vitória de " << jogador1->getApelido() << "!" << std::endl;
+        jogador1->registrarVitoria('R');
+        jogador2->registrarDerrota('R');
+    }
+    else if(vitoria == 'O')
+    {
+        std::cout << "Vitória de " << jogador2->getApelido() << "!" << std::endl;
+        jogador1->registrarDerrota('R');
+        jogador2->registrarVitoria('R');
+    }
+    else if(vitoria == 'E')
+    {
+        std::cout << "Empate!" << std::endl;
+    }
+
+    jogador1->atualizaEstatisticas();
+    jogador2->atualizaEstatisticas();
+}
+
+bool Reversi::existemJogadasValidas()
+{
+    bool validade = false;
+
+    for (int linha = 0; linha < 8; linha++) {
+        for (int coluna = 0; coluna < 8; coluna++) {
+            if (this->testarValidade(linha, coluna)) {
+                validade = true;
+                break;
+            }
+        }
+        if (validade) {
+            break;
+        }
+    }
+
+    return validade;
 }

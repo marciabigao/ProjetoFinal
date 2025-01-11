@@ -1,7 +1,8 @@
 #include "../include/Jogos.hpp"
 
-Jogos::Jogos(int linhas, int colunas){
+Jogos::Jogos(int linhas, int colunas, char jogadorAtual){
     tabuleiro.resize(linhas, std::vector<char>(colunas, ' '));
+    this->jogadorAtual = jogadorAtual;
 }
 
 Jogos::~Jogos() {}

@@ -11,12 +11,16 @@ class Reversi : public Jogos {
     ~Reversi();
 
     //Redefinição métodos virtuais
-    bool testarValidade (int linha, int coluna, char valor) override;
+    bool testarValidade (int linha, int coluna) override;
     bool testarVitoria() override;
+    void executarPartida(Jogador* jogador1, Jogador* jogador2) override;
+    void alternarJogador() override;
+    void executarJogada(int linha, int coluna) override;
 
     //Métodos exclusivos
     char declararVencedor();
     void inverterSimbolos(int linha, int coluna);
+    bool existemJogadasValidas();
 };
 
 #endif

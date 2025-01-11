@@ -3,14 +3,16 @@
 
 #include <iostream>
 #include <vector>
+#include "Jogador.hpp"
 
 class Jogos {
 protected:
     std::vector<std::vector<char>> tabuleiro; 
+    char jogadorAtual;
 
 public:
     // Construtor e Destrutor
-    Jogos(int linhas, int colunas);
+    Jogos(int linhas, int colunas, char jogadorAtual);
     virtual ~Jogos();
     
     //Tabuleiro
@@ -24,8 +26,11 @@ public:
     void setCelula(int linha, int coluna, char valor);
     
     //Metodos Virtuais 
-    virtual bool testarValidade (int linha, int coluna, char valor) = 0;
+    virtual bool testarValidade (int linha, int colunaS) = 0;
     virtual bool testarVitoria() = 0;
+    virtual void executarJogada(int linha, int coluna) = 0;
+    virtual void alternarJogador() = 0;
+    virtual void executarPartida(Jogador* jogador1, Jogador* jogador2) = 0;
 
 };
 
