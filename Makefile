@@ -22,7 +22,7 @@ $(OBJ_DIR)/jogodavelha.o: $(INCLUDE_DIR)/Jogador.hpp $(INCLUDE_DIR)/Jogos.hpp $(
 $(OBJ_DIR)/lig4.o: $(INCLUDE_DIR)/Jogador.hpp $(INCLUDE_DIR)/Jogos.hpp $(INCLUDE_DIR)/Lig4.hpp $(SRC_DIR)/Lig4.cpp
 	$(CC) $(CFLAGS) -c $(SRC_DIR)/Lig4.cpp -I$(INCLUDE_DIR) -o $(OBJ_DIR)/lig4.o
 
-$(OBJ_DIR)/main.o: $(INCLUDE_DIR)/Jogador.hpp $(INCLUDE_DIR)/Reversi.hpp $(INCLUDE_DIR)/JogodaVelha.hpp $(INCLUDE_DIR)/lig4.hpp $(SRC_DIR)/main.cpp
+$(OBJ_DIR)/main.o: $(INCLUDE_DIR)/Jogador.hpp $(INCLUDE_DIR)/Reversi.hpp $(INCLUDE_DIR)/JogodaVelha.hpp $(INCLUDE_DIR)/Lig4.hpp $(SRC_DIR)/main.cpp
 	$(CC) $(CFLAGS) -c $(SRC_DIR)/main.cpp -I$(INCLUDE_DIR) -o $(OBJ_DIR)/main.o
 
 main: $(OBJ_DIR)/main.o $(OBJ_DIR)/jogador.o $(OBJ_DIR)/jogos.o $(OBJ_DIR)/reversi.o $(OBJ_DIR)/jogodavelha.o $(OBJ_DIR)/lig4.o 
