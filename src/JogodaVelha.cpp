@@ -99,7 +99,7 @@ void JogoDaVelha::executarPartida(Jogador* jogador1, Jogador* jogador2)
         if(testarValidade(linha, coluna))
         {
             this->executarJogada(linha, coluna);
-            //imprimir tabuleiro
+            this->imprimirTabuleiro();
 
             if(!this->testarVitoria())
 			{

@@ -43,7 +43,8 @@ void Lig4::executarJogada(int linha, int coluna){
 
         if(tabuleiro[i][coluna] == ' '){
 
-            setCelula(i,coluna,this->jogadorAtual);     
+            setCelula(i,coluna,this->jogadorAtual);  
+            break;   
         }
     }
 }

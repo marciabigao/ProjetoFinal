@@ -80,13 +80,10 @@ void Jogador::cadastraJogador(std::string apelido)
 
 void Jogador::removeJogador(std::string apelido)
 {
-    if (this != nullptr)
-    {
         auto iterador = jogadores.find(apelido);
         delete iterador->second;
         jogadores.erase(iterador);
         std::cout << "Jogador " << apelido << " removido com sucesso" <<std::endl;
-    }
 }
 
 void Jogador::atualizaEstatisticas()

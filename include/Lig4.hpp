@@ -30,7 +30,6 @@ public:
 
     //Metodos Jogador
     void alternarJogador() override;
-    char getJogadorAtual();
 
     //Metodos Checagem do Jogo
     virtual bool testarVitoria() override;

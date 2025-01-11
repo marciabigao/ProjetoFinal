@@ -46,7 +46,7 @@ bool Reversi::testarValidade(int linha, int coluna) {
 
     for(int i = 0; i < 8; i++)
     {
-        if(i != linha && jogadorAtual == this->tabuleiro[i][coluna])
+        if(i != linha && (jogadorAtual == this->tabuleiro[i][coluna]))
         {
             bool validade = true;
             int pecasOpostas = 0;
@@ -58,7 +58,7 @@ bool Reversi::testarValidade(int linha, int coluna) {
                     validade = false;
                 }
 
-                if(this->tabuleiro[j][coluna] != ' ' && this->tabuleiro[j][coluna] != jogadorAtual)
+                if((this->tabuleiro[j][coluna] != ' ') && (this->tabuleiro[j][coluna] != jogadorAtual))
                 {
                     pecasOpostas++;
                 }
@@ -196,11 +196,8 @@ bool Reversi::testarValidade(int linha, int coluna) {
 
     i = linha + 1;
     j = coluna - 1;
-    while (i <= 8 && j >= 0)
+    while (i <= 7 && j >= 0)
     {
-        i++;
-        j--;
-
         if(this->tabuleiro[i][j] == jogadorAtual)
         {
             bool validade = true;
@@ -682,14 +679,17 @@ bool Reversi::existemJogadasValidas()
 {
     bool validade = false;
 
-    for(int linha = 0; linha < 8; linha++)
-    {
-        for(int coluna = 0; coluna < 8; coluna++)
-        {
-            if(this->testarValidade(linha, coluna))
-            {
-                validade = validade || true;
+    for (int linha = 0; linha < 8; linha++) {
+        for (int coluna = 0; coluna < 8; coluna++) {
+            if (this->testarValidade(linha, coluna)) {
+                validade = true;
+                break;
             }
         }
+        if (validade) {
+            break;
+        }
     }
+
+    return validade;
 }

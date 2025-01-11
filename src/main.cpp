@@ -6,10 +6,19 @@
 #include <string>
 #include <sstream>
 
+bool temMaisdeUmaPalavra(std::string string);
+
 int main() {
 
     Jogador::leEstatisticas();
     std::string operacao;
+
+    std::cout << "Escolha entre os comandos abaixo:" << std::endl;
+    std::cout << "CJ <Apelido> <Nome>: Cadastrar Jogador" << std::endl;
+    std::cout << "RJ <Apelido>: Remover Jogador" << std::endl;
+    std::cout << "LJ <N/A>: Listar Jogadores (por nome ou apelido)" << std::endl;
+    std::cout << "EP <R/L/V> <Apelido Jogador 1> <Apelido Jogador 2>: Executar Partida" << std::endl;
+    std::cout << "FS: Finalizar Sistema" << std::endl;
 
     do
     {
@@ -18,14 +27,15 @@ int main() {
         if(operacao == "CJ")
         {
             std::string apelido, nome;
-            std::getline(std::cin, apelido);
+            std::cin >> apelido;
             std::getline(std::cin, nome);
 
+            /*
             if(temMaisdeUmaPalavra(apelido))
             {
                 std::cout << "ERRO: dados incorretos" << std::endl;
             }
-
+            */
             Jogador* novoJogador = new Jogador(nome, apelido);
             novoJogador->cadastraJogador(apelido);
         }
@@ -42,6 +52,11 @@ int main() {
             char opcaoListagem;
             std::cin >> opcaoListagem;
 
+            if(opcaoListagem != 'A' && opcaoListagem != 'N')
+            {
+                std::cout << "Erro: entrada inválida" << std::endl; 
+            }
+
             Jogador::imprimeListagem(opcaoListagem);
         }
         else if(operacao == "EP")
@@ -52,16 +67,18 @@ int main() {
 
             if(jogo != 'R' && jogo != 'L' && jogo != 'V')
             {
-                std::cout << "ERRO: dados incorretos" << std::endl;
+                std::cout << "ERRO: dados incorretos1" << std::endl;
             }
 
-            std::getline(std::cin, apelidoJogador1);
-            std::getline(std::cin, apelidoJogador2);
+            std::cin >> apelidoJogador1;
+            std::cin >> apelidoJogador2;
 
+            /*
             if(temMaisdeUmaPalavra(apelidoJogador1) || temMaisdeUmaPalavra(apelidoJogador2))
             {
                 std::cout << "ERRO: dados incorretos" << std::endl;
             }
+            */
 
             Jogador* jogador1 = Jogador::buscaJogador(apelidoJogador1);
             Jogador* jogador2 = Jogador::buscaJogador(apelidoJogador2);
