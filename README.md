@@ -56,6 +56,11 @@ Esse método verifica se a jogada é válida e, se for, modifica o tabuleiro con
 --método imprimirTabuleiro
 Esse método também foi sobreescrito. Ele faz um loop e verifica se cada posição está vazia. Se estiver, imprime um ponto seguido de um espaço. Se não estiver, imprime o caractére seguido de espaço.
 
+MÁRCIA
+reversi:
+A primeira dificuldade foi em aprender o jogo, porque ele é complexo e ninguém do grupo o conhecia. A refedinição dos métodos virtuais foi bem tranquila, mas oq ue me deu mais trabalho em toda a implementação foi a função testarValidade, porque o tabuleiro do jogo é muito grande e você tem que fazer verificações nas linhas, colunas e diagonais, averiguando se nesses sentidos tem uma peça da mesma cor da que você está querendo colocar, depois ver se não existem espaços vazios entre ela e se existe pelo menos uma peça da outra cor. Mas, depois que essa função foi resolvida, a sua lógia pode ser aplicada em outras (como o verificar vitoria e o inverter simbolos), facilitando o processo. Tive que adicionar tres metodos (inverterSimbolos, declararVencedor e existeJogadaValida) que eram necessárias para as regras do jogo.
 
+fluxo:
+A maior dificuldade foi, primeiro, entender o código que o pessoal tinha feito. Cada jogo é diferente e cada um tem a sua abordagem, então esse foi um processo. O fluxo em si foi muito tranquilo, mas o que consumiu tempo foi padronizar as implementações dos jogos. Por exemplo, no meio do caminho percebi que os jogos tinham implementados métodos com a mesma finalidade e que não estavam na classe abstrata, então tive que mudar isso. Vi que alguns métodos estavam fazendo coisas que eram do fluxo, e tive que mudar também. Vi que um dos jogos estava diferente quanto à implementação das vezes nos jogadores e dessa alternância, então tive que mudar. A maior dificuldade foram amis esses conflitos mesmo, o resto foi bem tranquilo.
 
 
