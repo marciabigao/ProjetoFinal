@@ -33,7 +33,6 @@ int main() {
             
             Jogador* novoJogador = new Jogador(nome, apelido);
             novoJogador->cadastraJogador(apelido);
-            novoJogador->atualizaEstatisticas();
         }
         else if(operacao == "RJ")
         {
@@ -42,7 +41,6 @@ int main() {
 
             Jogador* JogadorASerRemovido = Jogador::buscaJogador(apelido);
             JogadorASerRemovido->removeJogador(apelido);
-            JogadorASerRemovido->atualizaEstatisticas();
         }
         else if(operacao == "LJ")
         {
@@ -104,6 +102,7 @@ int main() {
         else if(operacao == "FS")
         {
             Jogador::apagaMap();
+            Jogador::atualizaEstatisticas();
         }
 
     } while (operacao != "FS");
