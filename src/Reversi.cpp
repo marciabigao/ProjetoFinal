@@ -673,6 +673,9 @@ void Reversi::executarPartida(Jogador* jogador1, Jogador* jogador2) {
     {
         std::cout << "Empate!" << std::endl;
     }
+
+    jogador1->atualizaEstatisticas();
+    jogador2->atualizaEstatisticas();
 }
 
 bool Reversi::existemJogadasValidas()

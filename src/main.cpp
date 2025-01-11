@@ -29,15 +29,11 @@ int main() {
             std::string apelido, nome;
             std::cin >> apelido;
             std::getline(std::cin, nome);
-
-            /*
-            if(temMaisdeUmaPalavra(apelido))
-            {
-                std::cout << "ERRO: dados incorretos" << std::endl;
-            }
-            */
+            nome.erase(0,1);
+            
             Jogador* novoJogador = new Jogador(nome, apelido);
             novoJogador->cadastraJogador(apelido);
+            novoJogador->atualizaEstatisticas();
         }
         else if(operacao == "RJ")
         {
@@ -46,6 +42,7 @@ int main() {
 
             Jogador* JogadorASerRemovido = Jogador::buscaJogador(apelido);
             JogadorASerRemovido->removeJogador(apelido);
+            JogadorASerRemovido->atualizaEstatisticas();
         }
         else if(operacao == "LJ")
         {
@@ -67,18 +64,11 @@ int main() {
 
             if(jogo != 'R' && jogo != 'L' && jogo != 'V')
             {
-                std::cout << "ERRO: dados incorretos1" << std::endl;
+                std::cout << "ERRO: dados incorretos" << std::endl;
             }
 
             std::cin >> apelidoJogador1;
             std::cin >> apelidoJogador2;
-
-            /*
-            if(temMaisdeUmaPalavra(apelidoJogador1) || temMaisdeUmaPalavra(apelidoJogador2))
-            {
-                std::cout << "ERRO: dados incorretos" << std::endl;
-            }
-            */
 
             Jogador* jogador1 = Jogador::buscaJogador(apelidoJogador1);
             Jogador* jogador2 = Jogador::buscaJogador(apelidoJogador2);
