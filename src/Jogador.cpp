@@ -60,8 +60,8 @@ Jogador::Jogador(std::string nome, std::string apelido, int vr, int dr,
          nomeJogador(nome), apelidoJogador(apelido),
          vitoriasReversi(vr), derrotasReversi(dr),
          vitoriasLig(vl), derrotasLig(dl),
-         vitoriasJVelha(vjv), derrotasJVelha(djv) {}        
-
+         vitoriasJVelha(vjv), derrotasJVelha(djv) {}       
+         
 //A memória para o jogador a ser cadastrado deve ser alocada antes
 //de se chamar o método, utilizando new 
 void Jogador::cadastraJogador(std::string apelido)
@@ -70,6 +70,8 @@ void Jogador::cadastraJogador(std::string apelido)
     if(jogadores.find(apelido) != jogadores.end())
     {
         std::cout << "ERRO: jogador repetido" << std::endl;
+        Jogador* jogadorRepetido = this;
+        delete jogadorRepetido;
     }
     else
     {
