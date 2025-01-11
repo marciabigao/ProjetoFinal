@@ -40,7 +40,10 @@ int main() {
             std::cin >> apelido;
 
             Jogador* JogadorASerRemovido = Jogador::buscaJogador(apelido);
-            JogadorASerRemovido->removeJogador(apelido);
+            if(JogadorASerRemovido != nullptr)
+            {
+                JogadorASerRemovido->removeJogador(apelido);
+            }
         }
         else if(operacao == "LJ")
         {
