@@ -73,39 +73,40 @@ int main() {
 
             Jogador* jogador1 = Jogador::buscaJogador(apelidoJogador1);
             Jogador* jogador2 = Jogador::buscaJogador(apelidoJogador2);
+            if((jogador1 != nullptr) && (jogador2 != nullptr))
+            {    if(jogo == 'R')
+                {
+                    std::cout << "Reversi" << std::endl;
+                    Reversi reversi;
+                    reversi.executarPartida(jogador1, jogador2);
+                }
+                else if(jogo == 'L')
+                {
+                    std::cout << "Lig4" << std::endl;
+                    std::cout << "Indique as dimensões do tabuleiro:" << std::endl;
+	                int numeroLinhas, numeroColunas;
+	                std::cout << "Número de linhas: ";
+	                std::cin >> numeroLinhas;
+	                std::cout << "Número de colunas: ";
+	                std::cin >> numeroColunas;
+	                std::cout << std::endl;
 
-            if(jogo == 'R')
-            {
-                std::cout << "Reversi" << std::endl;
-                Reversi reversi;
-                reversi.executarPartida(jogador1, jogador2);
-            }
-            else if(jogo == 'L')
-            {
-                std::cout << "Lig4" << std::endl;
-                std::cout << "Indique as dimensões do tabuleiro:" << std::endl;
-	            int numeroLinhas, numeroColunas;
-	            std::cout << "Número de linhas: ";
-	            std::cin >> numeroLinhas;
-	            std::cout << "Número de colunas: ";
-	            std::cin >> numeroColunas;
-	            std::cout << std::endl;
+	                Lig4 lig4(numeroLinhas, numeroColunas);
+                    lig4.executarPartida(jogador1, jogador2);
 
-	            Lig4 lig4(numeroLinhas, numeroColunas);
-                lig4.executarPartida(jogador1, jogador2);
-
-            }
-            else if(jogo == 'V')
-            {
-                std::cout << "Jogo da Velha" << std::endl;
-                JogoDaVelha jogoDaVelha;
-                jogoDaVelha.executarPartida(jogador1, jogador2);
+                }
+                else if(jogo == 'V')
+                {
+                    std::cout << "Jogo da Velha" << std::endl;
+                    JogoDaVelha jogoDaVelha;
+                    jogoDaVelha.executarPartida(jogador1, jogador2);
+                }
             }
         }
         else if(operacao == "FS")
         {
-            Jogador::apagaMap();
             Jogador::atualizaEstatisticas();
+            Jogador::apagaMap();
         }
 
     } while (operacao != "FS");
