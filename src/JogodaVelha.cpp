@@ -82,7 +82,10 @@ void JogoDaVelha::executarPartida(Jogador* jogador1, Jogador* jogador2)
             std::cout << "Turno de jogador " << jogador2->getApelido() << std::endl;
         }
 
+        std::cout << "Insira a linha e a coluna da sua jogada: "
         std::cout << "*São aceitos apenas números dentro da dimensão do tabuleiro (1 a 3)*" << std::endl;
+
+        
 
         int linha, coluna;
         std::cin >> linha >> coluna;
