@@ -30,3 +30,6 @@ main: $(OBJ_DIR)/main.o $(OBJ_DIR)/jogador.o $(OBJ_DIR)/jogos.o $(OBJ_DIR)/rever
 
 clean:
 	rm -f main $(OBJ_DIR)/*.o
+
+run: main
+	./main
