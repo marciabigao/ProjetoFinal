@@ -1,4 +1,5 @@
 #include "Jogador.hpp"
+#include "../include/Erros.hpp"
 #include <iostream>
 #include <fstream>
 #include <sstream>
@@ -6,6 +7,8 @@
 #include <map>
 #include <vector>
 #include <algorithm>
+
+//Funcoes
 
 std::map<std::string, Jogador*> Jogador::jogadores;
 
@@ -69,9 +72,9 @@ void Jogador::cadastraJogador(std::string apelido)
     //se o apeldio buscado não estiver no map, retorna end (próxima posição vazia)
     if(jogadores.find(apelido) != jogadores.end())
     {
-        std::cout << "ERRO: jogador repetido" << std::endl;
         Jogador* jogadorRepetido = this;
         delete jogadorRepetido;
+        throw ExcecaoJogadorRepetido();
     }
     else
     {
@@ -209,6 +212,7 @@ Jogador* Jogador::buscaJogador(std::string apelido)
     {
         std::cout << "ERRO: jogador " << apelido << " inexistente" << std::endl;
         return nullptr;
+       //ADICIONAR EXCECAO
     }
     else
     {

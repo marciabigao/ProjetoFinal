@@ -1,6 +1,7 @@
 #include "../include/JogodaVelha.hpp"
 #include "../include/Jogador.hpp"
 #include <iostream>
+#include <exception>
 
 //inicializando o tabuleiro e o jogador atual (quem começa é o X)
 JogoDaVelha::JogoDaVelha() : Jogos(3, 3, 'X') {}
@@ -71,73 +72,90 @@ void JogoDaVelha::alternarJogador() {
 
 void JogoDaVelha::executarPartida(Jogador* jogador1, Jogador* jogador2)
 {
-    while(!this->testarVitoria())
+    bool excecao = true;
+    while(excecao)
     {
-        if(this->jogadorAtual == 'X')
+        try
         {
-            std::cout << "Turno de jogador " << jogador1->getApelido() << std::endl;
+            while(!this->testarVitoria())
+            {
+                if(this->jogadorAtual == 'X')
+                {
+                    std::cout << "Turno de jogador " << jogador1->getApelido() << std::endl;
+                }
+                else
+                {
+                    std::cout << "Turno de jogador " << jogador2->getApelido() << std::endl;
+                }
+
+                std::cout << "Insira a linha e a coluna da sua jogada: " << std::endl;
+                std::cout << "*São aceitos apenas números dentro da dimensão do tabuleiro (1 a 3)*" << std::endl;
+
+                
+
+                int linha, coluna;
+                std::cin >> linha >> coluna;
+
+                if(linha < 1 || linha > 3 || coluna < 1 || coluna > 3)
+                {
+                    throw std::invalid_argument("ERRO: formato incorreto");
+                }
+
+                linha--;
+                coluna--;
+
+                if(testarValidade(linha, coluna))
+                {
+                    this->executarJogada(linha, coluna);
+                    this->imprimirTabuleiro();
+
+                    if(!this->testarVitoria())
+                    {
+                        this->alternarJogador();
+                    }
+                }
+                else
+                {
+                    throw std::invalid_argument("ERRO: jogada inválida");
+                }
+
+                if(this->testarEmpate())
+                { 
+                    break;
+                }
+            }
+
+            if(this->testarVitoria())
+            {
+                if(this->jogadorAtual == 'X')
+                {
+                    std::cout << "Vitória de " << jogador1->getApelido() << "!" << std::endl;
+                    jogador1->registrarVitoria('V');
+                    jogador2->registrarDerrota('V');
+                }
+                if(this->jogadorAtual == 'O')
+                {
+                    std::cout << "Vitória de " << jogador2->getApelido() << "!" << std::endl;
+                    jogador1->registrarDerrota('V');
+                    jogador2->registrarVitoria('V');
+                }
+            }
+            else
+            {
+                std::cout << "Empate!" << std::endl;
+            }
+
+            excecao = false;
         }
-        else
+        catch(const std::invalid_argument& e)
         {
-            std::cout << "Turno de jogador " << jogador2->getApelido() << std::endl;
+            std::cout << e.what() << std::endl;
         }
-
-        std::cout << "Insira a linha e a coluna da sua jogada: " << std::endl;
-        std::cout << "*São aceitos apenas números dentro da dimensão do tabuleiro (1 a 3)*" << std::endl;
-
+        /*
+        catch(ERRO REGISTRAR VITORIAS/DERROTAS)
+        {
         
-
-        int linha, coluna;
-        std::cin >> linha >> coluna;
-
-        if(linha < 1 || linha > 3 || coluna < 1 || coluna > 3)
-        {
-            std::cout << "ERRO: formato incorreto" << std::endl;
-            continue;
         }
-
-        linha--;
-        coluna--;
-
-        if(testarValidade(linha, coluna))
-        {
-            this->executarJogada(linha, coluna);
-            this->imprimirTabuleiro();
-
-            if(!this->testarVitoria())
-			{
-				this->alternarJogador();
-			}
-        }
-        else
-        {
-            std::cout << "ERRO: jogada inválida" << std::endl;
-			continue;
-        }
-
-        if(this->testarEmpate())
-		{ 
-			break;
-		}
+        */
     }
-
-    if(this->testarVitoria())
-	{
-		if(this->jogadorAtual == 'X')
-		{
-			std::cout << "Vitória de " << jogador1->getApelido() << "!" << std::endl;
-        	jogador1->registrarVitoria('V');
-        	jogador2->registrarDerrota('V');
-		}
-		if(this->jogadorAtual == 'O')
-		{
-			std::cout << "Vitória de " << jogador2->getApelido() << "!" << std::endl;
-        	jogador1->registrarDerrota('V');
-        	jogador2->registrarVitoria('V');
-		}
-	}
-	else
-	{
-		std::cout << "Empate!" << std::endl;
-	}
 }
