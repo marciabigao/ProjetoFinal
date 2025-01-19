@@ -2,6 +2,8 @@
 #include <algorithm>
 #include <iostream>
 #include "../include/Jogador.hpp"
+#include <exception>
+#include "../include/Erros.hpp"
 
 Reversi::Reversi() : Jogos(8, 8, 'X') {
     this->tabuleiro[3][3] = 'X';
@@ -274,7 +276,13 @@ void Reversi::alternarJogador()
 
 void Reversi::executarJogada(int linha, int coluna)
 {
-    this->setCelula(linha, coluna, jogadorAtual);
+    //try
+    //{
+        this->setCelula(linha, coluna, jogadorAtual);
+    //}
+    //catch()
+    //{
+    //}
 }
 
 char Reversi::declararVencedor() {
@@ -599,80 +607,102 @@ void Reversi::inverterSimbolos(int linha, int coluna) {
 }
 
 void Reversi::executarPartida(Jogador* jogador1, Jogador* jogador2) {  
-    while(!this->testarVitoria())
+    bool excecao = true;
+    while(excecao)
     {
-        if(this->jogadorAtual == 'X')
+        try
         {
-            std::cout << "Turno de jogador " << jogador1->getApelido() << std::endl;
-        }
-        else 
-        {
-            std::cout << "Turno de jogador " << jogador2->getApelido() << std::endl;
-        }
-
-        std::cout << "*São aceitos apenas números dentro da dimensão do tabuleiro (1 a 8)*" << std::endl;
-
-        int linha, coluna;
-        std::cin >> linha >> coluna;
-
-        if(linha < 1 || linha > 8 || coluna < 1 || coluna > 8)
-        {
-            std::cout << "ERRO: formato incorreto" << std::endl;
-            continue;
-        }
-
-        linha--;
-        coluna--;
-
-        if(!this->existemJogadasValidas())
-        {
-            std::string apelido;
-            if(jogadorAtual == 'X')
+            while(!this->testarVitoria())
             {
-                apelido = jogador1->getApelido();
+                if(this->jogadorAtual == 'X')
+                {
+                    std::cout << "Turno de jogador " << jogador1->getApelido() << std::endl;
+                }
+                else 
+                {
+                    std::cout << "Turno de jogador " << jogador2->getApelido() << std::endl;
+                }
+
+                std::cout << "*São aceitos apenas números dentro da dimensão do tabuleiro (1 a 8)*" << std::endl;
+
+                int linha, coluna;
+                std::cin >> linha >> coluna;
+
+                if(linha < 1 || linha > 8 || coluna < 1 || coluna > 8)
+                {
+                    throw std::invalid_argument("ERRO: formato incorreto");
+                }
+
+                linha--;
+                coluna--;
+
+                if(!this->existemJogadasValidas())
+                {
+                    std::string apelido;
+                    if(jogadorAtual == 'X')
+                    {
+                        apelido = jogador1->getApelido();
+                    }
+                    else
+                    {
+                        apelido = jogador2->getApelido();
+                    }
+            
+                    throw ExcecaoNaoExistemJogadasValidas(apelido);
+                }
+
+                if(this->testarValidade(linha, coluna))
+                {
+                    this->executarJogada(linha,coluna);
+                    this->inverterSimbolos(linha, coluna);
+                    this->imprimirTabuleiro();
+                    this->alternarJogador();
+                }
+                else
+                {
+                    throw std::invalid_argument("ERRO: jogada inválida");
+                }
             }
-            else
+    
+
+            char vitoria = this->declararVencedor();
+
+            if(vitoria == 'X')
             {
-                apelido = jogador2->getApelido();
+                std::cout << "Vitória de " << jogador1->getApelido() << "!" << std::endl;
+                jogador1->registrarVitoria('R');
+                jogador2->registrarDerrota('R');
+            }
+            else if(vitoria == 'O')
+            {
+                std::cout << "Vitória de " << jogador2->getApelido() << "!" << std::endl;
+                jogador1->registrarDerrota('R');
+                jogador2->registrarVitoria('R');
+            }
+            else if(vitoria == 'E')
+            {
+                std::cout << "Empate!" << std::endl;
             }
             
-            std::cout << "Não existem jogadas válidas para " << apelido << "." << std::endl;
-            this->alternarJogador();
-            continue;
+            excecao = false;
         }
-
-        if(this->testarValidade(linha, coluna))
+        catch(const std::invalid_argument& e)
         {
-            this->executarJogada(linha,coluna);
-            this->inverterSimbolos(linha, coluna);
-            this->imprimirTabuleiro();
+            std::cout << e.what() << std::endl;
+        }
+        catch(const ExcecaoNaoExistemJogadasValidas& e)
+        {
+            std::cout << e.what() << std::endl;
             this->alternarJogador();
         }
-        else
+        /*
+        catch(ERRO JOGO INVALIDO EM REGISTRAR VITORIA/DERROTA)
         {
-            std::cout << "ERRO: jogada inválida" << std::endl;
-            continue;
+
         }
+        */
     }
-
-    char vitoria = this->declararVencedor();
-
-    if(vitoria == 'X')
-    {
-        std::cout << "Vitória de " << jogador1->getApelido() << "!" << std::endl;
-        jogador1->registrarVitoria('R');
-        jogador2->registrarDerrota('R');
-    }
-    else if(vitoria == 'O')
-    {
-        std::cout << "Vitória de " << jogador2->getApelido() << "!" << std::endl;
-        jogador1->registrarDerrota('R');
-        jogador2->registrarVitoria('R');
-    }
-    else if(vitoria == 'E')
-    {
-        std::cout << "Empate!" << std::endl;
-    }
+    
 }
 
 bool Reversi::existemJogadasValidas()
