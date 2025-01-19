@@ -85,10 +85,10 @@ void Jogador::cadastraJogador(std::string apelido)
 
 void Jogador::removeJogador(std::string apelido)
 {
-        auto iterador = jogadores.find(apelido);
-        delete iterador->second;
-        jogadores.erase(iterador);
-        std::cout << "Jogador " << apelido << " removido com sucesso" <<std::endl;
+    auto iterador = jogadores.find(apelido);
+    delete iterador->second;
+    jogadores.erase(iterador);
+    std::cout << "Jogador " << apelido << " removido com sucesso" << std::endl;
 }
 
 void Jogador::atualizaEstatisticas()
@@ -97,8 +97,8 @@ void Jogador::atualizaEstatisticas()
     char delimitador = '|';
     if(!saida.is_open())
     {
-        std::cout << "ERRO: falha ao abrir o arquivo de saída" << std::endl;
-        return;
+        saida.close();
+        throw std::ios_base::failure("ERRO: falha ao abrir o arquivo de saída");
     }
 
     for(std::pair<const std::string, Jogador*>& player : jogadores)
@@ -119,8 +119,8 @@ void Jogador::leEstatisticas()
     std::ifstream entrada("estatisticas.txt", std::fstream :: in);
     if(!entrada.is_open())
     {
-        std::cout << "ERRO: falha ao abrir o arquivo de entrada" << std::endl;
-        return;
+        entrada.close();
+        throw std::ios_base::failure("ERRO: falha ao abrir o arquivo de entrada");
     }
     std::string dados;
     std::string nome, apelido;
@@ -131,21 +131,21 @@ void Jogador::leEstatisticas()
         std::istringstream infoLida(dados);
         if(!(std::getline(infoLida, nome, delimitador)))
         {
-            std::cout << "ERRO: nome não foi lido com sucesso" << std::endl;
-            return;
+            entrada.close();
+            throw std::invalid_argument("ERRO: nome não foi lido com sucesso");
         }
         if(!(std::getline(infoLida, apelido, delimitador)))
         {
-            std::cout << "ERRO: apelido não foi lido com sucesso" << std::endl;
-            return;
+            entrada.close();
+            throw std::invalid_argument("ERRO: apelido não foi lido com sucesso");
         }
         if(!(infoLida >> vr >> dr >> vl >> dl >> vjv >> djv))
         {
-            std::cout << "ERRO: dados numéricos não foram lidos com sucesso" << std::endl;
-            return;
+            entrada.close();
+            throw std::invalid_argument("ERRO: dados numéricos não foram lidos com sucesso");
         }
-        Jogador* jogador_inserido = new Jogador(nome, apelido, vr, dr, vl, dl, vjv, djv);
-        jogadores.insert({apelido, jogador_inserido});
+        Jogador* jogadorInserido = new Jogador(nome, apelido, vr, dr, vl, dl, vjv, djv);
+        jogadores.insert({apelido, jogadorInserido});
     }
     entrada.close();
 }
@@ -210,9 +210,7 @@ Jogador* Jogador::buscaJogador(std::string apelido)
     auto iterador = jogadores.find(apelido);
     if(iterador == jogadores.end())
     {
-        std::cout << "ERRO: jogador " << apelido << " inexistente" << std::endl;
-        return nullptr;
-       //ADICIONAR EXCECAO
+        throw ExcecaoJogadorInexistente();
     }
     else
     {
@@ -255,12 +253,6 @@ void Jogador::registrarVitoria(char jogo)
             iterador->second->vitoriasJVelha++;
         }
         break;
-
-        default:
-        {
-            std::cout << "ERRO: jogo inválido" << std::endl;
-        }
-        break;
     }
 }
 
@@ -284,12 +276,6 @@ void Jogador::registrarDerrota(char jogo)
         case('V'):
         {
             iterador->second->derrotasJVelha++;
-        }
-        break;
-
-        default:
-        {
-            std::cout << "ERRO: jogo inválido" << std::endl;
         }
         break;
     }

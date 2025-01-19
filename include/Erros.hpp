@@ -13,6 +13,15 @@ class ExcecaoJogadorRepetido : public std::exception
     }
 };
 
+class ExcecaoJogadorInexistente : public std::exception
+{
+    public:
+    virtual const char* what() const throw()
+    {
+        return "ERRO: jogador inexistente";
+    }
+};
+
 class ExcecaoNaoExistemJogadasValidas : public std::exception
 {
     private:

@@ -9,28 +9,19 @@
 #include <exception>
 
 int main() {
-    //try
-    //{
+    try
+    {
         Jogador::leEstatisticas();
-    //}
-    /*
-    catch(const std::exception& e)
-    {
-        //"ERRO: falha ao abrir o arquivo de entrada"
     }
-    catch(const std::exception& e)
+    catch(const std::ios_base::failure& e)
     {
-        //"ERRO: nome não foi lido com sucesso"
+        std::cerr << e.what() << std::endl;
     }
-    catch(const std::exception& e)
+    catch(const std::invalid_argument& e)
     {
-        //"ERRO: apelido não foi lido com sucesso"
+        std::cerr << e.what() << std::endl;
     }
-    catch(const std::exception& e)
-    {
-        //"ERRO: dados numéricos não foram lidos com sucesso"
-    }
-    */
+    
     std::string operacao;
 
     std::cout << "Escolha entre os comandos abaixo:" << std::endl;
@@ -41,7 +32,7 @@ int main() {
     std::cout << "FS: Finalizar Sistema" << std::endl;
 
     do
-    {
+    {        
         std::cin >> operacao;
 
         if(operacao == "CJ")
@@ -52,7 +43,7 @@ int main() {
                 std::cin >> apelido;
                 std::getline(std::cin, nome);
                 nome.erase(0,1);
-            
+ 
                 Jogador* novoJogador = new Jogador(nome, apelido);
                 novoJogador->cadastraJogador(apelido);
             }
@@ -63,17 +54,17 @@ int main() {
         }
         else if(operacao == "RJ")
         {   
-            //try
-            //{
+            try
+            {
                 std::string apelido;
                 std::cin >> apelido;
                 Jogador* JogadorASerRemovido = Jogador::buscaJogador(apelido);
                 JogadorASerRemovido->removeJogador(apelido);
-            //}
-            //catch(const std::exception& e)
-            //{
-                //"ERRO: jogador " << apelido << " inexistente"
-            //}
+            }
+            catch(const ExcecaoJogadorInexistente& e)
+            {
+                std::cout << e.what() << std::endl;
+            }
         }
         else if(operacao == "LJ")
         {
@@ -93,7 +84,7 @@ int main() {
             {
                 std::cerr << e.what() << std::endl;
             }
-            
+                
         }
         else if(operacao == "EP")
         {
@@ -113,56 +104,55 @@ int main() {
 
                 Jogador* jogador1 = Jogador::buscaJogador(apelidoJogador1);
                 Jogador* jogador2 = Jogador::buscaJogador(apelidoJogador2);
-                if((jogador1 != nullptr) && (jogador2 != nullptr))
-                {    if(jogo == 'R')
-                    {
-                        std::cout << "Reversi" << std::endl;
-                        Reversi reversi;
-                        reversi.executarPartida(jogador1, jogador2);
-                    }
-                    else if(jogo == 'L')
-                    {
-                        std::cout << "Lig4" << std::endl;
-                        std::cout << "Indique as dimensões do tabuleiro:" << std::endl;
-	                    int numeroLinhas, numeroColunas;
-	                    std::cout << "Número de linhas: ";
-	                    std::cin >> numeroLinhas;
-	                    std::cout << "Número de colunas: ";
-	                    std::cin >> numeroColunas;
-	                    std::cout << std::endl;
-
-	                    Lig4 lig4(numeroLinhas, numeroColunas);
-                        lig4.executarPartida(jogador1, jogador2);
-
-                    }
-                    else if(jogo == 'V')
-                    {
-                        std::cout << "Jogo da Velha" << std::endl;
-                        JogoDaVelha jogoDaVelha;
-                        jogoDaVelha.executarPartida(jogador1, jogador2);
-                    }
+                if(jogo == 'R')
+                {
+                    std::cout << "Reversi" << std::endl;
+                    Reversi reversi;
+                    reversi.executarPartida(jogador1, jogador2);
                 }
+                else if(jogo == 'L')
+                {
+                    std::cout << "Lig4" << std::endl;
+                    std::cout << "Indique as dimensões do tabuleiro:" << std::endl;
+                    int numeroLinhas, numeroColunas;
+                    std::cout << "Número de linhas: ";
+                    std::cin >> numeroLinhas;
+                    std::cout << "Número de colunas: ";
+                    std::cin >> numeroColunas;
+                    std::cout << std::endl;
+
+                    Lig4 lig4(numeroLinhas, numeroColunas);
+                    lig4.executarPartida(jogador1, jogador2);
+
+                }
+                else if(jogo == 'V')
+                {
+                    std::cout << "Jogo da Velha" << std::endl;
+                    JogoDaVelha jogoDaVelha;
+                    jogoDaVelha.executarPartida(jogador1, jogador2);
+                }
+                    
             }
             catch(const std::invalid_argument& e)
             {
                 std::cerr << e.what() << std::endl;
             }
-            //catch (const std::exception& e)
-            //{
-                //erro de busca dos jogadores
-            //}
+            catch (const ExcecaoJogadorInexistente& e)
+            {
+                std::cout << e.what() << std::endl;
+            }
         }
         else if(operacao == "FS")
         {
-            //try
-            //{
+            try
+            {
                 Jogador::atualizaEstatisticas();
                 Jogador::apagaMap();
-            //}
-            //catch(const std::exception& e)
-            //{
-                //erro de abrir o arquivo
-            //}
+            }
+            catch(const std::ios_base::failure& e)
+            {
+                std::cerr << e.what() << std::endl;
+            }
         }
 
     } while (operacao != "FS");
