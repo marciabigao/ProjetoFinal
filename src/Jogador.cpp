@@ -10,7 +10,7 @@
 
 //Funcoes
 
-std::map<std::string, Jogador*> Jogador::jogadores;
+std::map<std::string, Jogador*, Jogador::comparaMap> Jogador::jogadores;
 
 std::string Jogador::getNome()
 {
@@ -179,11 +179,7 @@ void Jogador::imprimeListagem(char opcao)
         }
         //utiliza o algoritmo sort com uma função lambda personalizada para
         //ordenar os dados em função do atributo nomeJogador dos jogadores
-        std::sort(vetor.begin(), vetor.end(),
-        [](Jogador* jogadorA, Jogador* jogadorB)
-        {
-            return jogadorA->getNome() < jogadorB->getNome();
-        });
+        std::sort(vetor.begin(), vetor.end(), Jogador::comparaSort);
 
         for(Jogador* player : vetor)
         {
@@ -279,4 +275,22 @@ void Jogador::registrarDerrota(char jogo)
         }
         break;
     }
+}
+
+bool Jogador::comparaSort(Jogador* a, Jogador* b)
+{
+    std::string lowerA = a->getNome();
+    std::string lowerB = b->getNome();
+
+    for(char& c : lowerA)
+    {
+        c = std::tolower(c);
+    }
+    for(char& c : lowerB)
+    {
+        c = std::tolower(c);
+    }
+    if (lowerA < lowerB) return true;
+    if (lowerA > lowerB) return false;
+    return a < b;
 }
