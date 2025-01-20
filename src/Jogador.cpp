@@ -156,7 +156,7 @@ void Jogador::imprimeListagem(char opcao)
     {
         for(std::pair<const std::string, Jogador*>& player : jogadores)
         {
-            std::cout << player.first << " " << player.second->getNome() << std::endl;
+            std::cout << player.first << "|" << player.second->getNome() << std::endl;
 
             std::cout << "REVERSI - V: " << player.second->getVitoriasR() 
                       << " D: " << player.second->getDerrotasR() << std::endl;
@@ -166,6 +166,8 @@ void Jogador::imprimeListagem(char opcao)
 
             std::cout << "VELHA - V: " << player.second->getVitoriasJV()
                       << " D: " << player.second->getDerrotasJV() << std::endl;
+
+            std::cout << std::endl;
         }
     }
 
@@ -183,7 +185,7 @@ void Jogador::imprimeListagem(char opcao)
 
         for(Jogador* player : vetor)
         {
-            std::cout << player->getApelido() << " " << player->getNome() << std::endl;
+            std::cout << player->getApelido() << "|" << player->getNome() << std::endl;
 
             std::cout << "REVERSI - V: " << player->getVitoriasR() 
                       << " D: " << player->getDerrotasR() << std::endl;
@@ -193,6 +195,8 @@ void Jogador::imprimeListagem(char opcao)
 
             std::cout << "VELHA - V: " << player->getVitoriasJV()
                       << " D: " << player->getDerrotasJV() << std::endl;
+
+            std::cout << std::endl;
         }
     }
 }
