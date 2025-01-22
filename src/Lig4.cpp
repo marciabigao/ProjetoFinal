@@ -201,11 +201,5 @@ void Lig4::executarPartida(Jogador* jogador1, Jogador* jogador2)
         {
             std::cout << e.what() << std::endl;
         }
-        /*
-        catch(ERRO REGISTRAR VITORIA/DERROTA)
-        {
-
-        }
-        */
     }
 }

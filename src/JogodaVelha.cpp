@@ -151,11 +151,5 @@ void JogoDaVelha::executarPartida(Jogador* jogador1, Jogador* jogador2)
         {
             std::cout << e.what() << std::endl;
         }
-        /*
-        catch(ERRO REGISTRAR VITORIAS/DERROTAS)
-        {
-        
-        }
-        */
     }
 }

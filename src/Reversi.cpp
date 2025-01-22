@@ -24,7 +24,7 @@ bool Reversi::testarValidade(int linha, int coluna) {
             bool validade = true;
             int pecasOpostas = 0;
 
-            for(int j = std::min(i, coluna) + 1; j <= std::max(i, coluna); j++)
+            for(int j = coluna + ((i > coluna) ? 1 : -1); j != i; j += (i > coluna) ? 1 : -1)
             {
                 if(this->tabuleiro[linha][j] == ' ')
                 {
@@ -53,7 +53,7 @@ bool Reversi::testarValidade(int linha, int coluna) {
             bool validade = true;
             int pecasOpostas = 0;
             
-            for(int j = std::min(i, linha) + 1; j <= std::max(i, linha); j++)
+            for(int j = linha + ((i > linha) ? 1 : -1); j != i; j += (i > linha) ? 1 : -1)
             {
                 if(this->tabuleiro[j][coluna] == ' ')
                 {
@@ -327,7 +327,7 @@ void Reversi::inverterSimbolos(int linha, int coluna) {
             bool validade = true;
             int pecasOpostas = 0;
 
-            for(int j = std::min(i, coluna); j < std::max(i, coluna); j++)
+            for(int j = coluna + ((i > coluna) ? 1 : -1); j != i; j += (i > coluna) ? 1 : -1)
             {
                 if(this->tabuleiro[linha][j] == ' ')
                 {
@@ -347,7 +347,7 @@ void Reversi::inverterSimbolos(int linha, int coluna) {
 
             if(validade)
             {
-                for(int j = std::min(i, coluna); j < std::max(i, coluna); j++)
+                for(int j = coluna + ((i > coluna) ? 1 : -1); j != i; j += (i > coluna) ? 1 : -1)
                 {
                     this->tabuleiro[linha][j] = this->tabuleiro[linha][coluna];
                 }
@@ -362,7 +362,7 @@ void Reversi::inverterSimbolos(int linha, int coluna) {
             bool validade = true;
             int pecasOpostas = 0;
             
-            for(int j = std::min(i, linha); j < std::max(i, linha); j++)
+            for(int j = linha + ((i > linha) ? 1 : -1); j != i; j += (i > linha) ? 1 : -1)
             {
                 if(this->tabuleiro[j][coluna] == ' ')
                 {
@@ -382,7 +382,7 @@ void Reversi::inverterSimbolos(int linha, int coluna) {
 
             if(validade)
             {
-                for(int j = std::min(i, linha); j < std::max(i, linha); j++)
+                for(int j = linha + ((i > linha) ? 1 : -1); j != i; j += (i > linha) ? 1 : -1)
                 {
                     this->tabuleiro[j][coluna] = this->tabuleiro[linha][coluna];
                 }
@@ -607,6 +607,7 @@ void Reversi::inverterSimbolos(int linha, int coluna) {
 }
 
 void Reversi::executarPartida(Jogador* jogador1, Jogador* jogador2) {  
+    this->imprimirTabuleiro();
     bool excecao = true;
     while(excecao)
     {
@@ -695,12 +696,6 @@ void Reversi::executarPartida(Jogador* jogador1, Jogador* jogador2) {
             std::cout << e.what() << std::endl;
             this->alternarJogador();
         }
-        /*
-        catch(ERRO JOGO INVALIDO EM REGISTRAR VITORIA/DERROTA)
-        {
-
-        }
-        */
     }
     
 }
