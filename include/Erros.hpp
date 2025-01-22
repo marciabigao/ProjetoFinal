@@ -22,6 +22,15 @@ class ExcecaoJogadorInexistente : public std::exception
     }
 };
 
+class ExcecaoMapVazio : public std::exception 
+{
+    public:
+    virtual const char* what() const throw()
+    {
+        return "ERRO: ainda não existem jogadores cadastrados";
+    }
+};
+
 class ExcecaoNaoExistemJogadasValidas : public std::exception
 {
     private:

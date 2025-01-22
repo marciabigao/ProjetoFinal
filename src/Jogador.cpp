@@ -152,7 +152,12 @@ void Jogador::leEstatisticas()
 
 void Jogador::imprimeListagem(char opcao)
 {
-    if(opcao == 'A')
+    if(jogadores.empty())
+    {
+        throw ExcecaoMapVazio();
+    }
+
+    else if(opcao == 'A')
     {
         for(std::pair<const std::string, Jogador*>& player : jogadores)
         {
