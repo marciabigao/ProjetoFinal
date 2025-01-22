@@ -256,6 +256,12 @@ bool Reversi::testarVitoria() {
             {
                 vitoria = false;
             }
+            this->alternarJogador();
+            if(this->testarValidade(linha, coluna))
+            {
+                vitoria = false;
+            }
+            this->alternarJogador();
         }
     }
 
