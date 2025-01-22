@@ -8,8 +8,6 @@
 #include <vector>
 #include <algorithm>
 
-//Funcoes
-
 std::map<std::string, Jogador*, Jogador::comparaMap> Jogador::jogadores;
 
 std::string Jogador::getNome()
@@ -69,7 +67,6 @@ Jogador::Jogador(std::string nome, std::string apelido, int vr, int dr,
 //de se chamar o método, utilizando new 
 void Jogador::cadastraJogador(std::string apelido)
 {
-    //se o apeldio buscado não estiver no map, retorna end (próxima posição vazia)
     if(jogadores.find(apelido) != jogadores.end())
     {
         Jogador* jogadorRepetido = this;
@@ -91,6 +88,8 @@ void Jogador::removeJogador(std::string apelido)
     std::cout << "Jogador " << apelido << " removido com sucesso" << std::endl;
 }
 
+//Método a ser chamado ao fim de cada execução (quando se seleciona FS)
+//para atualizar as estatísticas no arquivo "estatisticas.txt"
 void Jogador::atualizaEstatisticas()
 {
     std::ofstream saida("estatisticas.txt", std::fstream :: out);
@@ -184,7 +183,7 @@ void Jogador::imprimeListagem(char opcao)
             //copia os dados do map para um vector
             vetor.push_back(player.second);
         }
-        //utiliza o algoritmo sort com uma função lambda personalizada para
+        //utiliza o algoritmo sort com um comparador personalizado para
         //ordenar os dados em função do atributo nomeJogador dos jogadores
         std::sort(vetor.begin(), vetor.end(), Jogador::comparaSort);
 
@@ -261,6 +260,8 @@ void Jogador::registrarVitoria(char jogo)
     }
 }
 
+//Método a ser chamado para atualizar as derrotas do jogador perdedor em uma partida
+//Tem o mesmo funcionamento do método registrarVitoria 
 void Jogador::registrarDerrota(char jogo)
 {
     auto iterador = jogadores.find(this->apelidoJogador);
@@ -286,6 +287,7 @@ void Jogador::registrarDerrota(char jogo)
     }
 }
 
+//Comparador personalizado a ser utilizado com o algoritmo sort
 bool Jogador::comparaSort(Jogador* a, Jogador* b)
 {
     std::string lowerA = a->getNome();
