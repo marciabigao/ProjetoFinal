@@ -21,8 +21,8 @@ TEST_CASE("Testando método de validação"){
     for(int i = 0; i< 7; i++)
         CHECK(teste.testarValidade(-1,i));
 
-    CHECK(!teste.testarValidade(-1,-1));
-    CHECK(!teste.testarValidade(-1,7));
+    CHECK_THROWS_AS(teste.testarValidade(-1,-1),std::invalid_argument);
+    CHECK_THROWS_AS(teste.testarValidade(-1,7),std::invalid_argument);
 
     for(int i = 0; i< 6; i++)
         teste.setCelula(i,2,'X');
@@ -91,4 +91,43 @@ TEST_CASE("Testando o Método para empate"){
     }
 
     CHECK(teste.testarEmpate());
+}
+
+TEST_CASE("Testando o Método para vitoria"){
+
+    Lig4 teste(6,7);
+
+    for(int i = 2; i < 5; i++){
+        teste.executarJogada(0,i);
+        CHECK(!teste.testarVitoria());
+    }
+
+    teste.executarJogada(0,5);
+    CHECK(teste.testarVitoria());
+
+    teste.reiniciarTabuleiro();
+
+     for(int i = 0; i < 3; i++){
+        teste.executarJogada(i,3);
+        CHECK(!teste.testarVitoria());
+    }
+
+    teste.executarJogada(0,3);
+    CHECK(teste.testarVitoria());
+
+    teste.reiniciarTabuleiro();
+
+    try{ 
+
+        for(int i = 2; i < 5; i++){        
+            teste.setCelula(i,i,teste.getJogadorAtual());
+            CHECK(!teste.testarVitoria());
+        }
+
+        teste.setCelula(5,5,teste.getJogadorAtual());
+        CHECK(teste.testarVitoria());
+    } catch(std::invalid_argument& e){
+        throw;
+    }
+
 }
