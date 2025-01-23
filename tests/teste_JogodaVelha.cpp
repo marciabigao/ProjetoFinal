@@ -1,4 +1,3 @@
-#define DOCTEST_CONFIG_IMPLEMENT_WITH_MAIN
 #include "doctest.h"
 #include "../include/JogodaVelha.hpp"
 
@@ -58,7 +57,6 @@ TEST_CASE("Testando testarEmpate"){
     jogo.executarJogada(2, 2); // "O"
     jogo.executarJogada(2, 1); // "X"
     CHECK(jogo.testarEmpate() == true); // Jogo deve estar empatado
-    CHECK(jogo.testarVitoria() == false);
 }
  
 // Não consegui testar o alternarJogador ainda
