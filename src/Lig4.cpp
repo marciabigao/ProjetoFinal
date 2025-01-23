@@ -1,6 +1,7 @@
 #include "Lig4.hpp"
 #include "Jogador.hpp"
 #include <exception>
+#include <limits>
 
 const char AMARELO = 'A';
 const char VERMELHO = 'V';
@@ -149,7 +150,13 @@ void Lig4::executarPartida(Jogador* jogador1, Jogador* jogador2)
                 int coluna;
                 std::cin >> coluna;
 
-                if(coluna < 1 || coluna > this->_numColunas)
+                if(std::cin.fail())
+                {
+                    std::cin.clear();
+                    std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+                    throw std::invalid_argument("ERRO: formato incorreto");
+                }
+                else if(coluna < 1 || coluna > this->_numColunas)
                 {
                     throw std::invalid_argument("ERRO: formato incorreto");
                 }
