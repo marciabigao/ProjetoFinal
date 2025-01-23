@@ -14,29 +14,33 @@ TEST_CASE("Inicialização do Construtor"){
     CHECK(jogador.getDerrotasJV() == 6);
 }
 
-TEST_CASE("Testando registrarVitoria"){
+TEST_CASE("Testando registrarVitoria") {
     Jogador jogador("Marcia", "bigadas");
+    jogador.cadastraJogador("bigadas");
 
-    jogador.registrarVitoria('R'); 
-    jogador.registrarVitoria('L'); 
-    jogador.registrarVitoria('V'); 
+    jogador.registrarVitoria('R');
+    jogador.registrarVitoria('L');
+    jogador.registrarVitoria('V');
 
     CHECK(jogador.getVitoriasR() == 1);
     CHECK(jogador.getVitoriasLig() == 1);
     CHECK(jogador.getVitoriasJV() == 1);
 }
 
-TEST_CASE("Testando registrarDerrota"){
-    Jogador jogador("Izabela", "bbporco123");
 
-    jogador.registrarDerrota('R'); 
-    jogador.registrarDerrota('L'); 
-    jogador.registrarDerrota('V'); 
+TEST_CASE("Testando registrarDerrota") {
+    Jogador jogador("Vitor", "vitinfaleiro");
+    jogador.cadastraJogador("vitinfaleiro");
+
+    jogador.registrarDerrota('R');
+    jogador.registrarDerrota('L');
+    jogador.registrarDerrota('V');
 
     CHECK(jogador.getDerrotasR() == 1);
     CHECK(jogador.getDerrotasLig() == 1);
     CHECK(jogador.getDerrotasJV() == 1);
 }
+
 
 TEST_CASE("Testando cadastrar, buscar e remover jogador"){
     Jogador* jogador1 = new Jogador("Lara", "larinha123");
