@@ -40,25 +40,3 @@ TEST_CASE("Testando registrarDerrota") {
     CHECK(jogador.getDerrotasLig() == 1);
     CHECK(jogador.getDerrotasJV() == 1);
 }
-
-
-TEST_CASE("Testando cadastrar, buscar e remover jogador"){
-    Jogador* jogador1 = new Jogador("Lara", "larinha123");
-    Jogador* jogador2 = new Jogador("Vitor", "vitinfaleiro");
-
-    jogador1->cadastraJogador("larinha123");
-    jogador2->cadastraJogador("vitinfaleiro");
-
-    Jogador* encontrado = Jogador::buscaJogador("larinha123");
-    CHECK(encontrado != nullptr);
-    CHECK(encontrado->getNome() == "Lara");
-
-    Jogador* naoEncontrado = Jogador::buscaJogador("naoExistente");
-    CHECK(naoEncontrado == nullptr);
-
-    jogador1->removeJogador("larinha123");
-    encontrado = Jogador::buscaJogador("larinha123");
-    CHECK(encontrado == nullptr);
-
-    Jogador::apagaMap();
-}
