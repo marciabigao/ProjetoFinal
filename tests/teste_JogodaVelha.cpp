@@ -61,4 +61,3 @@ TEST_CASE("Testando testarEmpate"){
     CHECK(jogo.testarVitoria() == false);
 }
  
-// Não consegui testar o alternarJogador ainda
