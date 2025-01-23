@@ -26,16 +26,16 @@ char Lig4::getJogadorAtual(){
 
 bool Lig4::testarValidade (int linha, int coluna){
 
-    if(coluna < 0 || coluna >= _numColunas){
-        std::cout << "Coluna escolhida está fora do tabuleiro!" << std::endl;
+  try{
+        
+        if(getCelula(0,coluna) != ' '){
+            std::cout << "Coluna ja esta cheia!" << std::endl;
+            return false;
+        }
+    }catch(std::invalid_argument& e){
+        throw;
         return false;
     }
-    else if(getCelula(0,coluna) != ' '){
-        std::cout << "Coluna ja esta cheia!" << std::endl;
-        return false;
-    }
-
-    //ADICIONAR TRY CATCH DO GETCELULA
        
     return true;
 }
@@ -44,14 +44,16 @@ bool Lig4::testarValidade (int linha, int coluna){
 void Lig4::executarJogada(int linha, int coluna){
         
     for(int i= _numLinhas-1; i >= 0; i--){
+        try{
+            if(tabuleiro[i][coluna] == ' '){
 
-        if(tabuleiro[i][coluna] == ' '){
-
-            setCelula(i,coluna,this->jogadorAtual);  
-            break;   
+                setCelula(i,coluna,this->jogadorAtual);  
+                break;   
+            }
+        }catch(std::invalid_argument& e){
+            throw;
         }
     }
-    //ADICIONAR TRY CATCH SETCELULA
 }
 
 void Lig4::alternarJogador(){
@@ -68,44 +70,48 @@ bool Lig4::testarVitoria(){
 
     for(int linha = 0; linha < _numLinhas; linha++){
         for(int coluna = 0; coluna < _numColunas; coluna++ ){
-            //ADICIONAR TRY CATCH GET CELULA
-            if(getCelula(linha,coluna) == jogadorAtual){
-        
-                if(coluna <= _numColunas - 4){
 
-                if(   tabuleiro[linha][coluna + 0] == jogadorAtual &&
-                        tabuleiro[linha][coluna + 1] == jogadorAtual &&
-                        tabuleiro[linha][coluna + 2] == jogadorAtual &&
-                        tabuleiro[linha][coluna + 3] == jogadorAtual )
-                        return true;
+            try{
+                if(getCelula(linha,coluna) == jogadorAtual){
+            
+                    if(coluna <= _numColunas - 4){
+
+                    if(   tabuleiro[linha][coluna + 0] == jogadorAtual &&
+                            tabuleiro[linha][coluna + 1] == jogadorAtual &&
+                            tabuleiro[linha][coluna + 2] == jogadorAtual &&
+                            tabuleiro[linha][coluna + 3] == jogadorAtual )
+                            return true;
+                    }
+
+                    if(linha <= _numLinhas - 4){
+
+                        if( tabuleiro[linha + 0][coluna] == jogadorAtual &&
+                            tabuleiro[linha + 1][coluna] == jogadorAtual &&
+                            tabuleiro[linha + 2][coluna] == jogadorAtual &&
+                            tabuleiro[linha + 3][coluna] == jogadorAtual )
+                            return true;
+                    }
+
+                    if(coluna <= _numColunas - 4 && linha <= _numLinhas - 4){
+
+                        if( tabuleiro[linha + 0][coluna + 0] == jogadorAtual &&
+                            tabuleiro[linha + 1][coluna + 1] == jogadorAtual &&
+                            tabuleiro[linha + 2][coluna + 2] == jogadorAtual &&
+                            tabuleiro[linha + 3][coluna + 3] == jogadorAtual )
+                            return true;
+                    }
+
+                    if(coluna <= _numColunas - 4 && linha >= 4){
+
+                    if( tabuleiro[linha - 0][coluna + 0] == jogadorAtual &&
+                            tabuleiro[linha - 1][coluna + 1] == jogadorAtual &&
+                            tabuleiro[linha - 2][coluna + 2] == jogadorAtual &&
+                            tabuleiro[linha - 3][coluna + 3] == jogadorAtual )
+                            return true;
+                    }
                 }
-
-                if(linha <= _numLinhas - 4){
-
-                    if( tabuleiro[linha + 0][coluna] == jogadorAtual &&
-                        tabuleiro[linha + 1][coluna] == jogadorAtual &&
-                        tabuleiro[linha + 2][coluna] == jogadorAtual &&
-                        tabuleiro[linha + 3][coluna] == jogadorAtual )
-                        return true;
-                }
-
-                if(coluna <= _numColunas - 4 && linha <= _numLinhas - 4){
-
-                    if( tabuleiro[linha + 0][coluna + 0] == jogadorAtual &&
-                        tabuleiro[linha + 1][coluna + 1] == jogadorAtual &&
-                        tabuleiro[linha + 2][coluna + 2] == jogadorAtual &&
-                        tabuleiro[linha + 3][coluna + 3] == jogadorAtual )
-                        return true;
-                }
-
-                if(coluna <= _numColunas - 4 && linha >= 4){
-
-                if( tabuleiro[linha - 0][coluna + 0] == jogadorAtual &&
-                        tabuleiro[linha - 1][coluna + 1] == jogadorAtual &&
-                        tabuleiro[linha - 2][coluna + 2] == jogadorAtual &&
-                        tabuleiro[linha - 3][coluna + 3] == jogadorAtual )
-                        return true;
-                }
+            }catch(std::invalid_argument& e){
+                throw;
             }
         }
     }
@@ -117,11 +123,13 @@ bool Lig4::testarEmpate() const{
 
     for(int linha =  0; linha < _numLinhas; linha++){
         for(int coluna = 0; coluna < _numColunas; coluna++){
-
-            if(getCelula(linha,coluna) == ' ')
-                return false;
+            try{
+                if(getCelula(linha,coluna) == ' ')
+                    return false;
+            }catch(std::invalid_argument& e){
+                throw;
+            }
         }
-        //ADICIONAR TRY CATCH GET CELULA
     }
 
     return true;
