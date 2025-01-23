@@ -2,6 +2,7 @@
 #include "../include/Jogador.hpp"
 #include <iostream>
 #include <exception>
+#include <limits>
 
 //inicializando o tabuleiro e o jogador atual (quem começa é o X)
 JogoDaVelha::JogoDaVelha() : Jogos(3, 3, 'X') {}
@@ -96,7 +97,13 @@ void JogoDaVelha::executarPartida(Jogador* jogador1, Jogador* jogador2)
                 int linha, coluna;
                 std::cin >> linha >> coluna;
 
-                if(linha < 1 || linha > 3 || coluna < 1 || coluna > 3)
+                if(std::cin.fail())
+                {
+                    std::cin.clear();
+                    std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+                    throw std::invalid_argument("ERRO: formato incorreto");
+                }
+                else if(linha < 1 || linha > 3 || coluna < 1 || coluna > 3)
                 {
                     throw std::invalid_argument("ERRO: formato incorreto");
                 }

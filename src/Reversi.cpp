@@ -4,6 +4,7 @@
 #include "../include/Jogador.hpp"
 #include <exception>
 #include "../include/Erros.hpp"
+#include <limits> 
 
 Reversi::Reversi() : Jogos(8, 8, 'X') {
     this->tabuleiro[3][3] = 'X';
@@ -282,13 +283,14 @@ void Reversi::alternarJogador()
 
 void Reversi::executarJogada(int linha, int coluna)
 {
-    //try
-    //{
+    try
+    {
         this->setCelula(linha, coluna, jogadorAtual);
-    //}
-    //catch()
-    //{
-    //}
+    }
+    catch(const std::invalid_argument& e)
+    {
+        throw;
+    }
 }
 
 char Reversi::declararVencedor() {
@@ -635,7 +637,13 @@ void Reversi::executarPartida(Jogador* jogador1, Jogador* jogador2) {
                 int linha, coluna;
                 std::cin >> linha >> coluna;
 
-                if(linha < 1 || linha > 8 || coluna < 1 || coluna > 8)
+                if(std::cin.fail())
+                {
+                    std::cin.clear();
+                    std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+                    throw std::invalid_argument("ERRO: formato incorreto");
+                }
+                else if(linha < 1 || linha > 8 || coluna < 1 || coluna > 8)
                 {
                     throw std::invalid_argument("ERRO: formato incorreto");
                 }
