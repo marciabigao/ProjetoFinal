@@ -37,6 +37,10 @@ Para a execução, basta digitar ./nomeDoExecutavel (por exemplo, ./main ou ./te
 **CONSIDERAÇÕES E RELATÓRIO**
 
 VITOR - classe Jogos e testes 
+Para início do trabalho, nosso grupo analisou quais métodos seriam necessários implementar na classe abstrata "Jogos" para abranger todos os jogos que seriam realizados. Na execução do código não houve uma grande dificuldade, devido a maioria dos métodos serem virtuais puros, entretanto, essa classe serve como base para todas as outras, o que poderia encadear várias complicações se acontecessem erros.
+Como métodos virtuais puros foram implementados testarValidade, testarVitoria, executarJogada, alternarJogador e executarPartida
+Foi feito também os getters e setters para getCelula e setCelula, getTabuleiro e setTabuleiro.
+Quanto aos testes unitários, fiz os testes das classes "Jogo da Velha" e "Jogador", para isso, criei testes que cubrissem as funções essenciais de cada classe, para analisar se tudo estava correndo bem. Foram testados as condições de vitória (na diagonal, na linha e na coluna) e empate do jogo da velha e a inicialização do construtor. Para os testes da classe Jogador, testei o cadastro, a busca, a remoção e o registro de vitórias e derrotas em cada jogo.
 
 LARA - classe Jogador
 
