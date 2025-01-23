@@ -41,8 +41,7 @@ char Jogos::getCelula(int linha, int coluna) const {
         return valor; 
     } 
     else {
-        throw "Posição Inválida: Fora dos limites do tabuleiro.";
-    }
+        throw std::invalid_argument("Posição Inválida: Fora dos limites do tabuleiro.");    }
 }
 
 void Jogos::setCelula(int linha, int coluna, char valor){
@@ -51,7 +50,7 @@ void Jogos::setCelula(int linha, int coluna, char valor){
             tabuleiro[linha][coluna] = valor;
         }
     else{
-        throw "Posição Inválida!";
-    }
+        throw std::invalid_argument("Posição Inválida!");    
+        }
 }
 
