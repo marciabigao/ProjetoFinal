@@ -58,5 +58,3 @@ TEST_CASE("Testando testarEmpate"){
     jogo.executarJogada(2, 1); // "X"
     CHECK(jogo.testarEmpate() == true); // Jogo deve estar empatado
 }
- 
-// Não consegui testar o alternarJogador ainda
