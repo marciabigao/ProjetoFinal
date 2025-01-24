@@ -4,7 +4,9 @@ Trabalho Final de PDSII
 **VISÃO GERAL**
 
 O sistema produzido implementa três jogos: Reversi, Lig4 e Jogo da Velha. Além disso, conta com funcionalidades para cadastro e manutenção de registro/estatísticas dos jogadores que o utilizam. O código foi escrito inteiramente em linguagem C++. 
+
 Para desenvolver o sistema foi necessário, primeiramente, estabelecer atribuições para cada um dos integrantes do grupo e datas para a "entrega" das partes que condizessem com as suas prioridades em termos de implementação. Nesse sentido, as classes Jogador (que trata dos jogadores em si) e Jogos (que é a classe abstrata da qual os demais jogos herdam) foram as primeiras a serem implementadas, uma vez que são essenciais para as demais. Em seguida, foram implementadas as classes Reversi, JogodaVelha e Lig4, e, após estarem prontas, o fluxo do jogo. Todas as partes foram, no decorrer do trabalho, modificadas, corrigidas e aprimoradas até que chegassem às suas versões finais. Nesse momento, foi possível finalizar as partes do trabalho que dependiam da completude do sistema, como a documentação e elaboração dos cartões CRC. 
+
 Essencialmente, o fluxo do jogo (implementado no arquivo main.cpp) recebe informações de entrada (como operação desejada, nomes/apelidos de jogadores, jogadas em partidas, dentre outros), realiza o tratamento dessas informações e direciona a execução do programa para cada opção solicitada, fazendo as chamadas necessárias de métodos das outras classes. A execução das partidas em si é realizada pelo método executarPartida, presente e específico para cada uma das classes de jogos.
 
 Uma funcionalidade extra implementada foi a possibilidade de escolha da dimensão do tabuleiro para o jogo Lig4. Ao escolher executar uma partida de Lig4, o jogador deve inserir o número de linhas e de colunas desejado para o tabuleiro.
@@ -12,32 +14,40 @@ Uma funcionalidade extra implementada foi a possibilidade de escolha da dimensã
 **INSTRUÇÕES PARA COMPILAÇÃO E EXECUÇÃO**
 
 Um compilador para linguagem C++ já deve estar instalado e disponível para uso em sua máquina, especificamente o compilador g++. Pode ser desejável o uso de uma IDE (como VSCode ou CodeBlocks) ou de um editor de texto para facilitar a visualização do código.
+
 Para usar algum dos comandos do Makefile, que automatizam a compilação, basta escrever o comando desejado no terminal e apertar enter. Os comando disponíveis são:
 
 make:
+
     Compila todos os objetos das classes e dos testes e gera o executável do programa(main.exe) e dos testes(testes.exe)
 
 make main:
+
     Compila todos os objetos das classes e gera o executável do programa(main.exe)
 
 make testes:
+
     Compila todos os objetos dos testes e gera o executável dos testes(testes.exe)
 
 make run:
+
     Compila todos os objetos das classes, gera o executável do programa(main.exe) e executa o programa
 
 make run_tests:
+
     Compila todos os objetos dos testes, gera o executável dos testes(testes.exe) e executa o programa dos testes
 
 make clean:
+
     Remove todos os objetos da pasta obj e deleta qualquer executavel gerado
 
-Para a execução, basta digitar ./nomeDoExecutavel (por exemplo, ./main ou ./testes)e teclar enter.
+Para a execução, basta digitar ./nomeDoExecutavel (por exemplo, ./main ou ./testes) e teclar enter.
 
 **CONSIDERAÇÕES E RELATÓRIO**
 
 VITOR - classe Jogos e testes 
-Para início do trabalho, nosso grupo analisou quais métodos seriam necessários implementar na classe abstrata "Jogos" para abranger todos os jogos que seriam realizados. Na execução do código não houve uma grande dificuldade, devido a maioria dos métodos serem virtuais puros, entretanto, essa classe serve como base para todas as outras, o que poderia encadear várias complicações se acontecessem erros.
+
+Para o início do trabalho, nosso grupo analisou quais métodos seriam necessários implementar na classe abstrata "Jogos" para abranger todos os jogos que seriam realizados. Na execução do código não houve uma grande dificuldade, devido a maioria dos métodos serem virtuais puros, entretanto, essa classe serve como base para todas as outras, o que poderia encadear várias complicações se acontecessem erros.
 Como métodos virtuais puros foram implementados testarValidade, testarVitoria, executarJogada, alternarJogador e executarPartida
 Foi feito também os getters e setters para getCelula e setCelula, getTabuleiro e setTabuleiro.
 Quanto aos testes unitários, fiz os testes das classes "Jogo da Velha" e "Jogador", para isso, criei testes que cubrissem as funções essenciais de cada classe, para analisar se tudo estava correndo bem. Foram testados as condições de vitória (na diagonal, na linha e na coluna) e empate do jogo da velha e a inicialização do construtor. Para os testes da classe Jogador, testei o cadastro, a busca, a remoção e o registro de vitórias e derrotas em cada jogo.
@@ -55,7 +65,11 @@ Primeiramente li as instruções do trabalho prático para o jogo que fiquei enc
 Assim, delimitei o que o jogo deveria conter: entrada e mensagens para jogadas inválidas, tratamento de exceções e impressão do tabuleiro a cada jogada. Os componentes/regras do jogo são: há 2 jogadores, 2 símbolos (X e O) e um tabuleiro com 9 espaços, ganha quem completar 3 símbolos seguidos, quer seja na horizontal, vertical, ou diagonal. Símbolos não podem colocados por cima de outros e, se nenhum jogador alcançar o objetivo, popularmente falamos que "deu velha". 
 A primeira dificuldade encontrada foi para o método sobreescrito que testa a validade. Na classe base, o parâmetro valor é passado para o método. Contudo, no jogo da velha, esse parâmetro não é necessário para testar a validade, já que os valores (X e O) são alterados automaticamente a cada jogada com o novo método criado, alternar jogador. Para não ter de mudar a classe base, afetando outros jogos, apenas não utilizei esse parâmetro, mesmo ele estando na assinatura do método. Esse método apenas testa se a posição inserida, tanto das linhas, como das colunas, está entre 0 e 2, já que essa foi a forma em que o tabuleiro foi definido.
 
-PAULO - clasee Lig4 e Testes
+PAULO - classe Lig4 e Testes
+
+Para programar a classe Lig4 em um primeiro momento tive que buscar conhecimento sobre o jogo, visto que não o reconheci somente pelo nome. Uma vez que entendi de qual jogo se tratava, comecei a implementação do mesmo baseado na classe abstrata Jogos. Como o tamanho do tabuleiro varia no jogo de Lig4, defini como atributos privados o número de linhas e de colunas para que conseguisse saber esse tamanho quando o objeto fosse instanciado. Depois disso os métodos básicos para o código, como os construtores, destrutores e os getters do número de linhas, de colunas, e do jogador atual, atributo da classe pai que seria necessário na lógica de programação. Em seguida reescrevi a função testar validade e a adaptei para o Jogo, para que soubesse quando uma coluna estivesse cheia ou uma entrada fosse inválida. Em seguida implementei o método para executar a partida, o qual foi o mais complicado, pois a jogada na coluna deve ser posicionada na linha mais baixa que não tem nenhuma peça, sendo então necessário considerar a "gravidade" no momento da programação. Implementei um método de alternar jogador, que apesar de simples é essencial para o funcionamento do jogo. Por fim, implementei os métodos que testam vitória e empate. No caso do método de empate a lógica foi relativamente simples, sendo necessário somente avaliar se todas as posições do tabuleiro foram preenchidas e nenhum jogador ganhou. Entretanto, para o método de vitória, foi necessário considerar todas as possibilidades de vitória, sendo necessário fazer quatro estruturas lógicas, uma para caso o jogador ganhasse com uma sequência de quatro peças na horizontal, uma para quatro peças na vertical e duas para as quatro peças na diagonal, pois é necessário considerar tanto uma diagonal ascendente quanto uma descendente.
+
+Em relação aos testes, tive alguma dificuldade no começo, pois ainda não estava familiarizado com a biblioteca, mas uma vez que entendi os comandos e consegui fazer a utilização da biblioteca, o trabalho fluiu mais rapidamente. Após compreender o funcionamento, realizei os testes dos métodos do Lig4 e do Reversi, buscando testar a maioria dos métodos que consegui, e testando se os métodos funcionavam para todas as posições do tabuleiro. Em geral, o trabalho com os testes foi mais repetitivo e trabalhoso do que necessariamente difícil, pois era necessário entender os métodos empregados e então explorar os seus limites e buscar compreender se os mesmos funcionam quando devem e não funcionam quando não devem.
 
 MÁRCIA - classe Reversi e fluxo do jogo
 
