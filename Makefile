@@ -32,9 +32,6 @@ $(OBJ_DIR)/main.o: $(INCLUDE_DIR)/Jogador.hpp $(INCLUDE_DIR)/Reversi.hpp $(INCLU
 $(OBJ_DIR)/teste_jogador.o: $(INCLUDE_DIR)/doctest.h $(INCLUDE_DIR)/Jogador.hpp $(TESTS_DIR)/teste_Jogador.cpp
 	$(CC) $(CFLAGS) -c $(TESTS_DIR)/teste_Jogador.cpp -I$(INCLUDE_DIR) -o $(OBJ_DIR)/teste_jogador.o
 
-$(OBJ_DIR)/teste_jogos.o: $(INCLUDE_DIR)/doctest.h $(INCLUDE_DIR)/Jogos.hpp $(TESTS_DIR)/teste_Jogos.cpp
-	$(CC) $(CFLAGS) -c $(TESTS_DIR)/teste_Jogos.cpp -I$(INCLUDE_DIR) -o $(OBJ_DIR)/teste_jogos.o
-
 $(OBJ_DIR)/teste_reversi.o: $(INCLUDE_DIR)/doctest.h $(INCLUDE_DIR)/Jogador.hpp  $(INCLUDE_DIR)/Jogos.hpp $(INCLUDE_DIR)/Reversi.hpp $(TESTS_DIR)/teste_Reversi.cpp
 	$(CC) $(CFLAGS) -c $(TESTS_DIR)/teste_Reversi.cpp -I$(INCLUDE_DIR) -o $(OBJ_DIR)/teste_reversi.o
 
@@ -49,10 +46,10 @@ main: $(OBJ_DIR)/main.o $(OBJ_DIR)/jogador.o $(OBJ_DIR)/jogos.o $(OBJ_DIR)/rever
 	$(CC) $(CFLAGS) $(OBJ_DIR)/main.o $(OBJ_DIR)/jogador.o $(OBJ_DIR)/jogos.o $(OBJ_DIR)/reversi.o $(OBJ_DIR)/jogodavelha.o $(OBJ_DIR)/lig4.o -o main
 
 tests: $(OBJ_DIR)/jogador.o $(OBJ_DIR)/jogos.o $(OBJ_DIR)/reversi.o $(OBJ_DIR)/jogodavelha.o $(OBJ_DIR)/lig4.o \
- 		$(OBJ_DIR)/teste_jogador.o $(OBJ_DIR)/teste_jogos.o $(OBJ_DIR)/teste_reversi.o $(OBJ_DIR)/teste_jogodavelha.o $(OBJ_DIR)/teste_lig4.o
+ 		$(OBJ_DIR)/teste_jogador.o  $(OBJ_DIR)/teste_reversi.o $(OBJ_DIR)/teste_jogodavelha.o $(OBJ_DIR)/teste_lig4.o
 		
 		$(CC) $(CFLAGS) $(OBJ_DIR)/jogador.o $(OBJ_DIR)/jogos.o $(OBJ_DIR)/reversi.o $(OBJ_DIR)/jogodavelha.o $(OBJ_DIR)/lig4.o \
-		$(OBJ_DIR)/teste_jogador.o $(OBJ_DIR)/teste_jogos.o $(OBJ_DIR)/teste_reversi.o $(OBJ_DIR)/teste_jogodavelha.o $(OBJ_DIR)/teste_lig4.o -o testes
+		$(OBJ_DIR)/teste_jogador.o  $(OBJ_DIR)/teste_reversi.o $(OBJ_DIR)/teste_jogodavelha.o $(OBJ_DIR)/teste_lig4.o -o testes
 	
 clean:
 	rm -f main testes $(OBJ_DIR)/*.o
