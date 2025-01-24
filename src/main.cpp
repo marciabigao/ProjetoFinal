@@ -1,3 +1,11 @@
+/*!
+ * \file main.cpp
+ * \brief Arquivo principal para execução do sistema de gerenciamento de jogos e jogadores.
+ * 
+ * Este programa permite cadastrar, remover e listar jogadores, além de executar partidas 
+ * de diferentes jogos (Reversi, Lig4 e Jogo da Velha) entre dois jogadores.
+ */
+
 #include "../include/Jogador.hpp"
 #include "../include/Reversi.hpp"
 #include "../include/JogodaVelha.hpp"
@@ -9,10 +17,21 @@
 #include <exception>
 #include<limits>
 
+/*!
+ * \brief Função principal do programa.
+ * 
+ * Responsável pela interação com o usuário, executando as operações disponíveis, como:
+ * - Cadastro e remoção de jogadores.
+ * - Listagem de jogadores.
+ * - Execução de partidas.
+ * - Finalização do sistema com atualização de estatísticas.
+ * 
+ * \return Código de saída do programa (0 para sucesso).
+ */
 int main() {
     try
     {
-        Jogador::leEstatisticas();
+        Jogador::leEstatisticas();/*!< Lê estatísticas dos jogadores do arquivo persistido. */
     }
     catch(const std::ios_base::failure& e)
     {
@@ -35,6 +54,7 @@ int main() {
     do
     {        
         try
+        /*! \brief Cadastro de jogadores. */
         {
             std::cin >> operacao;
 
@@ -55,6 +75,7 @@ int main() {
                     std::cout << e.what() <<std::endl;
                 }
             }
+            /*! \brief Remoção de jogadores. */
             else if(operacao == "RJ")
             {   
                 try
@@ -71,6 +92,7 @@ int main() {
                     std::cout << e.what() << std::endl;
                 }
             }
+            /*! \brief Listagem de jogadores. */
             else if(operacao == "LJ")
             {
                 try
@@ -96,6 +118,7 @@ int main() {
                     std::cerr << e.what() << std::endl;
                 }    
             }
+            /*! \brief Execução de partidas. */
             else if(operacao == "EP")
             {
                 try
@@ -155,6 +178,7 @@ int main() {
                     std::cout << e.what() << std::endl;
                 }
             }
+            /*! \brief Finalização do sistema. */
             else if(operacao == "FS")
             {
                 try

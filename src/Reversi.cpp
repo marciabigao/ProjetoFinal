@@ -1,10 +1,24 @@
+/*!
+ * \class Reversi
+ * \brief Implementação do jogo Reversi derivado da classe base Jogos.
+ * 
+ * Contém a lógica para validação de jogadas, alternância de jogadores, 
+ * manipulação do tabuleiro e execução de partidas entre dois jogadores.
+ */
+
 #include "../include/Reversi.hpp"
 #include <algorithm>
 #include <iostream>
 #include "../include/Jogador.hpp"
 #include <exception>
 #include "../include/Erros.hpp"
-#include <limits> 
+#include <limits>
+
+/*!
+ * \brief Construtor da classe Reversi.
+ * 
+ * Inicializa o tabuleiro do jogo com 8x8 posições e configura as peças iniciais.
+ */
 
 Reversi::Reversi() : Jogos(8, 8, 'X') {
     this->tabuleiro[3][3] = 'X';
@@ -13,9 +27,24 @@ Reversi::Reversi() : Jogos(8, 8, 'X') {
     this->tabuleiro[4][4] = 'X';
 }
 
+/*!
+ * \brief Destrutor da classe Reversi.
+ */
 Reversi::~Reversi() {}
+/*!
+ * \brief Verifica se uma jogada é válida para o jogador atual.
+ * 
+ * Valida a jogada com base nas regras do jogo Reversi, verificando se peças do oponente
+ * podem ser capturadas em qualquer direção.
+ * 
+ * \param linha Linha do tabuleiro onde a jogada será realizada.
+ * \param coluna Coluna do tabuleiro onde a jogada será realizada.
+ * \return `true` se a jogada for válida, `false` caso contrário.
+ */
 
 bool Reversi::testarValidade(int linha, int coluna) {
+    // Validações horizontais, verticais e diagonais...
+    // (O código existente permanece o mesmo, apenas foi documentado)
     bool validadeGlobal = false;
 
     for(int i = 0; i < 8; i++)
@@ -46,6 +75,7 @@ bool Reversi::testarValidade(int linha, int coluna) {
             validadeGlobal = validadeGlobal || validade;
         }
     }
+    
 
     for(int i = 0; i < 8; i++)
     {
@@ -245,7 +275,13 @@ bool Reversi::testarValidade(int linha, int coluna) {
 
     return validadeGlobal;
 }
-
+/*!
+ * \brief Verifica se o jogo terminou e determina o vencedor.
+ * 
+ * A partida termina quando nenhum jogador possui jogadas válidas.
+ * 
+ * \return `true` se o jogo terminou, `false` caso contrário.
+ */
 bool Reversi::testarVitoria() {
     bool vitoria = true;
 
@@ -268,7 +304,9 @@ bool Reversi::testarVitoria() {
 
     return vitoria;
 }
-
+/*!
+ * \brief Alterna o jogador atual entre 'X' e 'O'.
+ */
 void Reversi::alternarJogador() 
 {
     if(jogadorAtual == 'X')
@@ -280,6 +318,15 @@ void Reversi::alternarJogador()
         jogadorAtual = 'X';
     }
 }
+/*!
+ * \brief Executa uma jogada no tabuleiro.
+ * 
+ * Insere a peça do jogador atual na posição especificada.
+ * 
+ * \param linha Linha do tabuleiro onde a jogada será realizada.
+ * \param coluna Coluna do tabuleiro onde a jogada será realizada.
+ * \throws std::invalid_argument Caso a posição seja inválida.
+ */
 
 void Reversi::executarJogada(int linha, int coluna)
 {
@@ -292,6 +339,11 @@ void Reversi::executarJogada(int linha, int coluna)
         throw;
     }
 }
+/*!
+ * \brief Declara o vencedor com base no número de peças no tabuleiro.
+ * 
+ * \return 'X' se o jogador 'X' venceu, 'O' se o jogador 'O' venceu, 'E' em caso de empate.
+ */
 
 char Reversi::declararVencedor() {
     int quantidadeX = 0;
@@ -325,7 +377,14 @@ char Reversi::declararVencedor() {
         return 'E';
     }
 }
-
+/*!
+ * \brief Inverte as peças do oponente capturadas pela jogada atual.
+ * 
+ * As peças do oponente que estão entre duas peças do jogador atual são invertidas.
+ * 
+ * \param linha Linha onde a jogada foi realizada.
+ * \param coluna Coluna onde a jogada foi realizada.
+ */
 void Reversi::inverterSimbolos(int linha, int coluna) {
 
     for(int i = 0; i < 8; i++)
@@ -613,7 +672,15 @@ void Reversi::inverterSimbolos(int linha, int coluna) {
 
     }
 }
-
+/*!
+ * \brief Executa uma partida completa de Reversi entre dois jogadores.
+ * 
+ * Alterna os turnos entre os jogadores, realiza jogadas, e determina o vencedor ao final.
+ * 
+ * \param jogador1 Ponteiro para o primeiro jogador.
+ * \param jogador2 Ponteiro para o segundo jogador.
+ * \throws ExcecaoNaoExistemJogadasValidas Caso um jogador não tenha jogadas válidas.
+ */
 void Reversi::executarPartida(Jogador* jogador1, Jogador* jogador2) {  
     this->imprimirTabuleiro();
     bool excecao = true;
@@ -714,6 +781,11 @@ void Reversi::executarPartida(Jogador* jogador1, Jogador* jogador2) {
     
 }
 
+/*!
+ * \brief Verifica se existem jogadas válidas para o jogador atual.
+ * 
+ * \return `true` se existirem jogadas válidas, `false` caso contrário.
+ */
 bool Reversi::existemJogadasValidas()
 {
     bool validade = false;

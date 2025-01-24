@@ -1,7 +1,20 @@
+/*!
+ * \file testes.cpp
+ * \brief Arquivo de testes unitários utilizando a biblioteca Doctest.
+ * 
+ * Este arquivo contém os testes para verificar o comportamento correto da classe `Jogador`.
+ * Os testes incluem validações para o construtor, registro de vitórias e derrotas.
+ */
+
 #include "doctest.h"
 #include "Jogador.hpp"
 
-TEST_CASE("Inicialização do Construtor"){
+/*!
+ * \brief Testa a inicialização do construtor da classe `Jogador`.
+ * 
+ * Verifica se os atributos do objeto são inicializados corretamente com os valores fornecidos.
+ */
+TEST_CASE("Inicialização do Construtor") {
     Jogador jogador("Paulo", "paulin123", 1, 2, 3, 4, 5, 6);
 
     CHECK(jogador.getNome() == "Paulo");
@@ -14,6 +27,14 @@ TEST_CASE("Inicialização do Construtor"){
     CHECK(jogador.getDerrotasJV() == 6);
 }
 
+/*!
+ * \brief Testa o método `registrarVitoria` da classe `Jogador`.
+ * 
+ * Verifica se o registro de vitórias funciona corretamente para diferentes jogos:
+ * - Reversi ('R')
+ * - Lig4 ('L')
+ * - Jogo da Velha ('V')
+ */
 TEST_CASE("Testando registrarVitoria") {
     Jogador jogador("Marcia", "bigadas");
     jogador.cadastraJogador("bigadas");
@@ -27,7 +48,14 @@ TEST_CASE("Testando registrarVitoria") {
     CHECK(jogador.getVitoriasJV() == 1);
 }
 
-
+/*!
+ * \brief Testa o método `registrarDerrota` da classe `Jogador`.
+ * 
+ * Verifica se o registro de derrotas funciona corretamente para diferentes jogos:
+ * - Reversi ('R')
+ * - Lig4 ('L')
+ * - Jogo da Velha ('V')
+ */
 TEST_CASE("Testando registrarDerrota") {
     Jogador jogador("Vitor", "vitinfaleiro");
     jogador.cadastraJogador("vitinfaleiro");

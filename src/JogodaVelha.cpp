@@ -4,10 +4,32 @@
 #include <exception>
 #include <limits>
 
-//inicializando o tabuleiro e o jogador atual (quem começa é o X)
+/*!
+ * \class JogoDaVelha
+ * \brief Implementação do jogo da velha derivada da classe base Jogos.
+ * 
+ * Contém a lógica para gerenciamento de tabuleiro, alternância de jogadores, 
+ * validação de jogadas, e execução de partidas entre dois jogadores.
+ */
+
+/*!
+ * \brief Construtor padrão da classe JogoDaVelha.
+ * 
+ * Inicializa o tabuleiro do jogo com 3x3 posições e define o jogador inicial como 'X'.
+ */
+
 JogoDaVelha::JogoDaVelha() : Jogos(3, 3, 'X') {}
+/*!
+ * \brief Destrutor da classe JogoDaVelha.
+ */
 
 JogoDaVelha::~JogoDaVelha() {}
+/*!
+ * \brief Verifica se uma jogada em determinada posição é válida.
+ * \param linha Linha do tabuleiro onde a jogada será realizada.
+ * \param coluna Coluna do tabuleiro onde a jogada será realizada.
+ * \return `true` se a posição estiver vazia, `false` caso contrário.
+ */
 
 bool JogoDaVelha::testarValidade(int linha, int coluna) {
 
@@ -21,10 +43,14 @@ bool JogoDaVelha::testarValidade(int linha, int coluna) {
         return 1;
     }
 }
+/*!
+ * \brief Verifica se o jogador atual venceu a partida.
+ * \return `true` se houver uma sequência vencedora no tabuleiro, `false` caso contrário.
+ */
 
 bool JogoDaVelha::testarVitoria() {
     
-    //testa vertical e horizontal
+    ///testa vertical e horizontal
     for (int i = 0; i < 3; i++) {
 
         if ((this->tabuleiro[i][0] == jogadorAtual && this->tabuleiro[i][1] == jogadorAtual && this->tabuleiro[i][2] == jogadorAtual) ||
@@ -34,7 +60,7 @@ bool JogoDaVelha::testarVitoria() {
         }
     }
 
-    //testa as diagonais
+    ///testa as diagonais
     if ((this->tabuleiro[0][0] == jogadorAtual && this->tabuleiro[1][1] == jogadorAtual && this->tabuleiro[2][2] == jogadorAtual) ||
         (this->tabuleiro[0][2] == jogadorAtual && this->tabuleiro[1][1] == jogadorAtual && this->tabuleiro[2][0] == jogadorAtual)) {
         return true;
@@ -42,12 +68,16 @@ bool JogoDaVelha::testarVitoria() {
 
     return false;
 }
+/*!
+ * \brief Verifica se a partida terminou em empate.
+ * \return `true` se todas as posições do tabuleiro estiverem preenchidas sem um vencedor, `false` caso contrário.
+ */
 
 bool JogoDaVelha::testarEmpate() {
 
     for (int i = 0; i < 3; ++i) {
         for (int j = 0; j < 3; ++j) {
-            //testa se ainda há casas vazias (essas indicam que ainda há possíveis jogadas, então ainda não houve empate)
+            ///testa se ainda há casas vazias (essas indicam que ainda há possíveis jogadas, então ainda não houve empate)
             if (this->tabuleiro[i][j] == ' ') { 
                 return false; 
             }
@@ -55,11 +85,18 @@ bool JogoDaVelha::testarEmpate() {
     }
     return true;
 }
+/*!
+ * \brief Realiza uma jogada no tabuleiro para o jogador atual.
+ * \param linha Linha onde a jogada será realizada.
+ * \param coluna Coluna onde a jogada será realizada.
+ */
 
 void JogoDaVelha::executarJogada(int linha, int coluna) {
         this->tabuleiro[linha][coluna] = jogadorAtual;
 }
-
+/*!
+ * \brief Alterna o jogador atual entre 'X' e 'O'.
+ */
 void JogoDaVelha::alternarJogador() {
 
     if (jogadorAtual == 'X')
@@ -70,7 +107,15 @@ void JogoDaVelha::alternarJogador() {
     }
 
 }
-
+/*!
+ * \brief Executa uma partida completa entre dois jogadores.
+ * 
+ * Realiza turnos alternados entre os jogadores, solicita entradas para jogadas e verifica 
+ * as condições de vitória ou empate. Registra os resultados no final da partida.
+ * 
+ * \param jogador1 Ponteiro para o primeiro jogador.
+ * \param jogador2 Ponteiro para o segundo jogador.
+ */
 void JogoDaVelha::executarPartida(Jogador* jogador1, Jogador* jogador2)
 {
     bool excecao = true;

@@ -8,63 +8,123 @@
 #include <vector>
 #include <algorithm>
 
+
+/*!
+ * \file Jogador.cpp
+ * \brief Implementação dos métodos da classe Jogador.
+ */
+
+/*! \var std::map<std::string, Jogador*, Jogador::comparaMap> Jogador::jogadores
+ *  \brief Mapa estático que armazena os jogadores cadastrados, indexados pelo apelido.
+ */
+
 std::map<std::string, Jogador*, Jogador::comparaMap> Jogador::jogadores;
 
+/*!
+ * \brief Retorna o nome completo do jogador.
+ * \return Nome do jogador.
+ */
+
 std::string Jogador::getNome()
+
 {
     return this->nomeJogador;
 }
-
+/*!
+ * \brief Retorna o apelido do jogador.
+ * \return Apelido do jogador.
+ */
 std::string Jogador::getApelido()
 {
     return this->apelidoJogador;
 }
-
+/*!
+ * \brief Retorna o número de vitórias no jogo Reversi.
+ * \return Número de vitórias no Reversi.
+ */
 int Jogador::getVitoriasR()
 {
     return this->vitoriasReversi;
 }
+/*!
+ * \brief Retorna o número de derrotas no jogo Reversi.
+ * \return Número de derrotas no Reversi.
+ */
 
 int Jogador::getDerrotasR()
 {
     return this->derrotasReversi;
 }
 
+/*!
+ * \brief Retorna o número de vitórias no jogo Lig4.
+ * \return Número de vitórias no Lig4.
+ */
+
 int Jogador::getVitoriasLig()
 {
     return this->vitoriasLig;
 }
 
+/*!
+ * \brief Retorna o número de derrotas no jogo Lig4.
+ * \return Número de derrotas no Lig4.
+ */
+
 int Jogador::getDerrotasLig()
 {
     return this->derrotasLig;
 }
-
+/*!
+ * \brief Retorna o número de derrotas no jogo da velha.
+ * \return Número de derrotas no jogo da velha.
+ */ 
 int Jogador::getVitoriasJV()
 {
     return this->vitoriasJVelha;
 }
-
+/*!
+ * \brief Retorna o número de derrotas no jogo da velha.
+ * \return Número de derrotas no jogo da velha.
+ */
 int Jogador::getDerrotasJV()
 {
     return this->derrotasJVelha;
 }
-
+/*!
+ * \brief Construtor que inicializa um jogador com nome e apelido.
+ * \param nome Nome completo do jogador.
+ * \param apelido Apelido do jogador.
+ */
 Jogador::Jogador(std::string nome, std::string apelido):
          nomeJogador(nome), apelidoJogador(apelido),
          vitoriasReversi(0), derrotasReversi(0),
          vitoriasLig(0), derrotasLig(0),
          vitoriasJVelha(0), derrotasJVelha(0) {}
-
+/*!
+ * \brief Construtor que inicializa um jogador com estatísticas completas.
+ * \param nome Nome completo do jogador.
+ * \param apelido Apelido do jogador.
+ * \param vr Vitórias no Reversi.
+ * \param dr Derrotas no Reversi.
+ * \param vl Vitórias no Lig4.
+ * \param dl Derrotas no Lig4.
+ * \param vjv Vitórias no jogo da velha.
+ * \param djv Derrotas no jogo da velha.
+ */
 Jogador::Jogador(std::string nome, std::string apelido, int vr, int dr,
                  int vl, int dl, int vjv, int djv):
          nomeJogador(nome), apelidoJogador(apelido),
          vitoriasReversi(vr), derrotasReversi(dr),
          vitoriasLig(vl), derrotasLig(dl),
          vitoriasJVelha(vjv), derrotasJVelha(djv) {}       
-         
-//A memória para o jogador a ser cadastrado deve ser alocada antes
-//de se chamar o método, utilizando new 
+/*!
+ * \brief Cadastra um jogador no mapa estático de jogadores.
+ * \param apelido Apelido do jogador.
+ * \throws ExcecaoJogadorRepetido Caso já exista um jogador com o mesmo apelido.
+ * \note A memória para o jogador deve ser alocada antes de chamar este método, utilizando `new`.
+ */
+
 void Jogador::cadastraJogador(std::string apelido)
 {
     if(jogadores.find(apelido) != jogadores.end())
@@ -79,7 +139,10 @@ void Jogador::cadastraJogador(std::string apelido)
         std::cout << "Jogador " << apelido << " inserido com sucesso" << std::endl;
     }
 }
-
+/*!
+ * \brief Remove um jogador do mapa com base no apelido.
+ * \param apelido Apelido do jogador a ser removido.
+ */
 void Jogador::removeJogador(std::string apelido)
 {
     auto iterador = jogadores.find(apelido);
@@ -87,9 +150,12 @@ void Jogador::removeJogador(std::string apelido)
     jogadores.erase(iterador);
     std::cout << "Jogador " << apelido << " removido com sucesso" << std::endl;
 }
-
-//Método a ser chamado ao fim de cada execução (quando se seleciona FS)
-//para atualizar as estatísticas no arquivo "estatisticas.txt"
+/*!
+ * \brief Atualiza as estatísticas de todos os jogadores em um arquivo de saída.
+ * \throws std::ios_base::failure Caso o arquivo "estatisticas.txt" não possa ser aberto.
+ * \note Método a ser chamado ao fim de cada execução (quando se seleciona FS)
+ * \note para atualizar as estatísticas no arquivo "estatisticas.txt"
+ */
 void Jogador::atualizaEstatisticas()
 {
     std::ofstream saida("estatisticas.txt", std::fstream :: out);
@@ -110,9 +176,14 @@ void Jogador::atualizaEstatisticas()
     }
     saida.close();
 }
+/*!
+ * \brief Lê as estatísticas dos jogadores de um arquivo e insere os dados no mapa.
+ * \throws std::ios_base::failure Caso o arquivo "estatisticas.txt" não possa ser aberto.
+ * \throws std::invalid_argument Caso algum dado do arquivo não seja lido corretamente.
+ * \note as informações de partidas anteriores armazenadas no arquivo, inserindo-as no map
+ * \note Método a ser utilizado no início de uma nova execução para recuperar 
+ */
 
-//Método a ser utilizado no início de uma nova execução para recuperar 
-//as informações de partidas anteriores armazenadas no arquivo, inserindo-as no map
 void Jogador::leEstatisticas()
 {
     std::ifstream entrada("estatisticas.txt", std::fstream :: in);
@@ -148,7 +219,11 @@ void Jogador::leEstatisticas()
     }
     entrada.close();
 }
-
+/*!
+ * \brief Imprime a listagem de jogadores ordenada por apelido ou nome.
+ * \param opcao 'A' para ordenar por apelido, 'N' para ordenar por nome.
+ * \throws ExcecaoMapVazio Caso o mapa de jogadores esteja vazio.
+ */
 void Jogador::imprimeListagem(char opcao)
 {
     if(jogadores.empty())
@@ -180,11 +255,11 @@ void Jogador::imprimeListagem(char opcao)
         std::vector <Jogador*> vetor;
         for(std::pair<const std::string, Jogador*>& player : jogadores)
         {
-            //copia os dados do map para um vector
+            ///copia os dados do map para um vector
             vetor.push_back(player.second);
         }
-        //utiliza o algoritmo sort com um comparador personalizado para
-        //ordenar os dados em função do atributo nomeJogador dos jogadores
+        ///utiliza o algoritmo sort com um comparador personalizado para
+        ///ordenar os dados em função do atributo nomeJogador dos jogadores
         std::sort(vetor.begin(), vetor.end(), Jogador::comparaSort);
 
         for(Jogador* player : vetor)
@@ -204,11 +279,16 @@ void Jogador::imprimeListagem(char opcao)
         }
     }
 }
+/*!
+ * \brief Busca um jogador pelo apelido e retorna seu ponteiro.
+ * \param apelido Apelido do jogador.
+ * \return Ponteiro para o jogador encontrado (se existir)
+ * \throws ExcecaoJogadorInexistente Caso o jogador não esteja cadastrado.
+ * \note Método a ser utilizado quando se inicia uma partida para checar
+ * \note Deve ser chamado uma vez para cada jogador, com seu apelido
+ * \note Também deve ser utilizado antes de se chamar o método removeJogador
+ */
 
-//Método a ser utilizado quando se inicia uma partida para checar
-//se os jogadores inseridos de fato existem e fornecer ponteiros para eles.
-//Deve ser chamado uma vez para cada jogador, com seu apelido
-//Também deve ser utilizado antes de se chamar o método removeJogador
 Jogador* Jogador::buscaJogador(std::string apelido)
 {
     auto iterador = jogadores.find(apelido);
@@ -221,9 +301,12 @@ Jogador* Jogador::buscaJogador(std::string apelido)
         return iterador->second;
     }
 }
+/*!
+ * \brief Libera a memória de todos os jogadores cadastrados.
+ * \note Método a ser chamado ao final de cada execução (quando se seleciona FS)
+ * \note para deletar a memória dinamicamente alocada dos elementos no map
+ */
 
-//Método a ser chamado ao final de cada execução (quando se seleciona FS)
-//para deletar a memória dinamicamente alocada dos elementos no map
 void Jogador::apagaMap()
 {
     for(std::pair<const std::string, Jogador*>& player : jogadores)
@@ -231,10 +314,14 @@ void Jogador::apagaMap()
         delete player.second;
     }
 }
+/*!
+ * \brief Atualiza as vitórias do jogador vencedor em uma partida.
+ * \param jogo Identificador do jogo ('R', 'L', 'V').
+ * \note Método a ser chamado para atualizar as vitórias do jogador vencedor em uma partida
+ * \note Recebe o apelido do jogador e o jogo em que venceu 
+ * \note ('R' para Reversi, 'L' para Lig4 e 'V' para Jogo da Velha)
+ */
 
-//Método a ser chamado para atualizar as vitórias do jogador vencedor em uma partida
-//Recebe o apelido do jogador e o jogo em que venceu 
-//('R' para Reversi, 'L' para Lig4 e 'V' para Jogo da Velha)
 void Jogador::registrarVitoria(char jogo)
 {
     auto iterador = jogadores.find(this->apelidoJogador);
@@ -260,8 +347,13 @@ void Jogador::registrarVitoria(char jogo)
     }
 }
 
-//Método a ser chamado para atualizar as derrotas do jogador perdedor em uma partida
-//Tem o mesmo funcionamento do método registrarVitoria 
+/*!
+ * \brief Atualiza as derrotas do jogador perdedor em uma partida.
+ * \param jogo Identificador do jogo ('R', 'L', 'V').
+ * \note Método a ser chamado para atualizar as derrotas do jogador perdedor em uma partida
+ * \note Tem o mesmo funcionamento do método registrarVitoria 
+ */
+
 void Jogador::registrarDerrota(char jogo)
 {
     auto iterador = jogadores.find(this->apelidoJogador);
@@ -286,8 +378,12 @@ void Jogador::registrarDerrota(char jogo)
         break;
     }
 }
-
-//Comparador personalizado a ser utilizado com o algoritmo sort
+/*!
+ * \brief Comparador personalizado para ordenar jogadores por nome.
+ * \param a Ponteiro para o primeiro jogador.
+ * \param b Ponteiro para o segundo jogador.
+ * \return `true` se o nome do jogador `a` for menor que o de `b`.
+ */
 bool Jogador::comparaSort(Jogador* a, Jogador* b)
 {
     std::string lowerA = a->getNome();

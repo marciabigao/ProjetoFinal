@@ -2,27 +2,63 @@
 #include "Jogador.hpp"
 #include <exception>
 #include <limits>
+/*!
+ * \class Lig4
+ * \brief Implementa o jogo Lig4, derivado da classe base Jogos.
+ * 
+ * Contém a lógica para execução de jogadas, validação de condições de vitória ou empate,
+ * e controle do turno dos jogadores.
+ */
+const char AMARELO = 'A';/*!< Representa o jogador AMARELO. */
+const char VERMELHO = 'V';/*!< Representa o jogador VERMELHO. */
+/*!
+ * \brief Construtor da classe Lig4.
+ * 
+ * Inicializa o tabuleiro do jogo com as dimensões especificadas e define o jogador inicial como AMARELO.
+ * 
+ * \param linhas Número de linhas do tabuleiro.
+ * \param colunas Número de colunas do tabuleiro.
+ */
 
-const char AMARELO = 'A';
-const char VERMELHO = 'V';
-
-//Construtor
+///Construtor
 Lig4::Lig4(int linhas, int colunas): Jogos(linhas,colunas, AMARELO), _numLinhas(linhas),_numColunas(colunas){}
-
-//Destrutor
+/*!
+ * \brief Destrutor da classe Lig4.
+ */
+///Destrutor
 Lig4::~Lig4() {}
-
+/*!
+ * \brief Retorna o número de linhas do tabuleiro.
+ * \return Número de linhas.
+ */
 int Lig4::getNumLinhas() {
 	return this->_numLinhas;
 }
+/*!
+ * \brief Retorna o número de colunas do tabuleiro.
+ * \return Número de colunas.
+ */
 
 int Lig4::getNumColunas() {
 	return this->_numColunas;
 }
+/*!
+ * \brief Retorna o jogador atual.
+ * \return Caractere representando o jogador atual ('A' ou 'V').
+ */
 
 char Lig4::getJogadorAtual(){
     return jogadorAtual;
 }
+/*!
+ * \brief Verifica se uma jogada é válida.
+ * 
+ * Verifica se a coluna especificada ainda possui espaços disponíveis.
+ * 
+ * \param linha Não utilizado, mantido para compatibilidade com assinatura.
+ * \param coluna Índice da coluna onde a jogada será realizada.
+ * \return `true` se a jogada for válida, `false` caso contrário.
+ */
 
 bool Lig4::testarValidade (int linha, int coluna){
 
@@ -40,7 +76,14 @@ bool Lig4::testarValidade (int linha, int coluna){
     return true;
 }
 
-//Executar Jogada 
+/*!
+ * \brief Executa uma jogada no tabuleiro.
+ * 
+ * Coloca o símbolo do jogador atual na coluna mais baixa disponível.
+ * 
+ * \param linha Não utilizado, mantido para compatibilidade com assinatura.
+ * \param coluna Índice da coluna onde a jogada será realizada.
+ */ 
 void Lig4::executarJogada(int linha, int coluna){
         
     for(int i= _numLinhas-1; i >= 0; i--){
@@ -55,7 +98,9 @@ void Lig4::executarJogada(int linha, int coluna){
         }
     }
 }
-
+/*!
+ * \brief Alterna entre os jogadores AMARELO e VERMELHO.
+ */
 void Lig4::alternarJogador(){
 
      if(jogadorAtual == AMARELO)
@@ -65,7 +110,13 @@ void Lig4::alternarJogador(){
         jogadorAtual = AMARELO;
 }
 
-//Verifica condicoes de vitoria 
+/*!
+ * \brief Verifica se o jogador atual venceu a partida.
+ * 
+ * Realiza verificações nas direções horizontal, vertical e diagonais.
+ * 
+ * \return `true` se o jogador atual vencer, `false` caso contrário.
+ */ 
 bool Lig4::testarVitoria(){ 
 
     for(int linha = 0; linha < _numLinhas; linha++){
@@ -118,7 +169,13 @@ bool Lig4::testarVitoria(){
 
     return false;
 }
-
+/*!
+ * \brief Verifica se a partida terminou em empate.
+ * 
+ * Retorna `true` se todas as posições do tabuleiro estiverem preenchidas.
+ * 
+ * \return `true` em caso de empate, `false` caso contrário.
+ */
 bool Lig4::testarEmpate() const{
 
     for(int linha =  0; linha < _numLinhas; linha++){
